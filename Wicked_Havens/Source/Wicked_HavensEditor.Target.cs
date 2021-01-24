@@ -10,6 +10,11 @@ public class Wicked_HavensEditorTarget : TargetRules
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { "Wicked_Havens" } );
+		ExtraModuleNames.AddRange( new string[] {
+													"Wicked_Havens",
+													"WH_Camera",
+													"WH_Dialogues",
+													"WH_Menus"
+        } );
 	}
 }

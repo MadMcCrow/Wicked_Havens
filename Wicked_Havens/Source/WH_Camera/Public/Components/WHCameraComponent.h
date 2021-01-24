@@ -7,11 +7,11 @@
 #include "WHCameraComponent.generated.h"
 
 /**
- * 
+ * Our in world Camera
  */
 UCLASS()
 class WH_CAMERA_API UWHCameraComponent : public UCameraComponent
 {
 	GENERATED_BODY()
-	
+
 };

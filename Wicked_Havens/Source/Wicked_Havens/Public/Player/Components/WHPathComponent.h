@@ -4,17 +4,19 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "WHPlayerAIComponent.generated.h"
+#include "WHPathComponent.generated.h"
 
-
+/**
+ *	Simple component to draw path for orders
+ */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class WICKED_HAVENS_API UWHPlayerAIComponent : public UActorComponent
+class WICKED_HAVENS_API UWHPathComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this component's properties
-	UWHPlayerAIComponent();
+	UWHPathComponent();
 
 protected:
 	// Called when the game starts
@@ -26,4 +28,6 @@ public:
 
 	UFUNCTION()
 	void SetDestination();
+
+
 };
