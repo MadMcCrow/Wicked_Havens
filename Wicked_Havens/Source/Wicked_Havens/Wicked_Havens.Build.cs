@@ -7,12 +7,17 @@ public class Wicked_Havens : ModuleRules
 	public Wicked_Havens(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
+
 		// the usual culprits
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-		// Gameplay ability system
-		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayAbilities", "GameplayTags", "GameplayTasks", "OnlineSubsystem", "Networking" });
+		// multiplayer
+		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem", "Networking" });
+
+		// AI
+        PrivateDependencyModuleNames.AddRange(new string[] { "AIModule" });
+
+		// Wicked Havens includes
+		//PrivateDependencyModuleNames.AddRange(new string[] { "WH_AI" });
 	}
 }

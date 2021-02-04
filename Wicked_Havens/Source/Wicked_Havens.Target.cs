@@ -13,7 +13,9 @@ public class Wicked_HavensTarget : TargetRules
 		ExtraModuleNames.AddRange( new string[] {
 													"Wicked_Havens",
 													"WH_Camera",
+													"WH_SaveGame",
 													"WH_Dialogues",
+													"WH_AI",
 													"WH_Menus"
 
         } );

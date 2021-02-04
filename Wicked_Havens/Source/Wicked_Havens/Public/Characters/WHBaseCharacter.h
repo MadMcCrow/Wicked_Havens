@@ -12,19 +12,14 @@ class WICKED_HAVENS_API AWHBaseCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	AWHBaseCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
-
-protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+protected:
+
+	UPROPERTY(EditAnywhere, Category = "AI")
+	TSoftObjectPtr<class UBehaviorTree> BehaviourTree;
 
 private:
 
@@ -34,8 +29,23 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess))
 	class UWHClanComponent* ClanComponent;
 
+	/**
+	 *	Fight System for this character
+	 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess))
+	class UWHFightComponent* FightComponent;
+
+	/**
+	 *	PathComponent : system to show where this character is going
+	 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess))
+	class UWHPathComponent* PathComponent;
+
+
 public:
 
 	static FName ClanComponentName;
+	static FName FightComponentName;
+	static FName PathComponentName;
 
 };

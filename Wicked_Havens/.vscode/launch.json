@@ -1,0 +1,128 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Wicked_Havens (Debug)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_Havens Win64 Debug Build",
+			"program": "D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Binaries\\Win64\\UE4-Win64-Debug.exe",
+			"args": [
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Wicked_Havens (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_Havens Win64 DebugGame Build",
+			"program": "D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Binaries\\Win64\\UE4-Win64-DebugGame.exe",
+			"args": [
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Wicked_Havens (Development)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_Havens Win64 Development Build",
+			"program": "D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Binaries\\Win64\\UE4.exe",
+			"args": [
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Wicked_Havens (Shipping)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_Havens Win64 Shipping Build",
+			"program": "D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Binaries\\Win64\\UE4-Win64-Shipping.exe",
+			"args": [
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Wicked_Havens (Test)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_Havens Win64 Test Build",
+			"program": "D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Binaries\\Win64\\UE4-Win64-Test.exe",
+			"args": [
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Wicked_HavensEditor (Debug)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_HavensEditor Win64 Debug Build",
+			"program": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Binaries\\Win64\\UE4Editor-Win64-Debug.exe",
+			"args": [
+				"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Wicked_Havens.uproject"
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Wicked_HavensEditor (DebugGame)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_HavensEditor Win64 DebugGame Build",
+			"program": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Binaries\\Win64\\UE4Editor-Win64-DebugGame.exe",
+			"args": [
+				"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Wicked_Havens.uproject"
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Wicked_HavensEditor (Development)",
+			"request": "launch",
+			"preLaunchTask": "Wicked_HavensEditor Win64 Development Build",
+			"program": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Binaries\\Win64\\UE4Editor.exe",
+			"args": [
+				"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Wicked_Havens.uproject"
+			],
+			"cwd": "D:\\NPG\\UE4\\UE_4.26",
+			"stopAtEntry": false,
+			"externalConsole": true,
+			"type": "cppvsdbg",
+			"visualizerFile": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Extras\\VisualStudioDebugging\\UE4.natvis"
+		},
+		{
+			"name": "Generate Project Files",
+			"type": "clr",
+			"request": "launch",
+			"program": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Binaries\\DotNET\\UnrealBuildTool.exe",
+			"console": "externalTerminal",
+			"args": [
+				"-projectfiles",
+				"-vscode",
+				"-project=\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\Wicked_Havens.uproject\"",
+				"-game",
+				"-engine"
+			],
+			"internalConsoleOptions": "openOnSessionStart",
+			"cwd": "D:\\NPG\\UE4\\UE_4.26"
+		}
+	]
+}
