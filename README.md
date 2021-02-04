@@ -26,6 +26,8 @@ To use the sources of this project you should know how to compile an Unreal Proj
 
 ## Roadmap
 
+[see on zenkit](https://public.zenkit.com/c/B1-ZzXI4m/whvs?v=SkMmbMQLNQ&hide=filters,views,workspaceLists)
+
 ## Contributing
 
 Any contributions you make are **greatly appreciated**.
