@@ -20,18 +20,55 @@ public:
 
 	UWHBlackboardKeyType_Array(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+
+	/**
+	 * 	Store your array into a byte map;
+	 */
+	template<typename T>
+	static bool SetArray(UWHBlackboardKeyType_Array* KeyOb, uint8* RawData, const TArray<T> &Value)
+	{
+		// this whole thing might not be necessary
+		/*
+		uint32 Size = Value.Num();
+		ValueSize = Size * sizeof(T) + sizeof(uint32);
+
+		TArray<uint8*> RawMemoryArray;
+
+		//get size as array of bytes
+		uint8 SizeRawMem[sizeof(uint32)];
+		SetValueInMemory<uint32>(SizeRawMem, Size);
+
+		// Save size into our mega array
+		for (uint32 idx = 0; idx < sizeof(uint32); idx++)
+		{
+			RawMemoryArray.Add(SizeRawMem[idx]);
+		}
+		
+		// save array
+		for (uint32 idx = sizeof(uint32); idx < Size; idx++)
+		{
+			uint8 ItemRawMem[sizeof(T)];
+			SetValueInMemory<T>(ItemRawMem, Value[idx]);
+			RawMemoryArray.Add(ItemRawMem);
+		}
+
+		// return
+		RawData = RawMemoryArray.GetData();
+		*/
+		SetValueInMemory<TArray<T>>(RawData, Value);
+	}
+
+
+
 	template<typename T>
 	static TArray<T> GetArray(const UWHBlackboardKeyType_Array* KeyOb, const uint8* RawData)
 	{
 	if (RawData == nullptr) {return TArray<T>();}
+
+
 	return GetValueFromMemory<TArray<T>>(RawData);
 	}
 
-	template<typename T>
-	static bool SetArray(UWHBlackboardKeyType_Array* KeyOb, uint8* RawData, const TArray<T> &Value)
-	{
-		return SetValueInMemory<TArray<T>>(RawData, Value);
-	}
 
 	template<typename T>
 	bool ArrayIsEmpty(const UBlackboardComponent& OwnerComp, const uint8* MemoryBlock) const

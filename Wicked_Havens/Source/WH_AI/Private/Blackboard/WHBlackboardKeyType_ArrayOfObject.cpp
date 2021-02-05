@@ -4,6 +4,11 @@
 #include "Blackboard/WHBlackboardKeyType_ArrayOfObject.h"
 #include "UObject/WeakObjectPtr.h"
 
+UWHBlackboardKeyType_ArrayOfObject::UWHBlackboardKeyType_ArrayOfObject() : Super()
+{
+	ValueSize = sizeof(TArray<FWeakObjectPtr>) + sizeof(uint32);
+}
+
 bool UWHBlackboardKeyType_ArrayOfObject::IsAllowedByFilter(UBlackboardKeyType* FilterOb) const 
 {
 	UWHBlackboardKeyType_ArrayOfObject* FilterArray = Cast<UWHBlackboardKeyType_ArrayOfObject>(FilterOb);

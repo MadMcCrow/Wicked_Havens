@@ -17,6 +17,10 @@ class WH_AI_API UWHBlackboardKeyType_ArrayOfObject : public UWHBlackboardKeyType
 	GENERATED_BODY()
 
 public:
+
+	UWHBlackboardKeyType_ArrayOfObject();
+
+
 	static TArray<FWeakObjectPtr> GetValue(const UWHBlackboardKeyType_Array* KeyOb, const uint8* RawData) {return GetArray<FWeakObjectPtr>(KeyOb, RawData);}
 	static bool SetValue(UWHBlackboardKeyType_Array* KeyOb, uint8* RawData, const TArray<FWeakObjectPtr> &Value){return SetArray(KeyOb, RawData, Value);}
 	EBlackboardCompare::Type CompareValues(const UBlackboardComponent& OwnerComp, const uint8* MemoryBlock,	const UBlackboardKeyType* OtherKeyOb, const uint8* OtherMemoryBlock) const override
