@@ -11,6 +11,11 @@ AWHPlayerController::AWHPlayerController(const FObjectInitializer& ObjectInitial
 {
 }
 
+void AWHPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void AWHPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -35,11 +40,21 @@ void AWHPlayerController::ReleaseAICharacter(ACharacter* PlayerCharacter)
 void AWHPlayerController::SelectAICharacter(ACharacter* PlayerCharacter)
 {
 	SelectedCharacters.AddUnique(PlayerCharacter);
+	if (AAIController* AI = Cast<AAIController>(PlayerCharacter->GetController()))
+	{
+		if(UBlackboardComponent* BBComp = AI->GetBlackboardComponent())
+			BBComp->SetValueAsObject(PlayerControllerKeyName, this);
+	}
 }
 
 void AWHPlayerController::DeselectAICharacter(ACharacter* PlayerCharacter)
 {
 	SelectedCharacters.Remove(PlayerCharacter);
+	if (AAIController* AI = Cast<AAIController>(PlayerCharacter->GetController()))
+	{
+		if(UBlackboardComponent* BBComp = AI->GetBlackboardComponent())
+			BBComp->SetValueAsObject(PlayerControllerKeyName, nullptr);
+	}
 }
 
 bool AWHPlayerController::GetControlledCharacters(TArray<ACharacter*>& OutCharacters) const
@@ -58,10 +73,48 @@ bool AWHPlayerController::GetSelectedCharacters(TArray<ACharacter*>& OutCharacte
 	return OutCharacters.Num() >= 1;
 }
 
+bool AWHPlayerController::IsCharacterControlled(ACharacter* Char) const
+{
+	TArray<ACharacter*> ControlledChars;
+	if (GetControlledCharacters(ControlledChars))
+	{
+		return ControlledChars.Contains(Char);
+	}
+	return false;
+}
+
+bool AWHPlayerController::IsCharacterSelected(ACharacter* Char) const
+{
+	TArray<ACharacter*> SelectedChars;
+	if (GetSelectedCharacters(SelectedChars))
+	{
+		return SelectedChars.Contains(Char);
+	}
+	return false;
+}
+
 void AWHPlayerController::OnSelectTargetInput()
 {
-	const bool bIsRunning = ActionWasDoubleClicked(SelectTargetInputActionName);
-	const FVector WorldPos = GetCursorWorldLocation();
+	const bool bIsDoubleClick = ActionWasDoubleClicked(SelectTargetInputActionName);
+	FVector WorldLocation;
+	AActor* TargetActor;
+	GetCursorWorldTarget(WorldLocation, TargetActor);
+	if (ACharacter* TargetChar = Cast<ACharacter>(TargetActor))
+	{
+		if (IsCharacterControlled(TargetChar))
+		{
+			OnTargetIsOwnedCharacter(TargetChar,bIsDoubleClick );
+			return;
+		}
+		OnTargetIsOtherCharacter(TargetChar,bIsDoubleClick );
+		return;
+	}
+	OnTargetIsWorldActor(WorldLocation,TargetActor, bIsDoubleClick);
+	
+}
+
+void AWHPlayerController::OnTargetIsWorldActor(const FVector &Target, AActor* WorldActor, bool bHaste)
+{
 	TArray<ACharacter*> SelectedChars;
 	if (GetSelectedCharacters(SelectedChars))
 	{
@@ -69,9 +122,36 @@ void AWHPlayerController::OnSelectTargetInput()
 		{
 			if (AAIController* AI = Cast<AAIController>(CharItr->GetController()))
 			{
-				AI->GetBlackboardComponent()->SetValueAsVector(TargetLocationKeyName, WorldPos);
-				AI->GetBlackboardComponent()->SetValueAsBool(RunKeyName, bIsRunning);
+				if(UBlackboardComponent* BB = AI->GetBlackboardComponent())
+				{
+					// make sure we are the controller
+					BB->SetValueAsObject(PlayerControllerKeyName, this);
+					// give all infos about us
+					BB->SetValueAsVector(PlayerTargetLocationKeyName, Target);
+					BB->SetValueAsObject(PlayerTargetActorKeyName, WorldActor);
+					BB->SetValueAsBool(PlayerHasteBooleanKeyName, bHaste);
+				}
 			}
 		}
 	}
+}
+
+void AWHPlayerController::OnTargetIsOwnedCharacter(ACharacter* Char, bool bDoubleClick)
+{
+	if (!bDoubleClick)
+	{
+		if (IsCharacterSelected(Char))
+		{
+			DeselectAICharacter(Char);
+		}
+		else
+		{
+			SelectAICharacter(Char);
+		}
+	}
+}
+
+void AWHPlayerController::OnTargetIsOtherCharacter(ACharacter* Char, bool bHaste)
+{
+
 }

@@ -19,7 +19,7 @@ class WICKED_HAVENS_API AWHPlayerController : public AWHPlayerControllerBase
 public:
 
 	AWHPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
-
+	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
 public:
@@ -60,6 +60,20 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Character", meta=(HideSelfPin))
 	UPARAM(DisplayName="HasValidCharacter") bool GetSelectedCharacters(TArray<ACharacter*>& OutCharacters) const;
 
+	/**
+	 *  @brief find out if this is one of our owns
+	 *  @return true if this is in the Controlled Characters
+	 */
+	UFUNCTION(BlueprintPure, Category = "Character", meta=(HideSelfPin))
+	UPARAM(DisplayName="IsControlled") bool IsCharacterControlled(ACharacter* Char) const;
+
+	/**
+	 *  @brief find out if this is one is Currently selected
+	 *  @return true if this is in the selected Characters
+	 */
+	UFUNCTION(BlueprintPure, Category = "Character", meta=(HideSelfPin))
+	UPARAM(DisplayName="IsSelected") bool IsCharacterSelected(ACharacter* Char) const;
+
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Input", DisplayName ="Select/Target Input" )
@@ -72,17 +86,28 @@ private:
 	UFUNCTION()
 	void OnSelectTargetInput();
 
+	// Reaction to target Input functions
+
+	/** React to target being an Actor of the world */
+	void OnTargetIsWorldActor(const FVector &Target, AActor* WorldActor = nullptr, bool bHaste =false);
+	/** React to target being one of our characters */
+	void OnTargetIsOwnedCharacter(ACharacter* Char, bool bDoubleClick =false);
+	/** React to target being an other character    */
+	void OnTargetIsOtherCharacter(ACharacter* Char, bool bHaste =false);
+
 protected:
 	/** Target Location Blackboard key */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
-	FName TargetLocationKeyName;
-
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI|Blackboard")
+	FName PlayerControllerKeyName;
 	/** Target Location Blackboard key */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
-	FName RunKeyName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
-	FBlackboardKeySelector KeySelector;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI|Blackboard")
+	FName PlayerTargetActorKeyName;
+	/** Target Location Blackboard key */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI|Blackboard")
+	FName PlayerTargetLocationKeyName;
+	/** Target Location Blackboard key */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI|Blackboard")
+	FName PlayerHasteBooleanKeyName;
 
 private:
 	/**

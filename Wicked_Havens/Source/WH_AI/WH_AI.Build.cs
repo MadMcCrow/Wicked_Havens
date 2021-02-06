@@ -11,5 +11,8 @@ public class WH_AI : ModuleRules
 		// the usual culprits
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine"});
 		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule" });
+
+		// Sadly we cannot do away with this
+		PublicDependencyModuleNames.Add("GameplayTasks");
 	}
 }

@@ -55,7 +55,7 @@ public:
 		// return
 		RawData = RawMemoryArray.GetData();
 		*/
-		SetValueInMemory<TArray<T>>(RawData, Value);
+		return SetValueInMemory<TArray<T>>(RawData, Value);
 	}
 
 

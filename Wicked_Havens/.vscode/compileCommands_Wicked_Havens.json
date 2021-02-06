@@ -1,6 +1,26 @@
 [
 	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Blackboard\\\\WHBlackboardKeyType_Array.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfObject.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfVector.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
 		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Controller\\\\WHAIController.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Services\\\\WHBTService_ProcessPlayerCommand.cpp",
 		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
 		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
 	},
@@ -10,7 +30,27 @@
 		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
 	},
 	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Blackboard\\\\WHBlackboardKeyType_Array.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfObject.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfVector.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
 		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Controller\\\\WHAIController.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Services\\\\WHBTService_ProcessPlayerCommand.h",
 		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
 		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
 	},
@@ -220,6 +260,11 @@
 		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
 	},
 	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Player\\\\Components\\\\WHPlayerCursorComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
 		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Player\\\\WHPlayerController.cpp",
 		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
 		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
@@ -296,6 +341,11 @@
 	},
 	{
 		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\GameModes\\\\WHGameMode.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Player\\\\Components\\\\WHPlayerCursorComponent.h",
 		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
 		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
 	},

@@ -50,12 +50,15 @@ bool AWHPlayerControllerBase::IsUsingGamepad() const
 	return false;
 }
 
-FVector AWHPlayerControllerBase::GetCursorWorldLocation() const
+void AWHPlayerControllerBase::GetCursorWorldTarget(FVector& OutVector, AActor *&OutActor) const
 {
 	FHitResult RayResult;
 	if(	GetHitResultUnderCursor(ECollisionChannel::ECC_Camera, false, RayResult))
 	{
-		return RayResult.ImpactPoint;
+		OutVector = RayResult.ImpactPoint;
+		OutActor  = RayResult.GetActor();
+		return;
 	}
-	return GetPawn()->GetActorLocation();
+	OutVector = GetPawn()->GetActorLocation();
+	OutActor = nullptr;
 }

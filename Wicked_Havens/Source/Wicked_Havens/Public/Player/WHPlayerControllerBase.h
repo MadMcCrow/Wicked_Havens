@@ -56,6 +56,6 @@ public:
 	 *	Using Camera channel trace for obvious reasons
 	 */
 	UFUNCTION(BlueprintPure, Category = "Cursor")
-	FVector GetCursorWorldLocation() const;
+	void GetCursorWorldTarget(FVector& OutVector, AActor *&OutActor) const;
 };
 
