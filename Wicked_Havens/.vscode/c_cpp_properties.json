@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "name": "Wicked_HavensEditor Editor Win64 Development (Wicked_Havens)",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens.json",
+            "cStandard": "c17",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}

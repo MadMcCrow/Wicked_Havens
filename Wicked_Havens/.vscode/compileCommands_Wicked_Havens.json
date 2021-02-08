@@ -1,0 +1,397 @@
+[
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Blackboard\\\\WHBlackboardKeyType_Array.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfObject.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfVector.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Controller\\\\WHAIController.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\Services\\\\WHBTService_ProcessPlayerCommand.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Private\\\\WHAILibrary.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Blackboard\\\\WHBlackboardKeyType_Array.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfObject.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Blackboard\\\\WHBlackboardKeyType_ArrayOfVector.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Controller\\\\WHAIController.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\Services\\\\WHBTService_ProcessPlayerCommand.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\Public\\\\WHAILibrary.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\WH_AI.Build.cs",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\WH_AI.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_AI\\\\WH_AI.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_AI.187.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Private\\\\Components\\\\WHCameraComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Private\\\\Components\\\\WHCameraMouseComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Private\\\\Components\\\\WHCameraMovementComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Private\\\\WHCameraPawn.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Public\\\\Components\\\\WHCameraComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Public\\\\Components\\\\WHCameraMouseComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Public\\\\Components\\\\WHCameraMovementComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\Public\\\\WHCameraPawn.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\WH_Camera.Build.cs",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\WH_Camera.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Camera\\\\WH_Camera.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Camera.183.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Dialogues\\\\WH_Dialogues.Build.cs",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Dialogues.185.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Dialogues\\\\WH_Dialogues.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Dialogues.185.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Dialogues\\\\WH_Dialogues.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Dialogues.185.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Menus\\\\WH_Menus.Build.cs",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Menus.186.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Menus\\\\WH_Menus.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Menus.186.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_Menus\\\\WH_Menus.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_Menus.186.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\Private\\\\WHSaveGame.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\Private\\\\WHSaveGameStatics.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\Private\\\\WHSaveGameSubsystem.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\Public\\\\WHSaveGame.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\Public\\\\WHSaveGameStatics.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\Public\\\\WHSaveGameSubsystem.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\WH_SaveGame.Build.cs",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\WH_SaveGame.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\WH_SaveGame\\\\WH_SaveGame.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\WH_SaveGame.184.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Attributes\\\\WHAtrributes.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Characters\\\\Components\\\\WHAttributesComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Characters\\\\Components\\\\WHClanComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Characters\\\\Components\\\\WHFightComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Characters\\\\Components\\\\WHPathComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Characters\\\\WHBaseCharacter.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Characters\\\\WHEnemyCharacter.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Characters\\\\WHPlayerCharacter.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Clans\\\\WHClanAsset.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Clans\\\\WHClanManagerComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\GameModes\\\\WHGameMode.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Player\\\\Components\\\\WHPlayerCursorComponent.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Player\\\\WHPlayerController.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Player\\\\WHPlayerControllerBase.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Player\\\\WHPlayerInput.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Private\\\\Skills\\\\WHSkillEffect.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Attributes\\\\WHAttributes.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Attributes\\\\WHAttributesAsset.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Characters\\\\Components\\\\WHAttributesComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Characters\\\\Components\\\\WHClanComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Characters\\\\Components\\\\WHFightComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Characters\\\\Components\\\\WHPathComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Characters\\\\WHBaseCharacter.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Characters\\\\WHEnemyCharacter.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Characters\\\\WHPlayerCharacter.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Clans\\\\WHClanAsset.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Clans\\\\WHClanManagerComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\GameModes\\\\WHGameMode.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Player\\\\Components\\\\WHPlayerCursorComponent.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Player\\\\WHPlayerController.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Player\\\\WHPlayerControllerBase.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Player\\\\WHPlayerInput.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Skills\\\\WHSkill.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Skills\\\\WHSkillAsset.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Public\\\\Skills\\\\WHSkillEffect.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Wicked_Havens.Build.cs",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Wicked_Havens.cpp",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	},
+	{
+		"file": "D:\\\\NPG\\\\UE4\\\\Wicked_Havens\\\\Wicked_Havens\\\\Source\\\\Wicked_Havens\\\\Wicked_Havens.h",
+		"command": "cl.exe @\"D:\\NPG\\UE4\\Wicked_Havens\\Wicked_Havens\\.vscode\\compileCommands_Wicked_Havens\\Wicked_Havens.182.rsp\"",
+		"directory": "D:\\NPG\\UE4\\UE_4.26\\Engine\\Source"
+	}
+]

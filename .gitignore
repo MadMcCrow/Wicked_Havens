@@ -4,16 +4,17 @@ Wicked_Havens/Intermediate
 Wicked_Havens/Binaries
 Wicked_Havens/Saved
 Wicked_Havens/Content/Developers
-# no need to store solution, it can be regenerated
+
+# no need to store solution, it can be re
+generated
 *.sln
 
 #visual studio files
 Wicked_Havens/.vs
 
-#
+# Intellij IDEs
 Wicked_Havens/.idea
 
-# bat files for building
-*.bat
-
-#BuildVersions
+#VS code
+*.vscode
+*code-workspace
