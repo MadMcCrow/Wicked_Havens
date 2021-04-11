@@ -1,0 +1,3 @@
+[submodule "Wicked_Havens/Plugins/RTSCamera"]
+	path = Wicked_Havens/Plugins/RTSCamera
+	url = https://github.com/MadMcCrow/RTSCamera
