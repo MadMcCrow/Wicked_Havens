@@ -13,11 +13,5 @@ public class Wicked_Havens : ModuleRules
 
 		// multiplayer
 		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem", "Networking" });
-
-		// AI
-        PrivateDependencyModuleNames.AddRange(new string[] { "AIModule" });
-
-		// Wicked Havens includes
-		//PrivateDependencyModuleNames.AddRange(new string[] { "WH_AI" });
 	}
 }
