@@ -5,13 +5,12 @@
 			"path": "."
 		},
 		{
-			"name": "UE4",
-			"path": "/home/perard/Documents/Projets/UnrealEngine/UnrealEngine"
+			"name": "UE5",
+			"path": "/run/media/perard/03413941-1a7e-4cfb-9965-2d4264c1fdb5/UE5/UnrealEngine"
 		}
 	],
 	"settings": {
-		"typescript.tsc.autoDetect": "off",
-		"git.ignoreLimitWarning": true
+		"typescript.tsc.autoDetect": "off"
 	},
 	"extensions": {
 		"recommendations": [

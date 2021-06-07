@@ -73,3 +73,17 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# code accessor generated files:
+*.pri
+*.workspace
+*.pro
+*.kdev4
+
+# Code txt files
+*CodeLitePreProcessor.txt
+*CodeCompletionFolders.txt
+
+# generated makefile and CMakelist
+Makefile
+CMakeLists.txt
