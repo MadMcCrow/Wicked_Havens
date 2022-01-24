@@ -7,3 +7,6 @@
 [submodule "Wicked_Havens/Plugins/Panoplia"]
 	path = Wicked_Havens/Plugins/Panoplia
 	url = https://github.com/MadMcCrow/Panoplia
+[submodule "Wicked_Havens/Plugins/Inventory"]
+	path = Wicked_Havens/Plugins/Inventory
+	url = https://github.com/MadMcCrow/Inventory
