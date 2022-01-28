@@ -12,6 +12,6 @@ public class Wicked_Havens : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
 		// multiplayer
-		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem", "Networking" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Networking" });
 	}
 }

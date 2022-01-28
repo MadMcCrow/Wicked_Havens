@@ -10,8 +10,9 @@ public class Wicked_HavensTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
 
-		ExtraModuleNames.AddRange( new string[] { 
+		ExtraModuleNames.AddRange( new string[] {
 			"Wicked_Havens",
+			"WH_Character",
 			"WH_Inventory",
 			"WH_Camera",
 			"WH_AI",

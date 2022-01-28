@@ -13,6 +13,16 @@
 			]
 		},
 		{
+			"Name": "WH_Character",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"EnhancedInput",
+				"OnlineSubsystem"
+			]
+		},
+		{
 			"Name": "WH_Inventory",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
@@ -25,7 +35,8 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine"
+				"Engine",
+				"EnhancedInput"
 			]
 		},
 		{
@@ -35,6 +46,12 @@
 			"AdditionalDependencies": [
 				"Engine"
 			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
 		}
 	]
 }
