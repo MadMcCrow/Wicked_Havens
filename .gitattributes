@@ -1,0 +1,4 @@
+*.h		text working-tree-encoding=UTF-8
+*.cpp	text working-tree-encoding=UTF-8
+*.cs	text working-tree-encoding=UTF-8
+*.sh    text working-tree-encoding=UTF-8

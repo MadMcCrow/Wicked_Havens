@@ -1,6 +1,6 @@
 #! /usr/bin/bash
 
-UEBatchFilePath="../../UnrealEngine/Engine/Build/BatchFiles"
+UEBatchFilePath="../UnrealEngine/Engine/Build/BatchFiles"
 
 ProjectFilePath=$(find $(pwd) -iname "*.uproject")
 ProjectFile=$(basename $ProjectFilePath)
