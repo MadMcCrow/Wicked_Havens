@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "InputAction.h"
 #include "WHCharacter.generated.h"
+
+// forward declaration
+class UCameraComponent;
+class USpringArmComponent;
 
 /**
  *	@class AWHCharacter
@@ -17,54 +22,56 @@ class AWHCharacter : public ACharacter
 	GENERATED_BODY()
 
 public:
-	AWHCharacter();
+	AWHCharacter(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
-	// Called every frame.
+	// <ACharacter overrides>
+	virtual void PawnClientRestart() override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaSeconds) override;
+	// <\ACharacter overrides>
 
-	/**
-	 *	Move the character to the Right
-	 *	@param Value	How much the input is. negative values will be leftward
-	 *	Should be called by input events
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Movements")
-	virtual void MoveRight(float Value = 1.f);
+protected:
+	
+	/** Default mapping context , will have a priority of 0 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	TObjectPtr<UInputMappingContext> DefaultMappingContext;
 
-	/**
-	 *	Move the character forward
-	 *	@param Value	How much the input is. negative values will be backward
-	 *	Should be called by input events
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Movements")
-	virtual void MoveForward(float Value = 1.f);
+	/** base move action */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	TObjectPtr<UInputAction> DefaultMoveAction;
 
-	/**
-	 *	Attack
-	 *	@param Target	what should we aim toward
-	 *	this is only meant for the animation.
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Movements")
-	virtual void LookAt(const FVector &Target);
 
 private:
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
-	class UCameraComponent* CameraComponent;
+	UCameraComponent* CameraComponent;
 
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
-	class USpringArmComponent* CameraBoom;
+	USpringArmComponent* CameraBoom;
 
-	/**
-	 * make necessary calls to rotate character
-	 * @todo should be moved to MovementComponent
-	 */
-	void Rotate(const FRotator& Rotation) const;
+	/** Function called by enhanced input on @see DefaultMoveAction */
+	UFUNCTION()
+	void OnMoveAction(const FInputActionInstance& ActionInstance);
+
 
 public:
 	/** Returns TopDownCameraComponent subobject **/
-	FORCEINLINE class UCameraComponent* GetTopDownCameraComponent() const { return CameraComponent; }
+	FORCEINLINE UCameraComponent* GetTopDownCameraComponent() const { return CameraComponent; }
 	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
+	/** fast getter that cast CharacterMovement to our WH type */
+	class UWHCharacterMovementComponent* GetCharacterMovementComponent() const;
+
+	/** fast getter to know if we're aligning to movement or not */
+	bool GetOrientToMovement() const;
+
+	/**
+	*	LookAt
+	*	@param Target	what should we aim toward
+	*	this is only meant for the animation.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Movements")
+	virtual void LookAt(const FVector& Target);
 };

@@ -1,4 +1,4 @@
-// Copyright © Noé Perard-Gayot 2021.
+/* Copyright © Noé Perard-Gayot 2021. */
 
 #pragma once
 
