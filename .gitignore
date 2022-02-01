@@ -3,6 +3,8 @@
 .vscode/
 .idea/
 
+# Generated Files
+Makefile
 
 # Compiled Object files
 *.slo
