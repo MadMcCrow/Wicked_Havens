@@ -71,7 +71,7 @@ void AWHCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	{
 		if (DefaultMoveAction)
 		{
-			PlayerEnhancedInputComponent->BindAction(DefaultMoveAction, ETriggerEvent::Started, this, &AWHCharacter::OnMoveAction);
+			PlayerEnhancedInputComponent->BindAction(DefaultMoveAction, ETriggerEvent::Triggered, this, &AWHCharacter::OnMoveAction);
 		}
 	}
 }
@@ -93,8 +93,21 @@ void AWHCharacter::LookAt(const FVector &Target)
 void AWHCharacter::OnMoveAction(const FInputActionInstance& ActionInstance)
 {
 	ensureMsgf(ActionInstance.GetSourceAction() == DefaultMoveAction , TEXT("OnMoveAction Called with wrong Move action"));
-	const auto MoveDirection = ActionInstance.GetValue().Get<FVector>();
-	AddMovementInput(MoveDirection);
+	switch(ActionInstance.GetValue().GetValueType())
+	{
+	case EInputActionValueType::Boolean:
+		AddMovementInput(FVector::ForwardVector);
+		break;
+	case EInputActionValueType::Axis1D:
+		AddMovementInput(FVector(ActionInstance.GetValue().Get<float>(), 0.f, 0.f));
+		break;
+	case EInputActionValueType::Axis2D: 
+		AddMovementInput(FVector(ActionInstance.GetValue().Get<FVector2d>(), 0.f));
+		break;
+	case EInputActionValueType::Axis3D: 
+		AddMovementInput(ActionInstance.GetValue().Get<FVector>());
+		break;
+	}
 }
 
 UWHCharacterMovementComponent* AWHCharacter::GetCharacterMovementComponent() const

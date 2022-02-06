@@ -18,6 +18,8 @@ class WH_CHARACTER_API UWHAnimInstance : public UAnimInstance
 	GENERATED_BODY()
 
 public:
+	UWHAnimInstance();
+	
 	// override
 	virtual void NativeInitializeAnimation() override;
 
@@ -29,12 +31,27 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Animation|Locomotion", meta=(BlueprintThreadSafe))
 	virtual float GetMovementSpeed() const;
 
+	/** Velocity vector length */
+	UFUNCTION(BlueprintPure, Category = "Animation|Locomotion", meta=(BlueprintThreadSafe))
+	virtual float GetMovementAngle() const;
+
+	/** @see SpeedThreshold */
+	UFUNCTION(BlueprintPure, Category = "Animation|Locomotion", meta=(BlueprintThreadSafe))
+	virtual bool IsMoving() const;
+	
 	/** Essentially "is falling" */
 	UFUNCTION(BlueprintPure, Category = "Animation|Locomotion", meta=(BlueprintThreadSafe))
-	virtual bool GetIsInAir() const;
+	virtual bool IsInAir() const;
 
 	UFUNCTION(BlueprintPure, Category = "Animation|Locomotion", meta=(BlueprintThreadSafe))
 	ACharacter* GetCharacter() const;
+
+protected:
+
+	/** How "fast" is moving */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Animation|Locomotion")
+	float SpeedThreshold;
+	
 private:
 
 	/** Stored here for quick access */

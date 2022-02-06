@@ -6,6 +6,10 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
+UWHAnimInstance::UWHAnimInstance() : Super(), SpeedThreshold(KINDA_SMALL_NUMBER)
+{
+}
+
 void UWHAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
@@ -18,7 +22,7 @@ FVector UWHAnimInstance::GetMovementVelocity() const
 	{
 		return Mov->Velocity;
 	}
-	return FVector();
+	return FVector::ZeroVector;
 }
 
 float UWHAnimInstance::GetMovementSpeed() const
@@ -26,7 +30,21 @@ float UWHAnimInstance::GetMovementSpeed() const
 	return GetMovementVelocity().Size();
 }
 
-bool UWHAnimInstance::GetIsInAir() const
+float UWHAnimInstance::GetMovementAngle() const
+{
+	if (const USkeletalMeshComponent* OwnerComponent = GetSkelMeshComponent())
+	{
+		return GetMovementVelocity().GetSafeNormal().Dot(OwnerComponent->GetForwardVector());
+	}
+	return 0.f;
+}
+
+bool UWHAnimInstance::IsMoving() const
+{
+	return GetMovementSpeed() > SpeedThreshold;
+}
+
+bool UWHAnimInstance::IsInAir() const
 {
 	if(const auto Mov = GetMovementComponent())
 	{
