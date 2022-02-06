@@ -81,7 +81,6 @@ void AWHCharacter::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
 }
 
-
 void AWHCharacter::LookAt(const FVector &Target)
 {
 	if (const auto Movement = GetCharacterMovementComponent())

@@ -1,186 +1,93 @@
-// Copyright © Noé Perard-Gayot 2021. Licenced under LGPL-3.0-or-later
-// You should have received a copy of the GNU Lesser General Public License
-// along with Petrichor. If not, see <https://www.gnu.org/licenses/>.
+/* Copyright © Noé Perard-Gayot 2021. */
 
 #include "GameEvent/WHGameEvent.h"
 
-DEFINE_LOG_CATEGORY(LogWHGameEvent);
 
 // CTR
-UWHGameEvent::UWHGameEvent( const FObjectInitializer &ObjectInitializer)
+AWHGameEvent::UWHGameEvent( const FObjectInitializer &ObjectInitializer)
 : Super(ObjectInitializer)
-, bReplicatedEvent(true)
-, bClientRunEvent(true)
-, bServerRunEvent(true)
-, bIsRunning(false)
 {
 
 }
 
-void UWHGameEvent::StartEvent(AActor* Source, AActor* Target)
+void AWHGameEvent::LaunchEvent(AActor * Source, AActor* Target)
 {
-	if (!CanCallEvent())
+	if (CanRunEvent())
 	{
-		return;
-	}
-	#if WITH_EDITOR
-		UE_LOG(LogWHGameEvent, Display, TEXT("Start Event %s"), *GetName());
-	#endif // WITH_EDITOR
-
-	if (!bReplicatedEvent)
-	{
-		OnEventStart();
-		return;
-	}
-
-
-	if (Source->GetLocalRole() == ENetRole::ROLE_Authority)
-	{
-		// call server implementation (no need to go through networking to call ourselves)
-		Net_StartServerEvent_Implementation(Source, Target);
-	}
-	else
-	if (Source->GetLocalRole() == ENetRole::ROLE_AutonomousProxy)
-	{
-		// directly call Client function
-		OnClientEventStart();
-		// Check that we actually should allow Client to ask server for event
-		if (bClientRunEvent)
-		{
-			// Call server event so that everyone gets the replicated event
-			Net_StartServerEvent(Source, Target);
-		}
+		// ask to run on server (will also perform a check)
+		Net_RequestEventStart(Source, Target);
 	}
 }
 
-void UWHGameEvent::EndEvent(bool bEndSuccess)
+
+void AWHGameEvent::StopEvent(bool bEndSuccess = true)
 {
-	if (!bReplicatedEvent)
+	if (CanStopEvent())
 	{
-		OnEventEnd();
-		return;
+		// ask to run on server (will also perform a check)
+		Net_RequestEventStop(bEndSuccess);
 	}
-
-	if (GetSource()->GetLocalRole() == ENetRole::ROLE_Authority)
-	{
-		if (bServerRunEvent)
-		{
-			Net_EndClientEvent_Implementation(bEndSuccess);
-		}
-		Net_EndClientEvent(bEndSuccess);
-	}
-
-
-
 }
 
-bool UWHGameEvent::CanCallEvent_Implementation() const
+bool AWHGameEvent::CanRunEvent_Implementation() const
 {
 	return true;
 }
 
-void UWHGameEvent::OnServerEventStart_Implementation()
+virtual void AWHGameEvent::BeginEvent_Implementation()
 {
+	// default event does nothing
 }
 
-void UWHGameEvent::OnClientEventStart_Implementation()
+void AWHGameEvent::EndEvent_Implementation(bool bEndSuccess)
 {
+	// default event does nothing
 }
 
-void UWHGameEvent::OnOwningClientEventStart_Implementation()
-{
-}
-
-void UWHGameEvent::OnEventStart_Implementation()
-{
-}
-
-void UWHGameEvent::OnEventEnd_Implementation()
-{
-}
-
-AActor* UWHGameEvent::GetSource() const
+AActor* AWHGameEvent::GetSource() const
 {
 	return Instigator;
 }
 
-AActor* UWHGameEvent::GetTarget() const
+AActor* AWHGameEvent::GetTarget() const
 {
-	return TargetActor;
+	return Target;
 }
 
-bool UWHGameEvent::IsRunning() const
+void AWHGameEvent::Net_RequestEventStart_Implementation(AActor * Source, AActor* Target)
 {
-	return bIsRunning;
-}
-
-bool UWHGameEvent::IsSuccess() const
-{
-	return bIsSuccess;
-}
-
-void UWHGameEvent::Net_StartServerEvent_Implementation(AActor* Source, AActor* Target)
-{
-	Instigator	= Source;
-	TargetActor	= Target;
-	check(GetLocalRole() == ROLE_Authority)
-	// Call events on Server
-	OnServerEventStart();
-	// we also are owning client
-	OnOwningClientEventStart();
-	// call main event if we're allowed
-	if (bServerRunEvent)
+	if (CanRunEvent())
 	{
-		OnEventStart();
-	}
-	// broadcast event to everyone
-	Net_StartClientEvent(Source,Target); // broadcast to everyone
-}
-
-void UWHGameEvent::Net_StartClientEvent_Implementation(AActor* Source, AActor* Target)
-{
-	// server should have already done it's part
-	if (GetLocalRole() != ROLE_Authority)
-	{
-		Instigator	= Source;
-		TargetActor	= Target;
-		OnClientEventStart();
-		// if we're the owning client, call our own event
-		if (GetLocalRole() == ROLE_AutonomousProxy)
-		{
-			OnOwningClientEventStart();
-		}
-		// run main event on client too
-		if (bClientRunEvent)
-		{
-			OnEventStart();
-		}
+		Instigator = Source;
+		TargetActor = Target;
+		Net_PlayEvent(); 
 	}
 }
 
-void UWHGameEvent::Net_EndClientEvent_Implementation(bool bEndSuccess)
+void AWHGameEvent::Net_RequestEventStop_Implementation(bool bEndSuccess)
 {
-	if (GetLocalRole() != ROLE_Authority)
+	if (CanStopEvent())
 	{
-		bIsSuccess = bEndSuccess;
-		OnEventEnd();
+		Net_EndEvent(bEndSuccess);
 	}
 }
 
-ENetRole UWHGameEvent::GetLocalRole() const
+void AWHGameEvent::Net_PlayEvent_Implementation()
 {
-	if (Instigator)
-	{
-		return Instigator->GetLocalRole();
-	}
-	return ROLE_None;
+	// play event;
+	BeginEvent();
 }
 
-ENetRole UWHGameEvent::GetRemoteRole() const
+void AWHGameEvent::Net_EndEvent_Implementation(bool bEndSuccess)
 {
-	if (Instigator)
-	{
-		return Instigator->GetRemoteRole();
-	}
-	return ROLE_None;
+	EndEvent(bEndSuccess);
+}
+
+
+
+void AWHGameEvent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const 
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UWHGameEvent, Instigator);
+	DOREPLIFETIME(UWHGameEvent, Target);
 }

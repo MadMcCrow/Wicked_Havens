@@ -13,6 +13,14 @@
 			]
 		},
 		{
+			"Name": "WH_GameEvent",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
 			"Name": "WH_Character",
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
