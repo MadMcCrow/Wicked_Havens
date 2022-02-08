@@ -91,7 +91,6 @@ void AWHCharacter::LookAt(const FVector &Target)
 
 void AWHCharacter::OnMoveAction(const FInputActionInstance& ActionInstance)
 {
-	ensureMsgf(ActionInstance.GetSourceAction() == DefaultMoveAction , TEXT("OnMoveAction Called with wrong Move action"));
 	switch(ActionInstance.GetValue().GetValueType())
 	{
 	case EInputActionValueType::Boolean:
@@ -100,10 +99,10 @@ void AWHCharacter::OnMoveAction(const FInputActionInstance& ActionInstance)
 	case EInputActionValueType::Axis1D:
 		AddMovementInput(FVector(ActionInstance.GetValue().Get<float>(), 0.f, 0.f));
 		break;
-	case EInputActionValueType::Axis2D: 
-		AddMovementInput(FVector(ActionInstance.GetValue().Get<FVector2d>(), 0.f));
+	case EInputActionValueType::Axis2D:
+		AddMovementInput(FVector(ActionInstance.GetValue().Get<FVector2D>(), 0.f));
 		break;
-	case EInputActionValueType::Axis3D: 
+	case EInputActionValueType::Axis3D:
 		AddMovementInput(ActionInstance.GetValue().Get<FVector>());
 		break;
 	}

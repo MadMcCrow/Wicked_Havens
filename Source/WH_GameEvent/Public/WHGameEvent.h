@@ -20,7 +20,7 @@ class WH_GAMEEVENT_API AWHGameEvent : public AInfo
 public:
 
 	// CTR
-	UWHGameEvent( const FObjectInitializer &ObjectInitializer = FObjectInitializer::Get());
+	AWHGameEvent( const FObjectInitializer &ObjectInitializer = FObjectInitializer::Get());
 
 	/**
 	 *	LaunchEvent
@@ -35,7 +35,7 @@ public:
 	/**
 	 *	StopEvent
 	 *	Terminate the event
-	 *	@note events will stop existing if instigator or target stop existing 
+	 *	@note events will stop existing if instigator or target stop existing
 	 */
 	UFUNCTION(BlueprintCallable, Category = "GameEvent")
 	void StopEvent(bool bEndSuccess = true);
@@ -70,7 +70,7 @@ public:
 	 *	EndEvent
 	 *	Plays when the event finishes
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintAuthorityOnly, Category = "GameEvent" meta=(DisplayName="OnEventEnd"))
+	UFUNCTION(BlueprintNativeEvent, BlueprintAuthorityOnly, Category = "GameEvent", meta=(DisplayName="OnEventEnd"))
 	void EndEvent(bool bEndSuccess);
 	virtual void EndEvent_Implementation(bool bEndSuccess);
 
@@ -126,7 +126,7 @@ private:
 
 	/** Source of this event and who will be responsible for handling it */
 	UPROPERTY(Replicated, BlueprintGetter="GetSource")
-	AActor * Instigator;
+	AActor * SourceActor;
 
 	/** Target for this Event, might be equal to Instigator */
 	UPROPERTY(Replicated, BlueprintGetter="GetTarget")

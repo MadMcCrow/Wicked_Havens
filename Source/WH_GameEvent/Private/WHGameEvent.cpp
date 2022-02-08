@@ -1,13 +1,12 @@
 /* Copyright © Noé Perard-Gayot 2021. */
 
-#include "GameEvent/WHGameEvent.h"
-
+#include "WHGameEvent.h"
+#include "Net/UnrealNetwork.h"
 
 // CTR
-AWHGameEvent::UWHGameEvent( const FObjectInitializer &ObjectInitializer)
+AWHGameEvent::AWHGameEvent( const FObjectInitializer &ObjectInitializer)
 : Super(ObjectInitializer)
 {
-
 }
 
 void AWHGameEvent::LaunchEvent(AActor * Source, AActor* Target)
@@ -20,7 +19,7 @@ void AWHGameEvent::LaunchEvent(AActor * Source, AActor* Target)
 }
 
 
-void AWHGameEvent::StopEvent(bool bEndSuccess = true)
+void AWHGameEvent::StopEvent(bool bEndSuccess)
 {
 	if (CanStopEvent())
 	{
@@ -34,7 +33,7 @@ bool AWHGameEvent::CanRunEvent_Implementation() const
 	return true;
 }
 
-virtual void AWHGameEvent::BeginEvent_Implementation()
+void AWHGameEvent::BeginEvent_Implementation()
 {
 	// default event does nothing
 }
@@ -46,21 +45,21 @@ void AWHGameEvent::EndEvent_Implementation(bool bEndSuccess)
 
 AActor* AWHGameEvent::GetSource() const
 {
-	return Instigator;
+	return SourceActor;
 }
 
 AActor* AWHGameEvent::GetTarget() const
 {
-	return Target;
+	return TargetActor;
 }
 
 void AWHGameEvent::Net_RequestEventStart_Implementation(AActor * Source, AActor* Target)
 {
 	if (CanRunEvent())
 	{
-		Instigator = Source;
+		SourceActor = Source;
 		TargetActor = Target;
-		Net_PlayEvent(); 
+		Net_PlayEvent();
 	}
 }
 
@@ -83,11 +82,9 @@ void AWHGameEvent::Net_EndEvent_Implementation(bool bEndSuccess)
 	EndEvent(bEndSuccess);
 }
 
-
-
-void AWHGameEvent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const 
+void AWHGameEvent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UWHGameEvent, Instigator);
-	DOREPLIFETIME(UWHGameEvent, Target);
+	DOREPLIFETIME(AWHGameEvent, SourceActor);
+	DOREPLIFETIME(AWHGameEvent, TargetActor);
 }

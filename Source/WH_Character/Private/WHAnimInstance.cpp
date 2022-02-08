@@ -34,7 +34,7 @@ float UWHAnimInstance::GetMovementAngle() const
 {
 	if (const USkeletalMeshComponent* OwnerComponent = GetSkelMeshComponent())
 	{
-		return GetMovementVelocity().GetSafeNormal().Dot(OwnerComponent->GetForwardVector());
+		return FVector::DotProduct(GetMovementVelocity().GetSafeNormal(), OwnerComponent->GetForwardVector());
 	}
 	return 0.f;
 }

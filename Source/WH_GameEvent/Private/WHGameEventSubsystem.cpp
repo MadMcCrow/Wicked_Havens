@@ -1,33 +1,43 @@
 /* Copyright © Noé Perard-Gayot 2021. */
 
-#include "GameEvent/WHGameEventSubsystem.h"
+#include "WHGameEventSubsystem.h"
+
+#include "GameFramework/GameStateBase.h"
 #include "Subsystems/SubsystemBlueprintLibrary.h"
-
-
 
 void UWHGameEventSubsystemComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-    if (auto GESS = USubsystemBlueprintLibrary::GetWorldSubsystem(this, UWHGameEventSubsystem::StaticClass()))
-        GESS->GetLifetimeReplicatedProps(OutLifetimeProps);  
+    if (const auto World = GetWorld())
+    {
+        if (const auto GESS = World->GetSubsystem<UWHGameEventSubsystem>())
+        {
+            GESS->GetLifetimeReplicatedProps(OutLifetimeProps);
+        }
+    }
 }
 
 bool UWHGameEventSubsystemComponent::ReplicateSubobjects(class UActorChannel *Channel, class FOutBunch *Bunch, FReplicationFlags *RepFlags)
 {
     Super::ReplicateSubobjects(Channel,Bunch,RepFlags);
-    if (auto GESS = USubsystemBlueprintLibrary::GetWorldSubsystem(this, UWHGameEventSubsystem::StaticClass()))
-        GESS->ReplicateSubobjects(Channel,Bunch,RepFlags);
+    if (const auto World = GetWorld())
+    {
+          if (const auto GESS = World->GetSubsystem<UWHGameEventSubsystem>())
+          {
+              GESS->ReplicateSubobjects(Channel,Bunch,RepFlags);
+          }
+    }
 }
 
 void UWHGameEventSubsystem::Tick(float DeltaTime)
 {
-    if (!ReplicationComponent)
+    if (ReplicationComponent == nullptr || ReplicationComponent->IsBeingDestroyed())
     {
-        if(auto GameState = GetWorld()->GetGameState())
+        if(const auto GameState = GetWorld()->GetGameState())
         {
-            ReplicationComponent = AddComponentByClass(UWHGameEventSubsystemComponent::StaticClass);
+            const auto Comp = GameState->AddComponentByClass(UWHGameEventSubsystemComponent::StaticClass(), false, FTransform(), false);
+            ReplicationComponent = Cast<UWHGameEventSubsystemComponent>(Comp);
         }
-        
     }
 }
 
@@ -38,5 +48,5 @@ void UWHGameEventSubsystem::GetLifetimeReplicatedProps(TArray< FLifetimeProperty
 
 bool UWHGameEventSubsystem::ReplicateSubobjects(class UActorChannel *Channel, class FOutBunch *Bunch, FReplicationFlags *RepFlags)
 {
-	Super::ReplicateSubobjects(Channel,Bunch,RepFlags);
+    return true;
 }

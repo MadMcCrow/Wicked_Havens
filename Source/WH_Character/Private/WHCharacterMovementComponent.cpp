@@ -10,7 +10,7 @@ void UWHCharacterMovementComponent::PerformMovement(float DeltaSeconds)
 		const auto OldDirection = UpdatedComponent->GetForwardVector();
 		Super::PerformMovement(DeltaSeconds);
 		const auto NewDirection = UpdatedComponent->GetForwardVector();
-		AngularVelocity = FMath::Acos(OldDirection.Dot(NewDirection));
+		AngularVelocity = FMath::Acos(FVector::DotProduct(OldDirection,NewDirection));
 	}
 	else
 	{
