@@ -18,8 +18,6 @@ class WH_CORE_API UWHReplicatedSubsystem : public UWorldSubsystem,	public FTicka
 
 public:
 
-	virtual void DoesSupportWorldType(EWorldType::Type WorldType) override;
-
 	/** called every frame */
 	virtual void Tick(float DeltaTime) override;
 
@@ -30,6 +28,6 @@ private:
 
 	/** The component we track for replication */
 	UPROPERTY(Transient)
-	UWHReplicatedSubsystemComponent* ReplicationComponent;
+	class UWHReplicatedSubsystemComponent* ReplicationComponent;
 
 };

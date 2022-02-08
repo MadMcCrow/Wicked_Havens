@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Info.h"
+#include "UObject/Object.h"
 #include "WHGameEvent.generated.h"
 
 
@@ -12,15 +12,15 @@
  *	A game event is a scripting object that will execute a script on both server and client in an optimised way
  *	@note
  */
-UCLASS(ClassGroup=(WH), Category="GameEvent")
-class WH_GAMEEVENT_API AWHGameEvent : public AInfo
+UCLASS(ClassGroup=(WH), Category="GameEvents")
+class WH_GAMEEVENT_API UWHGameEvent : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
 	// CTR
-	AWHGameEvent( const FObjectInitializer &ObjectInitializer = FObjectInitializer::Get());
+	UWHGameEvent( const FObjectInitializer &ObjectInitializer = FObjectInitializer::Get());
 
 	/**
 	 *	LaunchEvent
@@ -29,7 +29,6 @@ public:
 	 *	@param  Target	Actor concerned by the result
 	 *	@return false on failed validation
 	 */
-	UFUNCTION(BlueprintCallable, Category = "GameEvent")
 	void LaunchEvent(AActor * Source, AActor* Target);
 
 	/**
@@ -37,7 +36,6 @@ public:
 	 *	Terminate the event
 	 *	@note events will stop existing if instigator or target stop existing
 	 */
-	UFUNCTION(BlueprintCallable, Category = "GameEvent")
 	void StopEvent(bool bEndSuccess = true);
 
 	/**
@@ -46,8 +44,8 @@ public:
 	 * 	@note Run on Authority only
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintAuthorityOnly, Category = "GameEvent")
-	bool CanRunEvent() const;
-	virtual bool CanRunEvent_Implementation() const;
+	bool CanRunEvent(AActor * Source, AActor* Target) const;
+	virtual bool CanRunEvent_Implementation(AActor * Source, AActor* Target) const;
 
 	/**
 	 *	CanStopEvent
