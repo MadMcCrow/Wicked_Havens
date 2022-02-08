@@ -14,7 +14,7 @@ clean="$UEBatchFilePath/Linux/Clean.sh ${Project}Editor Linux Debug $ProjectFile
 build="$UEBatchFilePath/Linux/Build.sh ${Project}Editor Linux Debug $ProjectFilePath  -waitmutex"
 
 
-eval $clean
+# eval $clean
 eval $build
 
 #"../../UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh" Build -project=$(find $(pwd) -iname "*.uproject") -clientconfig=Development -serverconfig=Development -compile

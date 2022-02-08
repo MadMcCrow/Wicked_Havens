@@ -8,7 +8,7 @@ import subprocess
 import shlex
 
 project = os.path.abspath([a for a in os.listdir() if ".uproject" in a][0])
-ue_path = os.path.abspath("../UE_5.0EA")
+ue_path = os.path.abspath("../UnrealEngine")
 
 if platform.system() == "Linux":
     cmd = "\"{0}/Engine/Build/BatchFiles/Linux/GenerateProjectFiles.sh\" {1}".format(str(ue_path),str(project))
