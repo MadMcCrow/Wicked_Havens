@@ -1,0 +1,19 @@
+#! /usr/bin/python
+#
+#   Simply adapt calls to UAT to generate the project file according for WH
+#
+import os
+import platform
+import subprocess
+import shlex
+
+project = os.path.abspath([a for a in os.listdir() if ".uproject" in a][0])
+ue_path = os.path.abspath("../UE_5.0EA")
+
+if platform.system() == "Linux":
+    cmd = "\"{0}/Engine/Build/BatchFiles/Linux/GenerateProjectFiles.sh\" {1}".format(str(ue_path),str(project))
+if platform.system() == "Windows":
+    cmd ='\"{0}\\Engine\\Binaries\\DotNET\\UnrealBuildTool\\UnrealBuildTool.exe\" -projectfiles -project=\"{1}\" -game -rocket -progress'.format(str(ue_path),str(project))
+
+subprocess.call(shlex.split(cmd))
+

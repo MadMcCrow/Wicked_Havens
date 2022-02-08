@@ -13,9 +13,9 @@
 			]
 		},
 		{
-			"Name": "WH_GameEvent",
+			"Name": "WH_Core",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
+			"LoadingPhase": "PreDefault",
 			"AdditionalDependencies": [
 				"Engine"
 			]
@@ -23,7 +23,7 @@
 		{
 			"Name": "WH_Character",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
+			"LoadingPhase": "PostDefault",
 			"AdditionalDependencies": [
 				"Engine",
 				"EnhancedInput",
@@ -33,7 +33,7 @@
 		{
 			"Name": "WH_Inventory",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
+			"LoadingPhase": "PostDefault",
 			"AdditionalDependencies": [
 				"Engine"
 			]
@@ -41,7 +41,7 @@
 		{
 			"Name": "WH_Camera",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
+			"LoadingPhase": "PostDefault",
 			"AdditionalDependencies": [
 				"Engine",
 				"EnhancedInput"
@@ -50,7 +50,7 @@
 		{
 			"Name": "WH_AI",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
+			"LoadingPhase": "PostDefault",
 			"AdditionalDependencies": [
 				"Engine"
 			]
