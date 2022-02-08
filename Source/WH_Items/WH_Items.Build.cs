@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class WH_Inventory : ModuleRules
+public class WH_Items : ModuleRules
 {
-	public WH_Inventory(ReadOnlyTargetRules Target) : base(Target)
+	public WH_Items(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
@@ -32,7 +32,8 @@ public class WH_Inventory : ModuleRules
 			new string[]
 			{
 				"CoreUObject",
-				"Engine"
+				"Engine",
+                "GameplayTags"
 			}
 			);
 

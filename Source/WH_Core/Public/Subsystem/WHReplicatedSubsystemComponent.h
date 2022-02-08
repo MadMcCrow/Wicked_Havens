@@ -9,7 +9,7 @@
  *	@class UWHReplicatedSubsystemComponent
  *	@brief component dynamically added to GameState to gain replication for a subsystem
  */
-UCLASS(MininalAPI)
+UCLASS(MinimalAPI)
 class UWHReplicatedSubsystemComponent : public UActorComponent
 {
 	GENERATED_BODY()

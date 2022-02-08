@@ -14,7 +14,7 @@ public class Wicked_HavensEditorTarget : TargetRules
 			"Wicked_Havens",
 			"WH_Core",
 			"WH_Character",
-			"WH_Inventory",
+			"WH_Items",
 			"WH_Camera",
 			"WH_AI"
 			 } );

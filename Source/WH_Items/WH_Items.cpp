@@ -3,4 +3,4 @@
 #include "WH_Inventory.h"
 #include "Modules/ModuleManager.h"
 
-IMPLEMENT_GAME_MODULE( FDefaultGameModuleImpl, WH_Inventory);
+IMPLEMENT_GAME_MODULE( FDefaultGameModuleImpl, WH_Items);
