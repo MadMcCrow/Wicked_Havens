@@ -13,7 +13,7 @@
  *	@note
  */
 UCLASS(ClassGroup=(WH), Category="GameEvents")
-class WH_GAMEEVENT_API UWHGameEvent : public UObject
+class WH_CORE_API UWHGameEvent : public UObject
 {
 	GENERATED_BODY()
 

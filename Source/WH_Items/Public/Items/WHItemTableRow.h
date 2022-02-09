@@ -4,12 +4,12 @@
 
 #include "Engine/DataTable.h"
 #include "GameplayTagContainer.h"
-#include "WHItem.generated.h"
+#include "WHItemTableRow.generated.h"
 
 /**
  *	A table row to define an Item
  */
-USTRUCT(BlueprintType,  ClassGroup=(WH), Category="Items")
+USTRUCT(BlueprintType, Category="Items")
 struct WH_ITEMS_API FWHItemTableRow : public FTableRowBase
 {
 	GENERATED_BODY()

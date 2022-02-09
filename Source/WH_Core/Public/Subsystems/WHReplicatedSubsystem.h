@@ -4,7 +4,7 @@
 
 #include "Tickable.h"
 #include "Subsystems/WorldSubsystem.h"
-#include "WHGameEventSubsystem.generated.h"
+#include "WHReplicatedSubsystem.generated.h"
 
 
 /**
@@ -20,6 +20,8 @@ public:
 
 	/** called every frame */
 	virtual void Tick(float DeltaTime) override;
+
+	virtual TStatId GetStatId() const override;
 
 	/**  the replication function, called via @see ReplicationComponent and GameState */
  	virtual void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const;

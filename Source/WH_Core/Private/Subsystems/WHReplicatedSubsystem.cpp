@@ -17,6 +17,11 @@ void UWHReplicatedSubsystem::Tick(float DeltaTime)
 	}
 }
 
+TStatId UWHReplicatedSubsystem::GetStatId() const
+{
+	RETURN_QUICK_DECLARE_CYCLE_STAT(UWHReplicatedSubsystem, STATGROUP_Tickables);
+}
+
 void UWHReplicatedSubsystem::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
 

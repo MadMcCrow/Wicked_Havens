@@ -3,19 +3,25 @@
 #pragma once
 
 #include "Engine/DataAsset.h"
+#include "Engine/DataTable.h"
 #include "WHItem.generated.h"
 
 /**
- *	A table row to define an Item
+ *	A unique asset
  */
 UCLASS(BlueprintType,  ClassGroup=(WH), Category="Items")
-struct WH_ITEMS_API UWHItem : public UDataAsset
-
+class WH_ITEMS_API UWHItem : public UDataAsset
 {
 	GENERATED_BODY()
+	friend class UWHItemSubsystem;
 
+public:
+
+
+
+private:
     /** A tag to categorise this item */
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UPROPERTY()
     FDataTableRowHandle ItemHandle;
 
 };

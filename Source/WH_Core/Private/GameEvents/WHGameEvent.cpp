@@ -55,7 +55,7 @@ AActor* UWHGameEvent::GetTarget() const
 
 void UWHGameEvent::Net_RequestEventStart_Implementation(AActor * Source, AActor* Target)
 {
-	if (CanRunEvent())
+	if (CanRunEvent(Source,Target))
 	{
 		SourceActor = Source;
 		TargetActor = Target;
