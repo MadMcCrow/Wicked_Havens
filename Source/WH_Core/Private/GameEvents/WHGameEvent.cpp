@@ -33,6 +33,11 @@ bool UWHGameEvent::CanRunEvent_Implementation(AActor * Source, AActor* Target) c
 	return true;
 }
 
+bool UWHGameEvent::CanStopEvent_Implementation() const
+{
+	return true;
+}
+
 void UWHGameEvent::BeginEvent_Implementation()
 {
 	// default event does nothing

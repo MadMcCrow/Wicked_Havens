@@ -9,10 +9,14 @@ void UWHReplicatedSubsystem::Tick(float DeltaTime)
 {
 	if (ReplicationComponent == nullptr || ReplicationComponent->IsBeingDestroyed())
 	{
-		if(const auto GameState = GetWorld()->GetGameState())
+		/** World may stranglely, not exist */
+		if (auto World = GetWorld())
 		{
-			const auto Comp = GameState->AddComponentByClass(UWHReplicatedSubsystemComponent::StaticClass(), false, FTransform(), false);
-			ReplicationComponent = Cast<UWHReplicatedSubsystemComponent>(Comp);
+			if(const auto GameState = World->GetGameState())
+			{
+				const auto Comp = GameState->AddComponentByClass(UWHReplicatedSubsystemComponent::StaticClass(), false, FTransform(), false);
+				ReplicationComponent = Cast<UWHReplicatedSubsystemComponent>(Comp);
+			}
 		}
 	}
 }

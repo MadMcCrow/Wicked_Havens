@@ -33,7 +33,8 @@ public class WH_Items : ModuleRules
 			{
 				"CoreUObject",
 				"Engine",
-                "GameplayTags"
+                "GameplayTags",
+                "DeveloperSettings"
 			}
 			);
 

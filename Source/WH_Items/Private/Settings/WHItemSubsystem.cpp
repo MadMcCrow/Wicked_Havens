@@ -17,7 +17,7 @@ void UWHItemSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	Super::Initialize(Collection);
 	if (const auto Settings = GetDefault<UWHItemSettings>())
 	{
-		Settings->LoadDatable().BindRaw(this, &UWHItemSubsystem::GenerateItemList);
+		Settings->LoadDatable().BindUObject(this, &UWHItemSubsystem::GenerateItemList);
 	}
 }
 
