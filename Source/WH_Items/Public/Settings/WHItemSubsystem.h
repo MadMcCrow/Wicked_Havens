@@ -11,7 +11,7 @@
  * @class UWHItemSubsystem
  * @brief The subsystem responsible for referencing all items
  */
-UCLASS()
+UCLASS(ClassGroup=(WH))
 class UWHItemSubsystem : public UGameInstanceSubsystem
 {
     GENERATED_BODY()
@@ -24,7 +24,6 @@ public:
 
 
 
-
 protected:
 	void GenerateItemList();
 
@@ -34,5 +33,5 @@ private:
 	 *	Set of all items ever spawned
 	 */
 	UPROPERTY()
-	TSet<TObjectPtr<class UWHItem>> Items;
+	TSet<TObjectPtr<class UWHItem>> ItemDefaults;
 };

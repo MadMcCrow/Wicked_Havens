@@ -1,6 +1,8 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "Settings/WHItemSubsystem.h"
+
+#include "GameplayTagsManager.h"
 #include "Engine/DataTable.h"
 #include "Items/WHItem.h"
 #include "Items/WHItemTableRow.h"
@@ -42,10 +44,22 @@ void UWHItemSubsystem::GenerateItemList()
 					{
 						ItemPtr->ItemHandle.DataTable = DTB;
 						ItemPtr->ItemHandle.RowName   = Key;
-						Items.Add(ItemPtr);
+						ItemDefaults.Add(ItemPtr);
 					}
 				}
 			});
+		}
+	}
+	for (const auto& Item : ItemDefaults)
+	{
+		if( auto* const TagManager = UGameplayTagsManager::GetIfAllocated())
+		{
+			auto OptRow = Item->GetItemRow();
+			if (OptRow)
+			{
+				// no comments for now
+				TagManager->AddNativeGameplayTag(OptRow.GetValue().ItemTag.GetTagName(), FString());
+			}
 		}
 	}
 }

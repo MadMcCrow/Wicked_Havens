@@ -10,11 +10,11 @@ void UWHGameEventFunctionLibrary::LaunchGameEvent(const UObject* WorldContextObj
 	if (!WorldContextObject)
 		return;
 
-	if (auto GESS = WorldContextObject->GetWorld()->GetSubsystem<UWHGameEventSubsystem>())
+	if (const auto GESS = WorldContextObject->GetWorld()->GetSubsystem<UWHGameEventSubsystem>())
 	{
 		if (UClass* Class = EventClass.TryLoadClass<UWHGameEvent>())
 		{
-			auto GE =NewObject<UWHGameEvent>(GESS);
+			const auto GE =NewObject<UWHGameEvent>(GESS);
 			if (GE->CanRunEvent(Source, Target))
 			{
 				GESS->RegisterGameEvent(GE);

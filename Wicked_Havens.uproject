@@ -31,7 +31,7 @@
 			]
 		},
 		{
-			"Name": "WH_Inventory",
+			"Name": "WH_Items",
 			"Type": "Runtime",
 			"LoadingPhase": "PostDefault",
 			"AdditionalDependencies": [

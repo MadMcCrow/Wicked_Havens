@@ -28,7 +28,7 @@ public:
 	 *	@param	Target				Actor concerned by the result
 	 */
 	UFUNCTION(BlueprintCallable, Category="GameEvent", meta=(WorldContext = "WorldContextObject"))
-	void LaunchGameEvent(const UObject* WorldContextObject, UPARAM(meta=(AllowedClasses="WHGameEvent")) FSoftClassPath EventClass, AActor * Source, AActor* Target);
+	static void LaunchGameEvent(const UObject* WorldContextObject, UPARAM(meta=(AllowedClasses="WHGameEvent")) FSoftClassPath EventClass, AActor * Source, AActor* Target);
 
 
 };

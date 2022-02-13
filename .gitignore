@@ -2,6 +2,8 @@
 .vs/
 .vscode/
 .idea/
+*.sln
+*.sln*
 
 # Generated Files
 Makefile
