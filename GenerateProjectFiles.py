@@ -11,7 +11,7 @@ project = os.path.abspath([a for a in os.listdir() if ".uproject" in a][0])
 ue_path = os.path.abspath("../UnrealEngine")
 
 if platform.system() == "Linux":
-    cmd = "\"{0}/Engine/Build/BatchFiles/Linux/GenerateProjectFiles.sh\" {1}".format(str(ue_path),str(project))
+    cmd = "\"{0}/Engine/Build/BatchFiles/Linux/GenerateProjectFiles.sh\" {1} -game -engine".format(str(ue_path),str(project))
 if platform.system() == "Windows":
     cmd ='\"{0}\\Engine\\Binaries\\DotNET\\UnrealBuildTool\\UnrealBuildTool.exe\" -projectfiles -project=\"{1}\" -game -rocket -progress'.format(str(ue_path),str(project))
 

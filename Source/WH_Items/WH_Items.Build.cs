@@ -24,6 +24,9 @@ public class WH_Items : ModuleRules
 			new string[]
 			{
 				"Core",
+				"CoreUObject",
+				"Engine"
+
 			}
 			);
 
@@ -31,10 +34,9 @@ public class WH_Items : ModuleRules
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"CoreUObject",
-				"Engine",
-                "GameplayTags",
-                "DeveloperSettings"
+				"Networking",
+				"GameplayTags",
+				"DeveloperSettings"
 			}
 			);
 

@@ -4,6 +4,7 @@
 .idea/
 *.sln
 *.sln*
+*.code-workspace
 
 # Generated Files
 Makefile

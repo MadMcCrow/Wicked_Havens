@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "CoreMinimal.h"
+#include "Engine/NetSerialization.h"
 #include "WHInventory.generated.h"
 
 

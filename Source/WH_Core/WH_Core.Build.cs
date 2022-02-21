@@ -23,7 +23,7 @@ public class WH_Core : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core",
+				"Core"
 			}
 			);
 

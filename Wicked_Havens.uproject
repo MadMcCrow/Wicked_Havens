@@ -26,8 +26,7 @@
 			"LoadingPhase": "PostDefault",
 			"AdditionalDependencies": [
 				"Engine",
-				"EnhancedInput",
-				"OnlineSubsystem"
+				"EnhancedInput"
 			]
 		},
 		{
