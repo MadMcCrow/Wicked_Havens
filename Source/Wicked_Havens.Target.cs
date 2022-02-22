@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 using UnrealBuildTool;
 using System.Collections.Generic;
@@ -13,6 +13,7 @@ public class Wicked_HavensTarget : TargetRules
 		ExtraModuleNames.AddRange( new string[] {
 			"Wicked_Havens",
 			"WH_Core",
+			"WH_Attributes",
 			"WH_Items",
 			"WH_Character",
 			"WH_Camera",

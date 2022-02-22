@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 #include "WHGameMode.h"
 #include "GameFramework/Character.h"

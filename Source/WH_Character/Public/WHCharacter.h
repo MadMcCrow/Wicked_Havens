@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 #pragma once
 
@@ -31,7 +31,7 @@ public:
 	// <\ACharacter overrides>
 
 protected:
-	
+
 	/** Default mapping context , will have a priority of 0 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	TObjectPtr<UInputMappingContext> DefaultMappingContext;

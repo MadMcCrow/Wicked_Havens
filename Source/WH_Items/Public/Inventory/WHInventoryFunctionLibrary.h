@@ -29,7 +29,7 @@ public:
 	 *	Blueprint-friendly version of the one before
 	 *	bSuccess is false if anything went wrong
 	 */
-	UFUNCTION(BlueprintCallable, Category="Inventory", meta = (NativeBreakFunc, AdvancedDisplay=2))
+	UFUNCTION(BlueprintPure, Category="Inventory", meta = (NativeBreakFunc, AdvancedDisplay=2))
 	static void GetInventoryItems(const FWHInventory& Inventory, TMap<TSoftObjectPtr<UWHItem>,int64>& Items, bool& bSuccess);
 
 	/**

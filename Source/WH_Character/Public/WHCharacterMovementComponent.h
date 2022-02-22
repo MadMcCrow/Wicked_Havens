@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 #pragma once
 
@@ -25,5 +25,5 @@ public:
 	/** Perform a rotation in-place */
 	UFUNCTION(BlueprintCallable, Category="Movement")
 	virtual void Rotate(const FRotator& Rotation);
-	
+
 };

@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 #pragma once
 
@@ -48,6 +48,7 @@ public:
 
 	/** Called by NetSerialize of FWHInventory */
 	void Serialize(FArchive& Ar);
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHInventoryItem Item ){Item.Serialize(Ar); return Ar;}
 
 	/**
 	 * Optional functions for client side notification of changes to items;

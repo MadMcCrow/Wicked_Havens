@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 #include "Inventory/WHInventoryFunctionLibrary.h"
 #include "Items/WHItem.h"
@@ -43,7 +43,7 @@ FWHInventory UWHInventoryFunctionLibrary::MakeInventoryFromItems(const TMap<TSof
 	FWHInventory NewInventory;
 	// Convert from BP-friendly to Inventory-ready
 	TMap<TObjectPtr<UWHItem>, uint64> ObjPtrItems;
-	for (const auto ItemItr : Items)
+	for (const auto& ItemItr : Items)
 	{
 		if (ItemItr.Value > 0)
 		{

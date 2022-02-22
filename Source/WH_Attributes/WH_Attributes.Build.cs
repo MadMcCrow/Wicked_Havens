@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class WH_Items : ModuleRules
+public class WH_Attributes : ModuleRules
 {
-	public WH_Items(ReadOnlyTargetRules Target) : base(Target)
+	public WH_Attributes(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
@@ -24,8 +24,7 @@ public class WH_Items : ModuleRules
 				"Core",
 				"CoreUObject",
 				"NetCore",
-				"Engine",
-				"DataRegistry"
+				"Engine"
 			}
 			);
 
@@ -34,7 +33,6 @@ public class WH_Items : ModuleRules
 			new string[]
 			{
 				"Networking",
-				"GameplayTags",
 				"DeveloperSettings"
 			}
 			);

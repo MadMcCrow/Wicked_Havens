@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 #include "Inventory/WHInventory.h"
 
@@ -25,21 +25,8 @@ void FWHInventoryItem::PostReplicatedChange(const FWHInventory& InArraySerialize
 
 bool FWHInventory::Serialize(FArchive& Ar)
 {
-	int64 Count = 0;
-	if (Ar.IsLoading())
-	{
-		Ar << Count; // read from Archive;
-		Items.SetNum(Count);
-	}
-	else
-	{
-		Count = Items.Num();
-		Ar << Count; // write to Archive;
-	}
-	for (int64 idx = Count; idx-->0;)
-	{
-		Items[idx].Serialize(Ar);
-	}
+	// just use Unreal internal method, I guess
+	Ar << Items;
 	// Should preform a few checks maybe...
 	return true;
 }

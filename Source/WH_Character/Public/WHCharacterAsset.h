@@ -1,4 +1,4 @@
-/* Copyright © Noé Perard-Gayot 2021. */
+/* Copyright © Noé Perard-Gayot 2022. */
 
 #pragma once
 
@@ -17,6 +17,6 @@ class WH_CHARACTER_API UWHCharacterAsset : public UDataAsset
 	GENERATED_BODY()
 
 public:
-	
-	
+
+
 };

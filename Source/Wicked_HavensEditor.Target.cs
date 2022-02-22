@@ -13,6 +13,7 @@ public class Wicked_HavensEditorTarget : TargetRules
 		ExtraModuleNames.AddRange( new string[] {
 			"Wicked_Havens",
 			"WH_Core",
+			"WH_Attributes",
 			"WH_Items",
 			"WH_Character",
 			"WH_Camera",
