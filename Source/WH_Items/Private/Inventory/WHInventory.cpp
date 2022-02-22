@@ -51,7 +51,19 @@ bool FWHInventory::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSucces
 
 bool FWHInventory::NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
 {
-	return FFastArraySerializer::FastArrayDeltaSerialize<FWHInventoryItem, FWHInventory>( Items, DeltaParms, *this );
+	return FastArrayDeltaSerialize<FWHInventoryItem>( Items, DeltaParms, *this );
+}
+
+void FWHInventory::InitItems(const TMap<TObjectPtr<UWHItem>, uint64> InItems)
+{
+	for (auto ItemItr: InItems)
+	{
+		if(ItemItr.Value > 0)
+		{
+			Items.Add(FWHInventoryItem(ItemItr.Key, ItemItr.Value));
+		}
+	}
+	MarkArrayDirty();
 }
 
 FWHInventoryItem* FWHInventory::AddItem(const TObjectPtr<UWHItem>& ItemObject, uint64 Count)

@@ -29,8 +29,15 @@ public:
 	 *	Blueprint-friendly version of the one before
 	 *	bSuccess is false if anything went wrong
 	 */
-	UFUNCTION(BlueprintCallable, Category="Inventory")
+	UFUNCTION(BlueprintCallable, Category="Inventory", meta = (NativeBreakFunc, AdvancedDisplay=2))
 	static void GetInventoryItems(const FWHInventory& Inventory, TMap<TSoftObjectPtr<UWHItem>,int64>& Items, bool& bSuccess);
+
+	/**
+	 *	Make Function for inventory
+	 *	Expose initiating inventory to blueprint
+	 */
+	UFUNCTION(BlueprintPure, Category = "Inventory", meta = (NativeMakeFunc))
+	static struct FWHInventory MakeInventoryFromItems(const TMap<TSoftObjectPtr<UWHItem>,int64>& Items);
 
 	// TODO : Add Item, remove Item, Get Item Count, etc...
 };

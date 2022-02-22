@@ -17,7 +17,7 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FWHInventoryDelegate,TObjectPtr<UWHItem>, i
  *	Specifically adapted to fast replication
  */
 USTRUCT()
-struct FWHInventoryItem : public FFastArraySerializerItem
+struct WH_ITEMS_API FWHInventoryItem : public FFastArraySerializerItem
 {
 	GENERATED_BODY()
 	friend struct FWHInventory;
@@ -66,7 +66,7 @@ public:
 /**
  *	A struct to contain a list of Items objects
  */
-USTRUCT(BlueprintType, Category="Items")
+USTRUCT(BlueprintType, Category = "Items", meta = (HasNativeBreak = "WH_Items.WHInventoryFunctionLibrary.GetInventoryItems", HasNativeMake = "WH_Items.WHInventoryFunctionLibrary.MakeInventoryFromItems"))
 struct WH_ITEMS_API FWHInventory : public FFastArraySerializer
 {
 	GENERATED_BODY()
@@ -75,13 +75,17 @@ public:
 	// Begin Serialization -----
 	bool Serialize(FArchive& Ar);
 	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
-	/** Step 4: Copy this, replace example with your names */
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo & DeltaParms);
 	// End Serialization -----
 
 
 	/**
-	 *
+	 *	Add an item to this inventory, and return a reference to it
+	 *	We will change the owner of that item to us. if it was in an inventory, we'll remove it from it
+	 */
+	void InitItems(const TMap<TObjectPtr<UWHItem>, uint64> InItems);
+
+	/**
 	 *	Add an item to this inventory, and return a reference to it
 	 *	We will change the owner of that item to us. if it was in an inventory, we'll remove it from it
 	 */
@@ -109,8 +113,8 @@ public:
 	FWHInventoryDelegate OnItemRemovedDelegate;
 	FWHInventoryDelegate OnItemAddedDelegate;
 
-
 };
+
 
 /** Specify custom functions to look for in FWHInventory */
 template<>

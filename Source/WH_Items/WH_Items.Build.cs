@@ -13,20 +13,19 @@ public class WH_Items : ModuleRules
 			}
 			);
 
-
 		PrivateIncludePaths.AddRange(
 			new string[] {
 			}
 			);
-
 
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"Core",
 				"CoreUObject",
-				"Engine"
-
+				"NetCore",
+				"Engine",
+				"DataRegistry"
 			}
 			);
 
@@ -39,7 +38,6 @@ public class WH_Items : ModuleRules
 				"DeveloperSettings"
 			}
 			);
-
 
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]

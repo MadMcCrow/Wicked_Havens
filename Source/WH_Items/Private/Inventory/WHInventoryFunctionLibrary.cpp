@@ -37,3 +37,21 @@ void UWHInventoryFunctionLibrary::GetInventoryItems(const FWHInventory& Inventor
 		Items.Add(SoftObjectPtr, Itr.Count);
 	}
 }
+
+FWHInventory UWHInventoryFunctionLibrary::MakeInventoryFromItems(const TMap<TSoftObjectPtr<UWHItem>, int64>& Items)
+{
+	FWHInventory NewInventory;
+	// Convert from BP-friendly to Inventory-ready
+	TMap<TObjectPtr<UWHItem>, uint64> ObjPtrItems;
+	for (const auto ItemItr : Items)
+	{
+		if (ItemItr.Value > 0)
+		{
+			TObjectPtr<UWHItem> Item	= ItemItr.Key.LoadSynchronous();
+			uint64 Amount				= static_cast<uint64>(ItemItr.Value);
+			ObjPtrItems.Add(Item, Amount);
+		}
+	}
+	NewInventory.InitItems(ObjPtrItems);
+	return NewInventory;
+}
