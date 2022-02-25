@@ -1,0 +1,4 @@
+[submodule "UnrealEngine"]
+	path = UnrealEngine
+	url = https://github.com/EpicGames/UnrealEngine
+	branch = ue5-main

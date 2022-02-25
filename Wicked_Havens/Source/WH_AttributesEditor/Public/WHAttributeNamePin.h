@@ -22,7 +22,7 @@ public:
 	void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj);
 	virtual TSharedRef<SWidget>	GetDefaultValueWidget() override;
 	virtual FSlateColor GetPinColor() const override {return FSlateColor(FColor::Silver);}
-	void OnAttributeChanged(TSharedPtr<FString, ESPMode::Fast> String, ESelectInfo::Type Arg);
+	void OnAttributeChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg);
 private:
 
 	void UpdateFromAttributeList();

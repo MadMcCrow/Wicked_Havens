@@ -8,20 +8,30 @@ Please note we do not own any right on _Evil Islands_ and Nival Interactive reta
 
 ### Built with Unreal Engine
 
-Build Unreal Engine 4.25. this game is being developped on a linux machine. 
+Build Unreal Engine 5 . this game is being developped on a linux machine, but should run no problem on windows.
 
 ## Getting Started
 ### Prerequisites
 
 To use the sources of this project you should know how to compile an Unreal Project from source
-1. Get the Unreal Engine, Either through Github or the Epic Game Launcher.
-2. Clone the repo
+1. Clone the repo
    ```sh
    git clone https://github.com/MadMcCrow/Wicked_Havens.git
    ```
-3. Generate Solution with the project file
+2. Get the Unreal Engine, Either through Github or the Epic Game Launcher.
+   It is available as a submodule of the project if you have linked an Epic Game account to your github account
+   If you do get it via git, remember to call `./Setup.bat` (or `Setup.sh` for linux and MacOs) and `GenerateProjectFiles.bat` (or `GenerateProjectFiles.sh` for Unises).
+3. Generate Solution : you can do so with our python script
+   ```sh
+   python ./GenerateProjectFiles.py
+   ```
 4. Compile sources
+   be patient, It can take a while, especially if you're building the engine
 5. Launch the editor
+   On linux, You can use the bash script to start it faster.
+   ```sh
+   sh ./Launch.sh
+   ```
 
 ## Roadmap
 

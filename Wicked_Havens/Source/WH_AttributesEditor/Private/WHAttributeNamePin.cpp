@@ -72,7 +72,7 @@ TSharedRef<SWidget>	SWHAttributeNamePin::GetDefaultValueWidget()
 
 }
 
-void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FString, ESPMode::Fast> String, ESelectInfo::Type Arg)
+void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg)
 {
 	if(GraphPinObj->IsPendingKill())
 	{
