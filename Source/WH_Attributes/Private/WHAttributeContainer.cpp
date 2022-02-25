@@ -3,21 +3,35 @@
 #include "WHAttributeContainer.h"
 #include "WHAttributeSettings.h"
 
+FWHAttributeName::FWHAttributeName()
+{
+	// BAD!
+}
+
 FWHAttributeName::FWHAttributeName(const FName& AttributeName)
 {
 	if (const auto AttributeSettings = GetDefault<UWHAttributeSettings>())
 	{
-		EnumValue = AttributeSettings->GetValueForName(AttributeName);
+		UniqueID = AttributeSettings->GetIDForName(AttributeName);
 	}
+}
+
+FWHAttributeName::FWHAttributeName(const FWHAttributeName& InAttribute)
+{
+	Name		= InAttribute.Name;
+	UniqueID	= InAttribute.UniqueID;
+}
+
+FWHAttributeName& FWHAttributeName::operator=(const FWHAttributeName& Other)
+{
+	Name		= Other.Name;
+	UniqueID	= Other.UniqueID;
+	return *this;
 }
 
 FWHAttributeName::operator FName() const
 {
-	if (const auto AttributeSettings = GetDefault<UWHAttributeSettings>())
-	{
-		return AttributeSettings->GetNameForValue(EnumValue);
-	}
-	return NAME_None;
+	return Name; // Do checks ?
 }
 
 void FWHAttribute::PostReplicatedAdd(const FWHAttributeContainer& InArraySerializer) const

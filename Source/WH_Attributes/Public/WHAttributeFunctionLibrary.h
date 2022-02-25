@@ -16,17 +16,9 @@ class WH_ATTRIBUTES_API UWHAttributeFunctionLibrary : public UBlueprintFunctionL
 	GENERATED_BODY()
 public:
 
-	/**	Get the attributes as UEnum	 */
-	UFUNCTION(BlueprintPure, Category="Attributes")
-	static UEnum* GetAttributeEnum();
-
-	/**	Get the attributes as UEnum	 */
+	/**	Get the description of an attribute (for gameplay reasons)	 */
 	UFUNCTION(BlueprintPure, Category="Attributes")
 	static FText GetAttributeDescription();
-
-	/**	Get the attributes as UEnum	 */
-	UFUNCTION(BlueprintPure, Category="Attributes")
-	static int64 GetAttributeIndex();
 
 	/**	Make and Break Functions for AttributeContainer */
 	UFUNCTION(BlueprintCallable, Category="Attributes|Containers", meta = (NativeBreakFunc))
@@ -36,15 +28,9 @@ public:
 
 	/**	Make and Break Functions for Attribute */
 	UFUNCTION(BlueprintCallable, Category="Attributes", meta = (NativeBreakFunc))
-	static void BreakAttribute(const FWHAttribute& Attribute, FName &AttributeName, FWHAttributeValue &AttributeValue);
+	static void BreakAttribute(const FWHAttribute& Attribute, FName &FWHAttributeName, FWHAttributeValue &AttributeValue);
 	UFUNCTION(BlueprintPure, Category="Attributes", meta = (NativeMakeFunc))
-	static void MakeAttribute(const FName &AttributeName, const FWHAttributeValue &AttributeValue, FWHAttribute& Attribute);
-
-	/**	Get/Set Attribute as float */
-	UFUNCTION(BlueprintCallable, Category="Attributes|Float")
-	static void GetAttributeAsFloat(const FWHAttribute& Attribute, float &Value);
-	UFUNCTION(BlueprintPure, Category="Attributes|Float")
-	static void SetAttributeAsFloat(FWHAttribute& Attribute,const float &Value);
+	static void MakeAttribute(FWHAttributeName AttributeName, FWHAttributeValue AttributeValue, FWHAttribute& Attribute);
 
 
 };

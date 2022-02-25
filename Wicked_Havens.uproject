@@ -46,6 +46,14 @@
 			]
 		},
 		{
+			"Name": "WH_AttributesEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
 			"Name": "WH_Camera",
 			"Type": "Runtime",
 			"LoadingPhase": "PostDefault",

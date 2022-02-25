@@ -8,30 +8,36 @@
 
 
 /**
- *	@class UWHItemSettings
- *	@brief A simple way to set @see UWHItemSubsystem Items.
+ *	@class UWHAttributeSettings
+ *	@brief Store and helps generate all the attribute names and GUIDs
  */
-UCLASS(ClassGroup=(WH), config=Game, meta=(DisplayName=AttributeSettings), Category="Attributes", MinimalAPI)
-class UWHAttributeSettings : public UDeveloperSettings
+UCLASS(ClassGroup=(WH), config=Game, Category="Attributes")
+class WH_ATTRIBUTES_API UWHAttributeSettings : public UDeveloperSettings
 {
     GENERATED_BODY()
 
 
 public:
+	// CTR !
+	UWHAttributeSettings();
 
-	/**	Get the attributes as UEnum	 */
-	UEnum* GetAttributeEnum() const;
-
-	int64 GetValueForName(const FName& InName) const;
-	FName GetNameForValue(const int64& InValue) const;
+	FGuid GetIDForName(const FName& Name) const;
+	FName GetNameForID(const FGuid& GUID) const;
+	void GetAllNames(TArray<FName>&OutNames) const;
 
 protected:
 
     /**
-     *	An enum containing all the different attributes to use in Wicked Havens
+     *	A Datatable containing all the different attributes to use in Wicked Havens
      */
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes", meta=(AllowedClasses="Enum"))
-    FSoftObjectPath AttributesEnum;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes",  meta=(AllowedClasses="DataTable", RequiredAssetDataTags = "RowStructure=WHAttributeDefinition"))
+    FSoftObjectPath AttributesDataTable;
 
+	/**
+	 *	Attributes from @see AttributesDataTable, but easily fetched
+	 *	Please don't make a joke about my attributes being private
+	 */
+	TMap<FGuid, FName> PrivateAttributes;
+	TMap<FName, FGuid> ReversedPrivateAttributes;
 
 };
