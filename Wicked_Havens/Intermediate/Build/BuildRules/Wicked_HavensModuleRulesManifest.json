@@ -1,0 +1,15 @@
+{
+	"SourceFiles": [
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/WH_AI/WH_AI.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/WH_Attributes/WH_Attributes.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/WH_AttributesEditor/WH_AttributesEditor.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/WH_Camera/WH_Camera.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/WH_Character/WH_Character.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/WH_Core/WH_Core.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/WH_Items/WH_Items.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/Wicked_Havens/Wicked_Havens.Build.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/Wicked_Havens.Target.cs",
+		"/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/Wicked_HavensEditor.Target.cs"
+	],
+	"EngineVersion": "5.0.0"
+}

@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Wicked_Havens",
+			"Path": "/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/Wicked_Havens.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "Wicked_HavensEditor",
+			"Path": "/home/documents/Projets/UnrealEngine/Wicked_Havens/Wicked_Havens/Source/Wicked_HavensEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
