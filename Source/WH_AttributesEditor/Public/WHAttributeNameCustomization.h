@@ -35,6 +35,6 @@ private:
 	/** Get GUID to display */
 	FText GetAttributeGUID() const;
 
-	void OnAttributeChanged(TSharedPtr<FString, ESPMode::Fast> String, ESelectInfo::Type Arg) const;
+	void OnAttributeChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg) const;
 
 };

@@ -37,7 +37,7 @@ void FWHAttributeNameCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> 
 			.OptionsSource(&AttributeNamesStrings)
 			//.ComboBoxStyle()
 			.OnSelectionChanged(this, &FWHAttributeNameCustomization::OnAttributeChanged)
-			.InitiallySelectedItem(TSharedPtr<FString>(&EmptyString))
+			.InitiallySelectedItem(TSharedPtr<FString, ESPMode::ThreadSafe>(&EmptyString))
 			.Content()
 				[
 				SNew(STextBlock)
@@ -81,7 +81,7 @@ void FWHAttributeNameCustomization::UpdateFromAttributeList()
 	for (auto NameItr: AttributeNames)
 	{
 		// not sure about this :/
-		AttributeNamesStrings.Add(TSharedPtr<FString>(&AttributeStrings.Add_GetRef(NameItr.ToString())));
+		AttributeNamesStrings.Add(TSharedPtr<FString, ESPMode::ThreadSafe>(&AttributeStrings.Add_GetRef(NameItr.ToString())));
 	}
 }
 
@@ -106,7 +106,8 @@ FText FWHAttributeNameCustomization::GetAttributeGUID() const
 	return ErrorText;
 }
 
-void FWHAttributeNameCustomization::OnAttributeChanged(TSharedPtr<FString, ESPMode::Fast> String, ESelectInfo::Type Arg) const
+
+void FWHAttributeNameCustomization::OnAttributeChanged(TSharedPtr<FString, ESPMode::ThreadSafe> String, ESelectInfo::Type Arg) const
 {
 	const auto Name = FName(*(String.Get()));
 	const FWHAttributeName FoundAttribute = FWHAttributeName(Name);

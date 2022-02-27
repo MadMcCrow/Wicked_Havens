@@ -50,7 +50,7 @@ TSharedRef<SWidget>	SWHAttributeNamePin::GetDefaultValueWidget()
    			SNew(SSearchableComboBox)
    			.OptionsSource(&AttributeNamesStrings)
    			.OnSelectionChanged(this, &SWHAttributeNamePin::OnAttributeChanged)
-   			.InitiallySelectedItem(TSharedPtr<FString>(&EmptyString))
+   			.InitiallySelectedItem(TSharedPtr<FString, ESPMode::ThreadSafe>(&EmptyString))
    			.Content()
    				[
    				SNew(STextBlock)
@@ -72,7 +72,7 @@ TSharedRef<SWidget>	SWHAttributeNamePin::GetDefaultValueWidget()
 
 }
 
-void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FString, ESPMode::Fast> String, ESelectInfo::Type Arg)
+void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FString,ESPMode::ThreadSafe> String, ESelectInfo::Type Arg)
 {
 	if(GraphPinObj->IsPendingKill())
 	{
@@ -104,7 +104,7 @@ void SWHAttributeNamePin::UpdateFromAttributeList()
 	for (auto NameItr: AttributeNames)
 	{
 		// not sure about this :/
-		AttributeNamesStrings.Add(TSharedPtr<FString>(&AttributeStrings.Add_GetRef(NameItr.ToString())));
+		AttributeNamesStrings.Add(TSharedPtr<FString,ESPMode::ThreadSafe>(&AttributeStrings.Add_GetRef(NameItr.ToString())));
 	}
 
 }
@@ -126,14 +126,14 @@ FText SWHAttributeNamePin::GetAttributeGUID() const
 }
 
 
-TSharedPtr<class SGraphPin> FWHAttributeNamePinFactory::CreatePin(class UEdGraphPin* InPin) const
+TSharedPtr<class SGraphPin, ESPMode::ThreadSafe> FWHAttributeNamePinFactory::CreatePin(class UEdGraphPin* InPin) const
 {
 	if (InPin->PinType.PinCategory == UEdGraphSchema_K2::PC_Struct)
 	{
 		const UScriptStruct* AttributeNameStruct = TBaseStructure<FWHAttributeName>::Get();
 		if (InPin->PinType.PinSubCategoryObject == AttributeNameStruct)
 		{
-			TSharedPtr<SGraphPin> K2PinWidget = SNew(SWHAttributeNamePin, InPin);
+			TSharedPtr<SGraphPin,ESPMode::ThreadSafe> K2PinWidget = SNew(SWHAttributeNamePin, InPin);
 			if (K2PinWidget.IsValid())
 			{
 				return K2PinWidget;

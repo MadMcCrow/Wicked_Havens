@@ -21,27 +21,31 @@ public class WH_AttributesEditor : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"UnrealEd",
 				"Core",
 				"CoreUObject",
+				"SlateCore",
+				"Slate",
+				"UnrealEd",
 				"Engine",
+				"EditorWidgets",
+				"ToolWidgets",
 				"WH_Attributes"
 			}
 			);
 
+	
 
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"SlateCore",
-				"Slate",
 				"EditorStyle",
+				"EditorFramework",
 				"PropertyEditor",
 				"BlueprintGraph",
 				"GraphEditor",
-				"DeveloperSettings",
-				"EditorWidgets",
-				"Engine"
+				"InputCore",
+
+				"DeveloperSettings"
 			}
 			);
 

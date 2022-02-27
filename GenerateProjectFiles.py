@@ -15,5 +15,7 @@ if platform.system() == "Linux":
 if platform.system() == "Windows":
     cmd ='\"{0}\\Engine\\Binaries\\DotNET\\UnrealBuildTool\\UnrealBuildTool.exe\" -projectfiles -project=\"{1}\" -game -rocket -progress'.format(str(ue_path),str(project))
 
+
+print("Setting up {}, with Engine located at {}:".format(str(project), str(ue_path)))
 subprocess.call(shlex.split(cmd))
 

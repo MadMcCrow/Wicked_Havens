@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/NetSerialization.h"
+#include "Misc/Guid.h"
 #include "WHAttributeContainer.generated.h"
 
 struct FWHAttributeName;
@@ -49,8 +50,8 @@ public:
 	FORCEINLINE bool operator==(const FWHAttributeName& Other) const {return UniqueID == Other.UniqueID;}
 
 	// Friendly functions, yeah !
-	FORCEINLINE friend uint32 GetTypeHash(const FWHAttributeName& Item)	{return GetTypeHash(Item.UniqueID);}
-	friend FArchive& operator<<(FArchive& Ar, FWHAttributeName Name ){	return Ar << Name.UniqueID;}
+	FORCEINLINE friend uint32 GetTypeHash(const FWHAttributeName& Item)		{return GetTypeHash(Item.UniqueID);}
+	friend FArchive& operator<<(FArchive& Ar, FWHAttributeName& AttrName) { AttrName.UniqueID.Serialize(Ar); return Ar;}
 
 	explicit operator FName() const;
 
@@ -101,8 +102,8 @@ public:
  *	Specifically adapted to fast replication
  */
 USTRUCT(BlueprintType, Category = "Attributes",
-	 meta = (	HasNativeBreak = "WH_Attributes.WHAttributesLibrary.BreakAttribute",
-				 HasNativeMake  = "WH_Attributes.WHAttributesLibrary.MakeAttribute"))
+	 meta = (	HasNativeBreak = "WH_Attributes.WHAttributeFunctionLibrary.BreakAttribute",
+				 HasNativeMake = "WH_Attributes.WHAttributeFunctionLibrary.MakeAttribute"))
 struct FWHAttribute : public FFastArraySerializerItem
 {
 	GENERATED_BODY()
@@ -148,8 +149,8 @@ struct FWHAttribute : public FFastArraySerializerItem
  *	@todo Break and Make functions
  */
 USTRUCT(BlueprintType, Category = "Attributes",
-	 meta = (	HasNativeBreak = "WH_Attributes.WHAttributesLibrary.BreakAttributeContainer",
-	 			HasNativeMake  = "WH_Attributes.WHAttributesLibrary.MakeAttributeContainer"))
+	 meta = (	HasNativeBreak = "WH_Attributes.WHAttributeFunctionLibrary.BreakAttributeContainer",
+	 			HasNativeMake  = "WH_Attributes.WHAttributeFunctionLibrary.MakeAttributeContainer"))
 struct WH_ATTRIBUTES_API FWHAttributeContainer : public FFastArraySerializer
 {
 	GENERATED_BODY()

@@ -22,7 +22,8 @@ struct WH_ITEMS_API FWHInventoryItem : public FFastArraySerializerItem
 	GENERATED_BODY()
 	friend struct FWHInventory;
 
-private:
+public:
+
 	/**
 	 *	CTR : Count will be zero if invalid item is passed
 	 *	zero count item will not be added, nor replicated
@@ -33,10 +34,12 @@ private:
 	{
 	}
 
-public:
-
-	// this won't be valid, so don't bother
-	FWHInventoryItem() = default;
+	// Default CTR 
+	FWHInventoryItem() 
+	: Item(nullptr)
+	, Count(0)
+	{
+	}
 
 	/** The exact item we have @see UWHItem */
 	UPROPERTY()
@@ -48,7 +51,7 @@ public:
 
 	/** Called by NetSerialize of FWHInventory */
 	void Serialize(FArchive& Ar);
-	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHInventoryItem Item ){Item.Serialize(Ar); return Ar;}
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHInventoryItem &InvItem ) { InvItem.Serialize(Ar); return Ar;}
 
 	/**
 	 * Optional functions for client side notification of changes to items;

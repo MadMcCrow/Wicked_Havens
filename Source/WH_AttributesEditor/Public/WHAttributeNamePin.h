@@ -22,23 +22,23 @@ public:
 	void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj);
 	virtual TSharedRef<SWidget>	GetDefaultValueWidget() override;
 	virtual FSlateColor GetPinColor() const override {return FSlateColor(FColor::Silver);}
-	void OnAttributeChanged(TSharedPtr<FString, ESPMode::Fast> String, ESelectInfo::Type Arg);
+	void OnAttributeChanged(TSharedPtr<FString,ESPMode::ThreadSafe> String, ESelectInfo::Type Arg);
 private:
 
 	void UpdateFromAttributeList();
 
 	/** The Attribute names */
-	TArray<TSharedPtr<FString>> AttributeNamesStrings;
+	TArray<TSharedPtr<FString,ESPMode::ThreadSafe>> AttributeNamesStrings;
 
 	/** Get GUID to display */
 	FText GetAttributeGUID() const;
 
-	TSharedPtr<FWHAttributeName> CurrentAttribute;
+	TSharedPtr<FWHAttributeName,ESPMode::ThreadSafe> CurrentAttribute;
 };
 
 
 class FWHAttributeNamePinFactory : public FGraphPanelPinFactory
 {
-	virtual TSharedPtr<class SGraphPin> CreatePin(class UEdGraphPin* InPin) const override;
+	virtual TSharedPtr<class SGraphPin,ESPMode::ThreadSafe> CreatePin(class UEdGraphPin* InPin) const override;
 
 };

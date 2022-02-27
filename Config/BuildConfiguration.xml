@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
+<ProjectFileGenerator>
+    <!-- for now, until Rider is fully useable on linux, use VisualStudioCode as accessor -->
+    <Format>VisualStudioCode</Format>
+</ProjectFileGenerator>
+<LocalExecutor>
+    <!-- Set hard limit on thread count -->
+    <MaxProcessorCount>8</MaxProcessorCount>
+</LocalExecutor>
+ <BuildConfiguration>
+    <!-- Custom Build config :  -->
+    <bUseUBTMakefiles>true</bUseUBTMakefiles>
+    <bUsePCHFiles>true</bUsePCHFiles>
+</Configuration>
