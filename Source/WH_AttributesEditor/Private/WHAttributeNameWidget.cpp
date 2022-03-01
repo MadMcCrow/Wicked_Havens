@@ -7,6 +7,11 @@
 
 #define LOCTEXT_NAMESPACE "SWHAttributeNameWidget"
 
+TSharedRef<SWidget> SWHAttributeNameWidget::MakeComboEntryWidget(TSharedPtr<FString> InString) const
+{
+	return SNew(STextBlock).Text(FText::FromString(*InString.Get()));
+}
+
 void SWHAttributeNameWidget::Construct(const FArguments& InArgs)
 {
 	// Set
@@ -23,11 +28,12 @@ void SWHAttributeNameWidget::Construct(const FArguments& InArgs)
 		SNew(SSearchableComboBox)
 		.OptionsSource(&AttributeNameOptions)
 		.OnSelectionChanged(this, &SWHAttributeNameWidget::OnTextSelectionChanged)
-		.InitiallySelectedItem(GetNameDisplayString())
+		.OnGenerateWidget(this, &SWHAttributeNameWidget::MakeComboEntryWidget)
+		.InitiallySelectedItem(MakeShared<FString>(DisplayedString))
 		.Content()
 		[
 			SNew(STextBlock)
-			.Text(LOCTEXT("AttributeName", "Attribute Name"))
+			.Text(this, &SWHAttributeNameWidget::GetTextDisplayString)
 			.Font(IDetailLayoutBuilder::GetDetailFont())
 		]
 	];
@@ -83,17 +89,14 @@ void SWHAttributeNameWidget::OnTextSelectionChanged(TSharedPtr<FString> String, 
 {
 	if (String.IsValid())
 	{
-		if (Set(FWHAttributeName(FName(*String.Get()))))
+		const FString ValueString = String.ToSharedRef().Get();
+		const FWHAttributeName NewAttributeName = FName(ValueString);
+		if (Set(NewAttributeName))
 		{
 			OnSelectionChanged.ExecuteIfBound(MakeShared<FWHAttributeName>(EditedAttributeName), Arg);
 		}
 	}
 
-}
-
-TSharedPtr<FString> SWHAttributeNameWidget::GetNameDisplayString() const
-{
-	return MakeShared<FString>(DisplayedString);
 }
 
 FText SWHAttributeNameWidget::GetGUIDisplayString() const
@@ -103,6 +106,11 @@ FText SWHAttributeNameWidget::GetGUIDisplayString() const
 		return FText::FromString(EditedAttributeName.IDString());
 	}
 	return LOCTEXT("InvalidAttributeNameGUID", "Invalid Attribute Name");
+}
+
+FText SWHAttributeNameWidget::GetTextDisplayString() const
+{
+	return FText::FromString(DisplayedString);
 }
 
 #undef LOCTEXT_NAMESPACE

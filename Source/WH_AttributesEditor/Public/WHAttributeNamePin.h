@@ -3,15 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SlateBasics.h"
 #include "EdGraphUtilities.h"
-#include "SGraphPin.h"
 #include "WHAttributeName.h"
 #include "KismetPins/SGraphPinObject.h"
 
+class SWHAttributeNameWidget;
 
-struct FWHAttributeName;
-
+/**
+ *	@class FWHAttributeNameCustomization
+ *	Editor Property customisation for attribute name
+ *	@see @struct FWHAttributeName
+ *	@see @class SWHAttributeNameWidget
+ */
 class SWHAttributeNamePin : public SGraphPinObject
 {
 public:

@@ -6,11 +6,14 @@
 #include "WHAttributeName.h"
 #include "Widgets/SBoxPanel.h"
 
-
+/**
+ *	@class SWHAttributeNameWidget
+ *	An editor widget to display an attribute name for editing by the user
+ *	@see @struct FWHAttributeName
+ */
 class SWHAttributeNameWidget : public SVerticalBox
 {
 public:
-	//DECLARE_DELEGATE_OneParam(FOnAttributeNameChanged, FWHAttributeName);
 	typedef typename TSlateDelegates< TSharedPtr<FWHAttributeName> >::FOnSelectionChanged FOnAttributeSelectionChanged;
 
 	SLATE_BEGIN_ARGS(SWHAttributeNameWidget)
@@ -34,22 +37,31 @@ public:
 
 
 private:
-
+	// Calls the settings to obtain a list of all the Attributes currently available
 	void UpdateAttributeOptions();
 
 	// Internal Edited Attribute :
 	FWHAttributeName EditedAttributeName;
 
-	TArray<TSharedPtr<FString>> AttributeNameOptions;
+	// Stores the Attribute options
 	TArray<FString> AttributeNameOptionStrings;
+	// Store pointers to the strings just before.
+	TArray<TSharedPtr<FString>> AttributeNameOptions;
 
 	// Stored here to give pointer to it
 	FString DisplayedString;
 
+	// Called when user selects an entry
 	void OnTextSelectionChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg);
 
-	TSharedPtr<FString> GetNameDisplayString() const;
+	// Called when we need to generate entries
+	TSharedRef<SWidget> MakeComboEntryWidget(TSharedPtr<FString> InString) const;
+
+	// return the Selected Attribute GUID (as text for widget callback)
 	FText GetGUIDisplayString() const;
+
+	// return DisplayedString  (as text for widget callback)
+	FText GetTextDisplayString() const;
 
 	/** Delegate that is invoked when the selected item in the combo box changes */
 	FOnAttributeSelectionChanged OnSelectionChanged;

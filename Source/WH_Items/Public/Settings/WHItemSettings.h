@@ -16,13 +16,17 @@ class UWHItemSettings : public UDeveloperSettings
     GENERATED_BODY()
 	friend class UWHItemSubsystem;
 
+public:
+
+	// Category override :
+	virtual FName GetCategoryName() const override {return FName("Wicked Havens");}
 protected:
 
     /**
      *	A datatable containing all the items
      *	@todo : make an array of those, allow for different DLCs etc...
      */
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Items", meta=(AllowedClasses="DataTable", RequiredAssetDataTags = "RowStructure=WHItemTableRow"))
+    UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category="Items", meta=(AllowedClasses="DataTable", RequiredAssetDataTags = "RowStructure=WHItemTableRow"))
     FSoftObjectPath ItemDatatable;
 
 	/** Will load async @see ItemDatatable, and call a FSimpleDelegate on completion */

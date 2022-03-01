@@ -15,12 +15,17 @@ UWHAttributeSettings::UWHAttributeSettings() : Super()
 
 void UWHAttributeSettings::Initialize()
 {
+	// Empty our maps before :
+	PrivateAttributes.Empty();
+	ReversedPrivateAttributes.Empty();
+
+	//Read our maps
 	if (auto DTB = Cast<UDataTable>(AttributesDataTable.TryLoad()))
 	{
 		DTB->ForeachRow<FWHAttributeDefinition>(TEXT("UWHAttributeSettings"),
 			[this](const FName& RowName, const FWHAttributeDefinition& AttributeDefinition)
 			{
-				const auto GUID = FGuid::NewGuid(); // TODO : make sure we always get the same GUID
+				const auto GUID = GetGUIDForEntry(RowName, AttributeDefinition);
 				PrivateAttributes.Add(GUID, RowName);
 				ReversedPrivateAttributes.Add(RowName, GUID);
 			});
@@ -45,17 +50,26 @@ FName UWHAttributeSettings::GetNameForID(const FGuid& GUID) const
 	return FName();
 }
 
+#if WITH_EDITOR
 void UWHAttributeSettings::GetAllNames(TArray<FName>& OutNames) const
 {
+	if (const auto Settings = GetMutableDefault<UWHAttributeSettings>())
+		Settings->Initialize();
 	PrivateAttributes.GenerateValueArray(OutNames);
 }
 
-#if WITH_EDITOR
+
+void UWHAttributeSettings::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	Initialize();
+}
+
 void UWHAttributeSettings::PostInitProperties()
 {
 	Super::PostInitProperties();
-	Initialize();
 	OnObjectPreSaveDelegate = FCoreUObjectDelegates::OnObjectPreSave.AddUObject(this, &UWHAttributeSettings::OnObjectPreSave);
+	Initialize();
 }
 
 void UWHAttributeSettings::OnObjectPreSave(UObject* ModifiedObject, FObjectPreSaveContext Context)
@@ -79,3 +93,14 @@ void UWHAttributeSettings::OnObjectPreSave(UObject* ModifiedObject, FObjectPreSa
 	}
 }
 #endif //WITH_EDITOR
+
+FGuid UWHAttributeSettings::GetGUIDForEntry(const FName EntryName, const FWHAttributeDefinition& Definition) const
+{
+	if (auto DTB = Cast<UDataTable>(AttributesDataTable.TryLoad()))
+	{
+		FGuid Retval = FGuid::NewGuid();
+		Retval.A = DTB->GetRowNames().Find(EntryName);
+		return Retval;
+	}
+	return FGuid::NewGuid();// TODO : make sure we always get the same GUID
+}

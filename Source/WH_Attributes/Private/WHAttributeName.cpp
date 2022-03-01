@@ -12,7 +12,8 @@ FWHAttributeName::FWHAttributeName(const FName& AttributeName)
 {
 	if (const auto AttributeSettings = GetDefault<UWHAttributeSettings>())
 	{
-		UniqueID = AttributeSettings->GetIDForName(AttributeName);
+		UniqueID	= AttributeSettings->GetIDForName(AttributeName);
+		Name		= AttributeSettings->GetNameForID(UniqueID);
 	}
 }
 

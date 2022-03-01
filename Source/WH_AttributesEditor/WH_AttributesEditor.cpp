@@ -21,8 +21,10 @@ void FWH_AttributesEditor::StartupModule()
 
 void FWH_AttributesEditor::ShutdownModule()
 {
-	// unregister SoftItemPath custom editor layout
+	// unregister WHAttributeName custom editor layout
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.UnregisterCustomPropertyTypeLayout("WHAttributeName");
+
+	// Unregister WHAttributeName custom pin factory
 	FEdGraphUtilities::UnregisterVisualPinFactory(WHAttributeNamePinFactory);
 }

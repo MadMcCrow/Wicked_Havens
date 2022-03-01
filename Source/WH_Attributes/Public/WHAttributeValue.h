@@ -30,6 +30,7 @@ public:
 	 *	Ideally we would store the data another way
 	 *	Because Variant are really limited as a type
 	 *	(for instance, no array, no FText, etc...)
+	 *	TODO: have an array of UINT8 and fast serialize it.
 	 */
 	FVariant StoredValue;
 

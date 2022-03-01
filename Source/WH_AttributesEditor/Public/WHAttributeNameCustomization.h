@@ -6,7 +6,14 @@
 #include "IPropertyTypeCustomization.h"
 
 struct FWHAttributeName;
+class SWHAttributeNameWidget;
 
+/**
+ *	@class FWHAttributeNameCustomization
+ *	Editor Property customisation for attribute name
+ *	@see @struct FWHAttributeName
+ *	@see @class SWHAttributeNameWidget
+ */
 class FWHAttributeNameCustomization : public IPropertyTypeCustomization, public FEditorUndoClient
 {
 public:
