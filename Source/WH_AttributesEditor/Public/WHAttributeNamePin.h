@@ -6,6 +6,7 @@
 #include "SlateBasics.h"
 #include "EdGraphUtilities.h"
 #include "SGraphPin.h"
+#include "WHAttributeName.h"
 #include "KismetPins/SGraphPinObject.h"
 
 
@@ -33,7 +34,8 @@ private:
 	/** Get GUID to display */
 	FText GetAttributeGUID() const;
 
-	TSharedPtr<FWHAttributeName,ESPMode::ThreadSafe> CurrentAttribute;
+	/** Attribute Name pin */
+	FWHAttributeName DefaultAttributeName;
 };
 
 

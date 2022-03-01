@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "IPropertyTypeCustomization.h"
-//#include "WHAttributeCustomization.generated.h"
 
+struct FWHAttributeName;
 
 class FWHAttributeNameCustomization : public IPropertyTypeCustomization, public FEditorUndoClient
 {
@@ -26,15 +26,7 @@ private:
 	 */
 	TSharedPtr<IPropertyHandle> AttributeNamePropertyHandle;
 
-	/** The Attribute names */
-	TArray<TSharedPtr<FString>> AttributeNamesStrings;
-
-	/** Called when list of attributes change */
-	void UpdateFromAttributeList();
-
-	/** Get GUID to display */
-	FText GetAttributeGUID() const;
-
-	void OnAttributeChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg) const;
+	// Called when changed Attribute
+	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewName, ESelectInfo::Type Arg) const;
 
 };

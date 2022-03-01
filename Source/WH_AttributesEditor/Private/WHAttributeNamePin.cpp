@@ -5,7 +5,7 @@
 #include "WHAttributeSettings.h"
 #include "DetailLayoutBuilder.h"
 #include "NodeFactory.h"
-#include "SSearchableComboBox.h"
+#include "WHAttributeNameWidget.h"
 
 #define LOCTEXT_NAMESPACE "WHAttributeNamePin"
 
@@ -43,33 +43,7 @@ TSharedRef<SWidget>	SWHAttributeNamePin::GetDefaultValueWidget()
 
 
 	auto EmptyString =  FName(NAME_None).ToString();
-	return	SNew(SVerticalBox)
-   			+ SVerticalBox::Slot()
-   			.AutoHeight()
-   			[
-   			SNew(SSearchableComboBox)
-   			.OptionsSource(&AttributeNamesStrings)
-   			.OnSelectionChanged(this, &SWHAttributeNamePin::OnAttributeChanged)
-   			.InitiallySelectedItem(TSharedPtr<FString, ESPMode::ThreadSafe>(&EmptyString))
-   			.Content()
-   				[
-   				SNew(STextBlock)
-   				.Text(LOCTEXT("AttributeName", "Attribute Name"))
-   				.Font(IDetailLayoutBuilder::GetDetailFont())
-   				]
-   			]
-   			+ SVerticalBox::Slot()
-   			.AutoHeight()
-   			[
-   				// Add an object entry box.  Even though this isn't an object entry, we will simulate one
-   				SNew(SEditableTextBox)
-   				.Text(this, &SWHAttributeNamePin::GetAttributeGUID)
-   				.IsEnabled(false)
-   				.Font(IDetailLayoutBuilder::GetDetailFont())
-   			];
-
-	///return SGraphPinObject::GetDefaultValueWidget();
-
+	return	SNew(SWHAttributeNameWidget).AtributeName(DefaultAttributeName);
 }
 
 void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FString,ESPMode::ThreadSafe> String, ESelectInfo::Type Arg)
@@ -80,11 +54,11 @@ void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FString,ESPMode::ThreadS
 	}
 
 	const FString TypeValueString = *String.Get();
-	CurrentAttribute = MakeShared<FWHAttributeName>(FWHAttributeName(FName(TypeValueString)));
+	DefaultAttributeName = FWHAttributeName(FName(TypeValueString));
 	if (GraphPinObj->GetDefaultAsString() != TypeValueString)
 	{
 		GraphPinObj->Modify();
-		GraphPinObj->GetSchema()->TrySetDefaultValue(*GraphPinObj, CurrentAttribute->GetName().ToString());
+		GraphPinObj->GetSchema()->TrySetDefaultValue(*GraphPinObj, DefaultAttributeName.GetName().ToString());
 	}
 }
 
@@ -114,15 +88,12 @@ FText SWHAttributeNamePin::GetAttributeGUID() const
 {
 
 	static const FText ErrorText = LOCTEXT("InvalidWHAttributeName", "Invalid Attribute Name");
-	/*
+
 	if(GraphPinObj->IsPendingKill())
 	{
 		return ErrorText;
 	}
-
-	return FText::FromString(CurrentAttribute->IDString());
-	*/
-	return ErrorText;
+	return FText::FromString(DefaultAttributeName.GetName().ToString());
 }
 
 
