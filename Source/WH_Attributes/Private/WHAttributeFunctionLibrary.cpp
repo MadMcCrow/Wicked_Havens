@@ -19,9 +19,9 @@ void UWHAttributeFunctionLibrary::MakeAttributeContainer(const TArray<FWHAttribu
 	AttributeContainer.InitAttributes(Attributes);
 }
 
-void UWHAttributeFunctionLibrary::BreakAttribute(const FWHAttribute& Attribute, FName &AttributeName, FWHAttributeValue &AttributeValue)
+void UWHAttributeFunctionLibrary::BreakAttribute(const FWHAttribute& Attribute, FWHAttributeName &AttributeName, FWHAttributeValue &AttributeValue)
 {
-	AttributeName  = FName(Attribute.Name);
+	AttributeName  = Attribute.Name;
 	AttributeValue = Attribute.Value;
 }
 

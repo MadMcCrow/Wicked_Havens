@@ -104,3 +104,5 @@ FText SWHAttributeNameWidget::GetGUIDisplayString() const
 	}
 	return LOCTEXT("InvalidAttributeNameGUID", "Invalid Attribute Name");
 }
+
+#undef LOCTEXT_NAMESPACE

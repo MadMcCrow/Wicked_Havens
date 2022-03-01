@@ -12,7 +12,7 @@
 
 void SWHAttributeNamePin::Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj)
 {
-	AttributeNamesStrings.Empty();
+	bOnlyShowDefaultValue = false;
 	SGraphPinObject::Construct(SGraphPinObject::FArguments(), InGraphPinObj);
 }
 
@@ -42,58 +42,33 @@ TSharedRef<SWidget>	SWHAttributeNamePin::GetDefaultValueWidget()
 	}
 
 
-	auto EmptyString =  FName(NAME_None).ToString();
-	return	SNew(SWHAttributeNameWidget).AtributeName(DefaultAttributeName);
+	return	SNew(SWHAttributeNameWidget)
+	.AtributeName(DefaultAttributeName)
+	.Visibility( this, &SGraphPinObject::GetDefaultValueVisibility )
+	.OnSelectionChanged(this, &SWHAttributeNamePin::OnAttributeChanged);
 }
 
-void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FString,ESPMode::ThreadSafe> String, ESelectInfo::Type Arg)
+void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName, ESelectInfo::Type Arg)
 {
 	if(GraphPinObj->IsPendingKill())
 	{
 		return;
 	}
 
-	const FString TypeValueString = *String.Get();
-	DefaultAttributeName = FWHAttributeName(FName(TypeValueString));
-	if (GraphPinObj->GetDefaultAsString() != TypeValueString)
+	// Update value :
+	DefaultAttributeName = *NewAttributeName.Get();
+
+	// Set default value from that string representation
+	if (GraphPinObj->GetDefaultAsString() != GetAttributeNameAsString())
 	{
 		GraphPinObj->Modify();
-		GraphPinObj->GetSchema()->TrySetDefaultValue(*GraphPinObj, DefaultAttributeName.GetName().ToString());
+		GraphPinObj->GetSchema()->TrySetDefaultValue(*GraphPinObj, GetAttributeNameAsString());
 	}
 }
 
-
-void SWHAttributeNamePin::UpdateFromAttributeList()
+FString SWHAttributeNamePin::GetAttributeNameAsString() const
 {
-
-	TArray<FName> AttributeNames;
-	TArray<FString> AttributeStrings;
-	if (auto Settings = GetDefault<UWHAttributeSettings>())
-	{
-		Settings->GetAllNames(AttributeNames);
-	}
-	// Add none as an option, and make that first !
-	AttributeNames.Insert(NAME_None, 0);
-	// Add all names as strings
-	for (auto NameItr: AttributeNames)
-	{
-		// not sure about this :/
-		AttributeNamesStrings.Add(TSharedPtr<FString,ESPMode::ThreadSafe>(&AttributeStrings.Add_GetRef(NameItr.ToString())));
-	}
-
-}
-
-
-FText SWHAttributeNamePin::GetAttributeGUID() const
-{
-
-	static const FText ErrorText = LOCTEXT("InvalidWHAttributeName", "Invalid Attribute Name");
-
-	if(GraphPinObj->IsPendingKill())
-	{
-		return ErrorText;
-	}
-	return FText::FromString(DefaultAttributeName.GetName().ToString());
+	return DefaultAttributeName.GetName().ToString();
 }
 
 

@@ -24,7 +24,13 @@ public:
 	FWHAttributeValue& operator=(FWHAttributeValue&&) = default;
 	FWHAttributeValue& operator=(const FWHAttributeValue& RHS) = default;
 
-	// this cannot be a uproperty, I hope it is not too much of a problem :/
+
+	/**
+	 *	For now we store the value with an FVariant
+	 *	Ideally we would store the data another way
+	 *	Because Variant are really limited as a type
+	 *	(for instance, no array, no FText, etc...)
+	 */
 	FVariant StoredValue;
 
 	// useful operations
@@ -35,8 +41,14 @@ public:
 	template<typename T>
 	FWHAttributeValue& operator=(const T &Value)	{StoredValue = Value; return *this;}
 
+	// Set and Get :
+	// TODO: Perform checks  on types :
 	// get as anything
 	template<typename T>
 	operator T() const {return StoredValue;}
+
+	// Set from anything : template constructor
+	template<typename T>
+	FWHAttributeValue(T Value) : StoredValue(Value) {}
 
 };

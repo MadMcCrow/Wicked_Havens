@@ -21,16 +21,19 @@ public:
 	// CTR !
 	UWHAttributeSettings();
 
+	void Initialize();
+
 	FGuid GetIDForName(const FName& Name) const;
 	FName GetNameForID(const FGuid& GUID) const;
 	void GetAllNames(TArray<FName>&OutNames) const;
 
 protected:
 
+
     /**
      *	A Datatable containing all the different attributes to use in Wicked Havens
      */
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes",  meta=(AllowedClasses="DataTable", RequiredAssetDataTags = "RowStructure=WHAttributeDefinition"))
+    UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category="Attributes",  meta=(AllowedClasses="DataTable", RequiredAssetDataTags = "RowStructure=WHAttributeDefinition"))
     FSoftObjectPath AttributesDataTable;
 
 	/**
@@ -39,5 +42,12 @@ protected:
 	 */
 	TMap<FGuid, FName> PrivateAttributes;
 	TMap<FName, FGuid> ReversedPrivateAttributes;
+
+#if WITH_EDITOR
+	virtual void PostInitProperties() override;
+	// On Object PreSave, called from the engine itself
+	void OnObjectPreSave(UObject* ModifiedObject, FObjectPreSaveContext Context);
+	FDelegateHandle OnObjectPreSaveDelegate;
+#endif WITH_EDITOR
 
 };

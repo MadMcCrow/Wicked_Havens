@@ -23,19 +23,15 @@ public:
 	void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj);
 	virtual TSharedRef<SWidget>	GetDefaultValueWidget() override;
 	virtual FSlateColor GetPinColor() const override {return FSlateColor(FColor::Silver);}
-	void OnAttributeChanged(TSharedPtr<FString,ESPMode::ThreadSafe> String, ESelectInfo::Type Arg);
+
 private:
+	/** Called on Attribute name changed  for default value */
+	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName, ESelectInfo::Type Arg);
 
-	void UpdateFromAttributeList();
-
-	/** The Attribute names */
-	TArray<TSharedPtr<FString,ESPMode::ThreadSafe>> AttributeNamesStrings;
-
-	/** Get GUID to display */
-	FText GetAttributeGUID() const;
-
-	/** Attribute Name pin */
+	/** Attribute Name  for pin */
 	FWHAttributeName DefaultAttributeName;
+	/** Turn DefaultAttributeName into a string */
+	FString GetAttributeNameAsString() const;
 };
 
 
