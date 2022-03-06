@@ -15,7 +15,7 @@ class SWHAttributeNameWidget;
  *	@see @struct FWHAttributeName
  *	@see @class SWHAttributeNameWidget
  */
-class SWHAttributeNamePin : public SGraphPinObject
+class SWHAttributeNamePin : public SGraphPin
 {
 public:
 	SLATE_BEGIN_ARGS(SWHAttributeNamePin) {}
@@ -32,9 +32,11 @@ private:
 	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName, ESelectInfo::Type Arg);
 
 	/** Attribute Name  for pin */
-	FWHAttributeName DefaultAttributeName;
+	FWHAttributeName GetDefaultAttributeName() const;
+
 	/** Turn DefaultAttributeName into a string */
 	FString GetAttributeNameAsString() const;
+
 };
 
 

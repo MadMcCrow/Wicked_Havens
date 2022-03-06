@@ -1,9 +1,9 @@
-/* Copyright © Noé Perard-Gayot 2022. */
+ /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "WHAttributeNameWidget.h"
 #include "DetailLayoutBuilder.h"
 #include "SSearchableComboBox.h"
-#include "WHAttributeSettings.h"
+#include "WHAttributeSubsystem.h"
 
 #define LOCTEXT_NAMESPACE "SWHAttributeNameWidget"
 
@@ -14,8 +14,8 @@ TSharedRef<SWidget> SWHAttributeNameWidget::MakeComboEntryWidget(TSharedPtr<FStr
 
 void SWHAttributeNameWidget::Construct(const FArguments& InArgs)
 {
-	// Set
-	Set(InArgs._AtributeName);
+	EditedAttributeName = InArgs._AtributeName;
+
 	OnSelectionChanged = InArgs._OnSelectionChanged;
 
 	// Update attribute suggestion list
@@ -29,11 +29,11 @@ void SWHAttributeNameWidget::Construct(const FArguments& InArgs)
 		.OptionsSource(&AttributeNameOptions)
 		.OnSelectionChanged(this, &SWHAttributeNameWidget::OnTextSelectionChanged)
 		.OnGenerateWidget(this, &SWHAttributeNameWidget::MakeComboEntryWidget)
-		.InitiallySelectedItem(MakeShared<FString>(DisplayedString))
+		.InitiallySelectedItem(MakeShared<FString>(GetDisplayString()))
 		.Content()
 		[
 			SNew(STextBlock)
-			.Text(this, &SWHAttributeNameWidget::GetTextDisplayString)
+			.Text(this, &SWHAttributeNameWidget::GetDisplayStringAsText)
 			.Font(IDetailLayoutBuilder::GetDetailFont())
 		]
 	];
@@ -50,20 +50,6 @@ void SWHAttributeNameWidget::Construct(const FArguments& InArgs)
 		];
 }
 
-bool SWHAttributeNameWidget::Set(const FWHAttributeName& AttributeName)
-{
-	if (AttributeName.IsValid())
-	{
-		EditedAttributeName = AttributeName;
-		DisplayedString		= EditedAttributeName.GetName().ToString();
-		return true;
-	}
-	// invalid :
-	DisplayedString = FString();
-	return false;
-}
-
-
 void SWHAttributeNameWidget::UpdateAttributeOptions()
 {
 	// Attributes stored in Us this :
@@ -72,10 +58,7 @@ void SWHAttributeNameWidget::UpdateAttributeOptions()
 
 	// Settings :
 	TArray<FName> AttributeNames;
-	if (const auto Settings = GetDefault<UWHAttributeSettings>())
-	{
-		Settings->GetAllNames(AttributeNames);
-	}
+	UWHAttributeSubsystem::GetAllNames(AttributeNames);
 
 	// Update from what we found from settings
 	for (const auto &NameItr : AttributeNames)
@@ -90,27 +73,40 @@ void SWHAttributeNameWidget::OnTextSelectionChanged(TSharedPtr<FString> String, 
 	if (String.IsValid())
 	{
 		const FString ValueString = String.ToSharedRef().Get();
-		const FWHAttributeName NewAttributeName = FName(ValueString);
-		if (Set(NewAttributeName))
+		const auto NewAttributeName = FName(ValueString);
+		if (NewAttributeName.IsValid())
 		{
-			OnSelectionChanged.ExecuteIfBound(MakeShared<FWHAttributeName>(EditedAttributeName), Arg);
+			OnSelectionChanged.ExecuteIfBound(MakeShared<FWHAttributeName>(NewAttributeName), Arg);
 		}
 	}
-
 }
 
 FText SWHAttributeNameWidget::GetGUIDisplayString() const
 {
-	if (EditedAttributeName.IsValid())
+	const auto AttributeNameValue = EditedAttributeName.Get();
+	if (AttributeNameValue.IsValid())
 	{
-		return FText::FromString(EditedAttributeName.IDString());
+		return FText::FromString(AttributeNameValue.ExportIDString());
 	}
 	return LOCTEXT("InvalidAttributeNameGUID", "Invalid Attribute Name");
 }
 
-FText SWHAttributeNameWidget::GetTextDisplayString() const
+FString SWHAttributeNameWidget::GetDisplayString() const
 {
-	return FText::FromString(DisplayedString);
+	if (EditedAttributeName.IsSet())
+	{
+		return EditedAttributeName.Get().GetName().ToString();
+	}
+	return FString();
+}
+
+FText SWHAttributeNameWidget::GetDisplayStringAsText() const
+{
+	if (EditedAttributeName.IsSet())
+	{
+		return FText::FromName(EditedAttributeName.Get().GetName());
+	}
+	return LOCTEXT("InvalidAttributeName", "Invalid Attribute Name");
 }
 
 #undef LOCTEXT_NAMESPACE

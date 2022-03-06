@@ -33,7 +33,7 @@ public class WH_AttributesEditor : ModuleRules
 			}
 			);
 
-	
+
 
 		PrivateDependencyModuleNames.AddRange(
 			new string[]
@@ -44,8 +44,8 @@ public class WH_AttributesEditor : ModuleRules
 				"BlueprintGraph",
 				"GraphEditor",
 				"InputCore",
-
-				"DeveloperSettings"
+				"DeveloperSettings",
+				"AppFramework"
 			}
 			);
 

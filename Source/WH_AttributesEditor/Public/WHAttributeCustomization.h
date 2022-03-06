@@ -9,17 +9,17 @@ struct FWHAttributeName;
 class SWHAttributeNameWidget;
 
 /**
- *	@class FWHAttributeNameCustomization
- *	Editor Property customisation for attribute name
+ *	@class FWHAttributeCustomization
+ *	Editor Property customisation for attribute Values
  *	@see @struct FWHAttributeName
  *	@see @class SWHAttributeNameWidget
  */
-class FWHAttributeNameCustomization : public IPropertyTypeCustomization, public FEditorUndoClient
+class FWHAttributeCustomization : public IPropertyTypeCustomization, public FEditorUndoClient
 {
 public:
 	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
 	{
-		return MakeShareable( new FWHAttributeNameCustomization );
+		return MakeShareable( new FWHAttributeCustomization );
 	}
 
 
@@ -31,12 +31,12 @@ private:
 	/**
 	 * Handle to the actual Property being edited (ie the attribute)
 	 */
-	TSharedPtr<IPropertyHandle> AttributeNamePropertyHandle;
+	TSharedPtr<IPropertyHandle> AttributePropertyHandle;
 
-	// Internal Edited Attribute ;
-	FWHAttributeName GetEditedAttributeName() const;
+	// Called when changed Attribute Name part of Attribute
+	void OnAttributeNameChanged(TSharedPtr<FWHAttributeName> NewName, ESelectInfo::Type Arg) const;
 
-	// Called when changed Attribute
-	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewName, ESelectInfo::Type Arg) const;
+	// Called when changed Attribute Name part of Attribute
+	void OnAttributeValueChanged(TSharedPtr<FWHAttributeName> NewName, ESelectInfo::Type Arg) const;
 
 };

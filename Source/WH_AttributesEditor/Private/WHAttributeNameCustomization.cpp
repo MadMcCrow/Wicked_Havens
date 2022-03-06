@@ -1,14 +1,10 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "WHAttributeNameCustomization.h"
-#include "DetailLayoutBuilder.h"
 #include "PropertyCustomizationHelpers.h"
 #include "PropertyHandle.h"
-#include "SSearchableComboBox.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
-#include "WHAttributeContainer.h"
 #include "WHAttributeNameWidget.h"
-#include "WHAttributeSettings.h"
 
 
 #define LOCTEXT_NAMESPACE "WHAttributeNameCustomization"
@@ -32,6 +28,7 @@ void FWHAttributeNameCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> 
 		[
 			SNew(SWHAttributeNameWidget)
 			.OnSelectionChanged(this,  &FWHAttributeNameCustomization::OnAttributeChanged)
+			.AtributeName(this,  &FWHAttributeNameCustomization::GetEditedAttributeName)
 		];
 
 	// This avoids making duplicate reset boxes
@@ -49,18 +46,34 @@ void FWHAttributeNameCustomization::OnAttributeChanged(TSharedPtr<FWHAttributeNa
 {
 	if (NewName.IsValid() && NewName.Get()->IsValid())
 	{
+		const auto InputAttribute = *NewName.Get();
 		if (AttributeNamePropertyHandle.IsValid())
 		{
 			TArray<void*> RawData;
 			AttributeNamePropertyHandle->AccessRawData(RawData);
 			AttributeNamePropertyHandle->NotifyPreChange();
-			for (auto RawDataInstance : RawData)
 			{
-				*(FWHAttributeName*)RawDataInstance =  *NewName.Get();
+				*(FGuid*)RawData[0] = InputAttribute.GetID();
 			}
 			AttributeNamePropertyHandle->NotifyPostChange(EPropertyChangeType::ValueSet);
 			AttributeNamePropertyHandle->NotifyFinishedChangingProperties();
 		}
 	}
 }
+
+
+FWHAttributeName FWHAttributeNameCustomization::GetEditedAttributeName() const
+{
+	if (AttributeNamePropertyHandle.IsValid())
+	{
+		void* StructData;
+		if (AttributeNamePropertyHandle->GetValueData(StructData) == FPropertyAccess::Success)
+		{
+			FWHAttributeName* WHAttributeNamePtr = reinterpret_cast<FWHAttributeName*>(StructData);
+			return *WHAttributeNamePtr;
+		}
+	}
+	return FWHAttributeName();
+}
+
 #undef LOCTEXT_NAMESPACE

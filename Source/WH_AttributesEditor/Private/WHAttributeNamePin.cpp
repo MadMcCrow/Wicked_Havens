@@ -2,48 +2,37 @@
 
 #include "WHAttributeNamePin.h"
 #include "WHAttributeContainer.h"
-#include "WHAttributeSettings.h"
-#include "DetailLayoutBuilder.h"
 #include "NodeFactory.h"
 #include "WHAttributeNameWidget.h"
 
 #define LOCTEXT_NAMESPACE "WHAttributeNamePin"
 
+// an obviously invalid name, for export functions in need of a default value
+static const FWHAttributeName DefaultName;
 
 void SWHAttributeNamePin::Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj)
 {
 	bOnlyShowDefaultValue = false;
-	SGraphPinObject::Construct(SGraphPinObject::FArguments(), InGraphPinObj);
+	SGraphPin::Construct(SGraphPin::FArguments(), InGraphPinObj);
 }
 
 TSharedRef<SWidget>	SWHAttributeNamePin::GetDefaultValueWidget()
 {
+	// Check that graph pin is valid
 	if (GraphPinObj == nullptr)
 	{
 		return SNullWidget::NullWidget;
 	}
 
+	// Get Schema
 	const UEdGraphSchema* Schema = GraphPinObj->GetSchema();
-
 	if (Schema == nullptr)
 	{
 		return SNullWidget::NullWidget;
 	}
 
-	if(ShouldDisplayAsSelfPin())
-	{
-		return SNew(SEditableTextBox)
-			.Style( FEditorStyle::Get(), "Graph.EditableTextBox" )
-			.Text( this, &SWHAttributeNamePin::GetValue )
-			.SelectAllTextWhenFocused(false)
-			.Visibility( this, &SGraphPinObject::GetDefaultValueVisibility )
-			.IsReadOnly( true )
-			.ForegroundColor( FSlateColor::UseForeground() );
-	}
-
-
 	return	SNew(SWHAttributeNameWidget)
-	.AtributeName(DefaultAttributeName)
+	.AtributeName(this,  &SWHAttributeNamePin::GetDefaultAttributeName)
 	.Visibility( this, &SGraphPinObject::GetDefaultValueVisibility )
 	.OnSelectionChanged(this, &SWHAttributeNamePin::OnAttributeChanged);
 }
@@ -56,21 +45,36 @@ void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAtt
 	}
 
 	// Update value :
-	DefaultAttributeName = *NewAttributeName.Get();
-
-	// Set default value from that string representation
-	if (GraphPinObj->GetDefaultAsString() != GetAttributeNameAsString())
+	const UEdGraphSchema* Schema = GraphPinObj->GetSchema();
+	if (Schema != nullptr)
 	{
-		GraphPinObj->Modify();
-		GraphPinObj->GetSchema()->TrySetDefaultValue(*GraphPinObj, GetAttributeNameAsString());
+		if (NewAttributeName.IsValid())
+		{
+			const auto ExportString = FWHAttributeName::Export(*NewAttributeName.Get());
+			if (!Schema->DoesDefaultValueMatch(*GraphPinObj, ExportString))
+			{
+				const FScopedTransaction Transaction( LOCTEXT("PinAttributeChanged", "Change Attribute Pin Value"));
+				GraphPinObj->Modify();
+				Schema->TrySetDefaultValue(*GraphPinObj,ExportString);
+			}
+		}
 	}
+
+}
+
+FWHAttributeName SWHAttributeNamePin::GetDefaultAttributeName() const
+{
+	if(GraphPinObj->IsPendingKill())
+	{
+		return FWHAttributeName();
+	}
+	return FWHAttributeName::Import(GraphPinObj->GetDefaultAsString());
 }
 
 FString SWHAttributeNamePin::GetAttributeNameAsString() const
 {
-	return DefaultAttributeName.GetName().ToString();
+	return GetDefaultAttributeName().GetName().ToString();
 }
-
 
 TSharedPtr<class SGraphPin, ESPMode::ThreadSafe> FWHAttributeNamePinFactory::CreatePin(class UEdGraphPin* InPin) const
 {

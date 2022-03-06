@@ -119,7 +119,7 @@ private:
     /**
      * The list of Attributes
      */
-    UPROPERTY()
+    UPROPERTY(EditAnywhere)
     TArray<FWHAttribute> Attributes;
 
 public:
