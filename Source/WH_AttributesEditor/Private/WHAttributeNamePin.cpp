@@ -4,6 +4,8 @@
 #include "WHAttributeContainer.h"
 #include "NodeFactory.h"
 #include "WHAttributeNameWidget.h"
+#include "Chaos/AABB.h"
+#include "Chaos/AABB.h"
 
 #define LOCTEXT_NAMESPACE "WHAttributeNamePin"
 
@@ -32,12 +34,12 @@ TSharedRef<SWidget>	SWHAttributeNamePin::GetDefaultValueWidget()
 	}
 
 	return	SNew(SWHAttributeNameWidget)
-	.AtributeName(this,  &SWHAttributeNamePin::GetDefaultAttributeName)
+	.AttributeName(this,  &SWHAttributeNamePin::GetDefaultAttributeName)
 	.Visibility( this, &SGraphPinObject::GetDefaultValueVisibility )
-	.OnSelectionChanged(this, &SWHAttributeNamePin::OnAttributeChanged);
+	.OnAttributeNameChanged(this, &SWHAttributeNamePin::OnAttributeChanged);
 }
 
-void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName, ESelectInfo::Type Arg)
+void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName)
 {
 	if(GraphPinObj->IsPendingKill())
 	{
@@ -53,7 +55,7 @@ void SWHAttributeNamePin::OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAtt
 			const auto ExportString = FWHAttributeName::Export(*NewAttributeName.Get());
 			if (!Schema->DoesDefaultValueMatch(*GraphPinObj, ExportString))
 			{
-				const FScopedTransaction Transaction( LOCTEXT("PinAttributeChanged", "Change Attribute Pin Value"));
+				const FScopedTransaction Transaction( LOCTEXT("PinAttributeNameChanged", "Changed Attribute Name Pin Value"));
 				GraphPinObj->Modify();
 				Schema->TrySetDefaultValue(*GraphPinObj,ExportString);
 			}

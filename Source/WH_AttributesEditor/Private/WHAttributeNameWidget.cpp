@@ -14,9 +14,9 @@ TSharedRef<SWidget> SWHAttributeNameWidget::MakeComboEntryWidget(TSharedPtr<FStr
 
 void SWHAttributeNameWidget::Construct(const FArguments& InArgs)
 {
-	EditedAttributeName = InArgs._AtributeName;
+	EditedAttributeName = InArgs._AttributeName;
 
-	OnSelectionChanged = InArgs._OnSelectionChanged;
+	OnAttributeNameChanged = InArgs._OnAttributeNameChanged;
 
 	// Update attribute suggestion list
 	UpdateAttributeOptions();
@@ -68,7 +68,7 @@ void SWHAttributeNameWidget::UpdateAttributeOptions()
 	}
 }
 
-void SWHAttributeNameWidget::OnTextSelectionChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg)
+void SWHAttributeNameWidget::OnTextSelectionChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg) const
 {
 	if (String.IsValid())
 	{
@@ -76,7 +76,7 @@ void SWHAttributeNameWidget::OnTextSelectionChanged(TSharedPtr<FString> String, 
 		const auto NewAttributeName = FName(ValueString);
 		if (NewAttributeName.IsValid())
 		{
-			OnSelectionChanged.ExecuteIfBound(MakeShared<FWHAttributeName>(NewAttributeName), Arg);
+			OnAttributeNameChanged.ExecuteIfBound(MakeShared<FWHAttributeName>(NewAttributeName));
 		}
 	}
 }

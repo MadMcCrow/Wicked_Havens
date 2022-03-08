@@ -56,14 +56,4 @@ void FWHAttributeCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> In
 }
 
 
-void FWHAttributeCustomization::OnAttributeNameChanged(TSharedPtr<FWHAttributeName> NewName, ESelectInfo::Type Arg) const
-{
-
-}
-
-void FWHAttributeCustomization::OnAttributeValueChanged(TSharedPtr<FWHAttributeName> NewName,ESelectInfo::Type Arg) const
-{
-}
-
-
 #undef LOCTEXT_NAMESPACE

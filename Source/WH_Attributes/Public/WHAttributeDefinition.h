@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WHAttributeValue.h"
+#include "WHAttributeType.h"
 #include "Engine/DataTable.h"
 #include "WHAttributeDefinition.generated.h"
 
@@ -29,6 +29,6 @@ struct FWHAttributeDefinition : public FTableRowBase
 
 	/**	Attribute Type */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EWHAttributeTypes Type;
+	FWHAttributeType Type;
 
 };

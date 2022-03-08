@@ -29,7 +29,7 @@ public:
 
 private:
 	/** Called on Attribute name changed  for default value */
-	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName, ESelectInfo::Type Arg);
+	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName);
 
 	/** Attribute Name  for pin */
 	FWHAttributeName GetDefaultAttributeName() const;

@@ -27,8 +27,8 @@ void FWHAttributeNameCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> 
 		.MaxDesiredWidth(0.0f)
 		[
 			SNew(SWHAttributeNameWidget)
-			.OnSelectionChanged(this,  &FWHAttributeNameCustomization::OnAttributeChanged)
-			.AtributeName(this,  &FWHAttributeNameCustomization::GetEditedAttributeName)
+			.OnAttributeNameChanged(this,  &FWHAttributeNameCustomization::OnAttributeNameChanged)
+			.AttributeName(this,  &FWHAttributeNameCustomization::GetEditedAttributeName)
 		];
 
 	// This avoids making duplicate reset boxes
@@ -42,13 +42,14 @@ void FWHAttributeNameCustomization::CustomizeChildren(TSharedRef<IPropertyHandle
 }
 
 
-void FWHAttributeNameCustomization::OnAttributeChanged(TSharedPtr<FWHAttributeName> NewName, ESelectInfo::Type Arg) const
+void FWHAttributeNameCustomization::OnAttributeNameChanged(TSharedPtr<FWHAttributeName> NewName) const
 {
 	if (NewName.IsValid() && NewName.Get()->IsValid())
 	{
 		const auto InputAttribute = *NewName.Get();
 		if (AttributeNamePropertyHandle.IsValid())
 		{
+			const FScopedTransaction Transaction( LOCTEXT("AttributeNameDefaultChange", "Changed Attribute Name default value"));
 			TArray<void*> RawData;
 			AttributeNamePropertyHandle->AccessRawData(RawData);
 			AttributeNamePropertyHandle->NotifyPreChange();

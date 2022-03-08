@@ -37,6 +37,6 @@ private:
 	FWHAttributeName GetEditedAttributeName() const;
 
 	// Called when changed Attribute
-	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewName, ESelectInfo::Type Arg) const;
+	void OnAttributeNameChanged(TSharedPtr<FWHAttributeName> NewName) const;
 
 };

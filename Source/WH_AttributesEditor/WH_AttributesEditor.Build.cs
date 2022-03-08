@@ -45,7 +45,8 @@ public class WH_AttributesEditor : ModuleRules
 				"GraphEditor",
 				"InputCore",
 				"DeveloperSettings",
-				"AppFramework"
+				"AppFramework",
+				"KismetWidgets"
 			}
 			);
 

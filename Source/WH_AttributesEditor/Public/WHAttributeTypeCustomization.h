@@ -5,21 +5,21 @@
 #include "CoreMinimal.h"
 #include "IPropertyTypeCustomization.h"
 
-struct FWHAttributeName;
-class SWHAttributeNameWidget;
+struct FWHAttributeType;
+class SWHAttributeTypeWidget;
 
 /**
- *	@class FWHAttributeCustomization
- *	Editor Property customisation for attribute Values
- *	@see @struct FWHAttributeName
- *	@see @class SWHAttributeNameWidget
+ *	@class FWHAttributeTypeCustomization
+ *	Editor Property customisation for Attribute Types
+ *	@see @struct FWHAttributeType
+ *	@see @class SWHAttributeTypeWidget
  */
-class FWHAttributeCustomization : public IPropertyTypeCustomization, public FEditorUndoClient
+class FWHAttributeTypeCustomization : public IPropertyTypeCustomization, public FEditorUndoClient
 {
 public:
 	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
 	{
-		return MakeShareable( new FWHAttributeCustomization );
+		return MakeShareable( new FWHAttributeTypeCustomization );
 	}
 
 
@@ -31,7 +31,12 @@ private:
 	/**
 	 * Handle to the actual Property being edited (ie the attribute)
 	 */
-	TSharedPtr<IPropertyHandle> AttributePropertyHandle;
+	TSharedPtr<IPropertyHandle> AttributeTypePropertyHandle;
 
+	// Get Current Edited AttributeType property value
+	FWHAttributeType GetEditedAttributeType() const;
+
+	// Called when changed Attribute Name part of Attribute
+	void OnAttributeTypeChanged(TSharedPtr<FWHAttributeType> NewName) const;
 
 };

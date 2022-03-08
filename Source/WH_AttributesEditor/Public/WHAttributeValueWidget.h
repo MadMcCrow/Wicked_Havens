@@ -18,14 +18,11 @@ public:
 
 	SLATE_BEGIN_ARGS(SWHAttributeValueWidget)
 		: _AtributeValue(FWHAttributeValue())
-		, _AttributeType(EWHAttributeTypes::TError)
 		, _bShowTypeSelector(false)
-		, _OnTypeSelectionChange()
 		{
 			_Visibility = EVisibility::SelfHitTestInvisible;
 		}
 		SLATE_ATTRIBUTE(FWHAttributeValue, AtributeValue)
-		SLATE_ATTRIBUTE(EWHAttributeTypes, AttributeType)
 		SLATE_ATTRIBUTE(bool, bShowTypeSelector)
 		SLATE_EVENT(FOnAttributeChanged, OnTypeSelectionChange)
 	SLATE_END_ARGS()
@@ -40,17 +37,6 @@ private:
 
 	// Internal Edited Attribute ;
 	TAttribute<FWHAttributeValue> EditedAttributeValue;
-
-	// Internal Edited Attribute ;
-	TAttribute<EWHAttributeTypes> EditedAttributeType;
-
-	// Stores the Attribute type options
-	TArray<FString> AttributeTypesOptionStrings;
-	// Store pointers to the strings just before.
-	TArray<TSharedPtr<FString>> AttributeTypesOptions;
-
-	// Called when user selects a type
-	void OnEnumSelectionChanged(int32 NewEnumValue, ESelectInfo::Type InArg);
 
 	// Called when user input a text value
 	template<typename NumericType>

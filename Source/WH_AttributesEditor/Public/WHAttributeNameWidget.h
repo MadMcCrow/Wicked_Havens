@@ -14,16 +14,15 @@
 class SWHAttributeNameWidget : public SVerticalBox
 {
 public:
-	typedef typename TSlateDelegates< TSharedPtr<FWHAttributeName> >::FOnSelectionChanged FOnAttributeSelectionChanged;
+	DECLARE_DELEGATE_OneParam(FOnAttributeNameChanged, TSharedPtr<FWHAttributeName>);
 
 	SLATE_BEGIN_ARGS(SWHAttributeNameWidget)
-		: _AtributeName(FWHAttributeName())
-		, _OnSelectionChanged()
+		: _AttributeName(FWHAttributeName())
 		{
 			_Visibility = EVisibility::SelfHitTestInvisible;
 		}
-		SLATE_ATTRIBUTE(FWHAttributeName, AtributeName)
-		SLATE_EVENT(FOnAttributeSelectionChanged, OnSelectionChanged)
+		SLATE_ATTRIBUTE(FWHAttributeName, AttributeName)
+		SLATE_EVENT(FOnAttributeNameChanged, OnAttributeNameChanged)
 	SLATE_END_ARGS()
 
 public:
@@ -44,7 +43,7 @@ private:
 	TArray<TSharedPtr<FString>> AttributeNameOptions;
 
 	// Called when user selects an entry
-	void OnTextSelectionChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg);
+	void OnTextSelectionChanged(TSharedPtr<FString> String, ESelectInfo::Type Arg) const;
 
 	// Called when we need to generate entries
 	TSharedRef<SWidget> MakeComboEntryWidget(TSharedPtr<FString> InString) const;
@@ -60,6 +59,6 @@ private:
 
 
 	/** Delegate that is invoked when the selected item in the combo box changes */
-	FOnAttributeSelectionChanged OnSelectionChanged;
+	FOnAttributeNameChanged OnAttributeNameChanged;
 
 };

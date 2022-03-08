@@ -35,7 +35,7 @@ public:
 
 	// Conversion Functions :
 	// You can add the function you want to help you in your game
-
+#if 0
 	/** Attribute Value From Float */
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "Convert Float To Attribute Value", CompactNodeTitle = "->", BlueprintAutocast, BlueprintInternalUseOnly), Category = "Attributes")
 	static FWHAttributeValue Conv_FloatToAttributeValue(float InFloat){return FWHAttributeValue(InFloat);}
@@ -56,5 +56,6 @@ public:
 	/** Int from Attribute Value */
 	UFUNCTION(BlueprintPure, meta = (DisplayName = "Convert Attribute Value To Int", CompactNodeTitle = "->", BlueprintAutocast, BlueprintInternalUseOnly), Category = "Attributes")
 	static int Conv_AttributeValueToInt(const FWHAttributeValue& InAttribute){return InAttribute;}
+#endif
 
 };
