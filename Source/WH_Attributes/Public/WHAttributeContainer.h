@@ -16,9 +16,7 @@ DECLARE_MULTICAST_DELEGATE_TwoParams(FWHAttributeChangeDelegate, FWHAttributeNam
  *	An Element for @see FWHAttributeContainer
  *	Specifically adapted to fast replication
  */
-USTRUCT(BlueprintType, Category = "Attributes",
-	 meta = (	HasNativeBreak = "WH_Attributes.WHAttributeFunctionLibrary.BreakAttribute",
-				 HasNativeMake = "WH_Attributes.WHAttributeFunctionLibrary.MakeAttribute"))
+USTRUCT(BlueprintType, Category = "Attributes")
 struct FWHAttribute : public FFastArraySerializerItem
 {
 	GENERATED_BODY()
@@ -26,28 +24,23 @@ struct FWHAttribute : public FFastArraySerializerItem
 
 	// CTRs :
 	FWHAttribute() : FFastArraySerializerItem() {}
-	FWHAttribute(const FWHAttributeName& InName,const FWHAttributeValue& InValue)
-	: FFastArraySerializerItem(), Name(InName), Value(InValue)
-	{}
-	FWHAttribute(const TPairInitializer<FWHAttributeName, FWHAttributeValue>& InitPair)
-	: FFastArraySerializerItem(), Name(InitPair.Key), Value(InitPair.Value)
-	{}
 
 	/** the name, acts like a key in a map */
 	UPROPERTY()
 	FWHAttributeName Name;
 
-	/** the associated value */
+	/** the value, acts like a value in a map */
 	UPROPERTY()
 	FWHAttributeValue Value;
 
 	/** Called by NetSerialize of FWHAttributeContainer */
-	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHAttribute Attribute )
+	friend FArchive& operator<<(FArchive& Ar, FWHAttribute Attribute )
 	{
 		Ar << Attribute.Name;
 		Ar << Attribute.Value;
 		return Ar;
 	}
+
 
 	// Replication Functions
 	void PostReplicatedAdd(		const struct FWHAttributeContainer& InArraySerializer) const;

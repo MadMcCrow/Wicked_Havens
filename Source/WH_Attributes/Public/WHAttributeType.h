@@ -6,6 +6,7 @@
 #include "WHAttributeType.generated.h"
 
 
+
 /**
  *	@struct FWHAttributeType
  *	A struct for representing the Type of an Attribute
@@ -17,29 +18,13 @@ struct WH_ATTRIBUTES_API FWHAttributeType
 {
 	GENERATED_BODY()
 
-	// The C++ data type of the variable
+	// the field class to use
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Type")
-	FString CPPType;
+	FString FieldClassName;
 
-	// The Struct of the C++ data type of the variable (or nullptr)
+	// for field Classes that takes a struct, that's the type to use
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Type")
-	TObjectPtr<UObject> CPPTypeObject = nullptr;
-
-	// The default value of the variable
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Type")
-	FString DefaultValue;
+	TObjectPtr<UField> CppField;
 
 
-
-	static FString Export(const FWHAttributeType& Name, FWHAttributeType DefaultValue = FWHAttributeType());
-	static FWHAttributeType Import(const FString& String);
-
-#if WITH_EDITOR
-	/** Return the type in the TArray if Array type */
-	TOptional<FString> GetArrayBaseType() const;
-
-	/** returns true if TArray */
-	bool IsArrayType() const;
-
-#endif // WITH_EDITOR
 };

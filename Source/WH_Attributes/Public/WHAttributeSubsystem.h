@@ -7,6 +7,7 @@
 #include "WHAttributeSubsystem.generated.h"
 
 
+
 /**
  *	@class UWHAttributeSettings
  *	@brief Store and helps generate all the attribute names and GUIDs
@@ -28,20 +29,19 @@ public:
 
 
 	// Helper Getter
-	FORCEINLINE static const UWHAttributeSubsystem* Get() {return GEngine->GetEngineSubsystem<UWHAttributeSubsystem>();}
+	FORCEINLINE static UWHAttributeSubsystem* Get() {return GEngine->GetEngineSubsystem<UWHAttributeSubsystem>();}
+
+	const struct FWHAttributeType& GetAttributeType(const struct FWHAttributeName& InName);
+	const FName& GetAttributeFName(const struct FWHAttributeName& InName);
+
+	struct FWHAttributeName FindAttributeName(const FName& InFName);
+
 
 	/**
-	 *	Get an ID from it's associated Human-readable name
-	 *	@note You don't need to use it in your game systems
+	 *	Fill our data with what's in settings
 	 */
-	static FGuid GetIDForName(const FName& Name);
-
-	/**
-	 *	Get a Human-readable name from an ID
-	 *	@note You don't need to use it in your game systems
-	 */
-	static const FName& GetNameForID(const FGuid& GUID);
-
+	UFUNCTION()
+	void ImportSettings();
 
 
 #if WITH_EDITOR
@@ -58,35 +58,23 @@ private:
 	 *	Attributes from @see UWHAttributeSettings::AttributesDataTable
 	 *	GUIDs are generated (hopefully) only once.
 	 */
-	UPROPERTY(Transient)
-	TMap<FGuid, FName> GameAttributes;
+	TMap<FGuid, FName> GameAttributeNames;
 
 	/**
-	 *	Fill our data with what's in settings
+	 *	Attributes from @see UWHAttributeSettings::AttributesDataTable
+	 *	GUIDs are generated (hopefully) only once.
 	 */
-	UFUNCTION()
-	void ImportSettings();
+	TMap<FGuid, FWHAttributeType*> GameAttributeTypes;
 
-	/**
-	 *	Update the settings to match what we have
-	 */
-	UFUNCTION()
-	void ExportSettings();
 
-#if WITH_EDITOR
-	// Callbacks for refreshing the subsystems from changes in the settings
-	void OnObjectPreSave(UObject* ModifiedObject, FObjectPreSaveContext Context);
-	void OnObjectPropertyChanged(UObject* Object, FPropertyChangedEvent& PropertyChangedEvent);
+	/** List of all CDO of FFieldClass in the Engine */
+	TMap<FString,FField*> FieldClassDefaultObjects;
 
-	// save changes to the settings on shutdown
-	void OnEnginePreExit();
+	void InitializeAllTypes();
 
-	// stored delegates
-	FDelegateHandle OnObjectPreSaveDelegate;
-	FDelegateHandle OnObjectPropertyChangedDelegate;
-	FDelegateHandle OnEnginePreExitDelegate;
 
-#endif WITH_EDITOR
+
+
 
 
 

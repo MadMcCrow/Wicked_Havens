@@ -66,10 +66,10 @@ void FWHAttributeTypeCustomization::OnAttributeTypeChanged(TSharedPtr<FWHAttribu
 			TArray<void*> RawData;
 			AttributeTypePropertyHandle->AccessRawData(RawData);
 			AttributeTypePropertyHandle->NotifyPreChange();
-			AttributeTypePropertyHandle->SetValueFromFormattedString(FWHAttributeType::Export(InputAttribute));
+			//AttributeTypePropertyHandle->SetValueFromFormattedString(FWHAttributeType::Export(InputAttribute));
 			// No need for that nonsense
 			{
-				//*(FGuid*)RawData[0] = InputAttribute.GetID();
+				*(FWHAttributeType*)RawData[0] = InputAttribute;
 			}
 			AttributeTypePropertyHandle->NotifyPostChange(EPropertyChangeType::ValueSet);
 			AttributeTypePropertyHandle->NotifyFinishedChangingProperties();

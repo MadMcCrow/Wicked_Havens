@@ -3,8 +3,43 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WHAttributeName.h"
+#include "WHAttributeType.h"
 #include "Engine/DeveloperSettings.h"
 #include "WHAttributeSettings.generated.h"
+
+/**
+ * Defines an attribute for your game
+ */
+USTRUCT(BlueprintType, Category="Attributes")
+struct FWHAttributeDefinition
+{
+	GENERATED_BODY()
+	friend class UWHAttributeSettings;
+
+protected:
+	/**	Attribute Name */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName Name;
+
+	/**	Attribute Type */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FWHAttributeType Type;
+
+	/**	Used both in game and in editor */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText Description;
+
+	/**	ID. Generated Once */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, AdvancedDisplay)
+	FGuid UniqueID;
+
+public:
+
+	FORCEINLINE TPair<FGuid, FWHAttributeType>	GetAttributeTypeDefinition() const {return	{UniqueID,Type};}
+	FORCEINLINE TPair<FGuid, FName>				GetAttributeNameDefinition() const {return	{UniqueID,Name};}
+};
+
 
 
 /**
@@ -15,32 +50,29 @@ UCLASS(MinimalAPI, ClassGroup=(WH), config=Game, Category="Attributes", Meta = (
 class UWHAttributeSettings : public UDeveloperSettings
 {
     GENERATED_BODY()
-	friend class UWHAttributeSubsystem;
 
 public:
 	// CTR !
 	UWHAttributeSettings();
-
 	// Category override :
 	virtual FName GetCategoryName() const override {return FName("Wicked Havens");}
 
+	// Quick Getter for Attribute definitions
+	FORCEINLINE const TArray<FWHAttributeDefinition>& GetAttributeDefinitions() const {return AttributeDefinitions;}
 
-protected:
 
-
-    /**
-     *	A Datatable containing all the different attributes to use in Wicked Havens
-     */
-    UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category="Attributes",  meta=(AllowedClasses="DataTable", RequiredAssetDataTags = "RowStructure=WHAttributeDefinition"))
-    FSoftObjectPath AttributesDataTable;
+private:
 
 	/**
-	 *	Attributes from @see AttributesDataTable
-	 *	GUIDs are generated (hopefully) only once.
+	 *	The attributes for your Game
 	 */
-	UPROPERTY(Config, VisibleAnywhere, BlueprintReadOnly, Category="Attributes", AdvancedDisplay)
-	TMap<FGuid, FName> SavedGameAttributes;
+	UPROPERTY(Config, EditAnywhere, meta = (AllowPrivateAccess))
+	TArray<FWHAttributeDefinition> AttributeDefinitions;
 
+public:
 
+#if WITH_EDITOR
+	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
+#endif //WITH_EDITOR
 
 };

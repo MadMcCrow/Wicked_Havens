@@ -4,20 +4,7 @@
 #include "WHAttributeSubsystem.h"
 
 // simply stored in a static value
-const FName NameNone = NAME_None;
 const FWHAttributeName InvalidDefault = FWHAttributeName();
-
-
-FWHAttributeName::FWHAttributeName()
-{
-	// BAD!
-}
-
-FWHAttributeName::FWHAttributeName(const FName& AttributeName)
-{
-	UniqueID	= UWHAttributeSubsystem::GetIDForName(AttributeName);
-}
-
 
 FWHAttributeName::FWHAttributeName(const FWHAttributeName& InAttribute)
 {
@@ -30,14 +17,14 @@ FWHAttributeName& FWHAttributeName::operator=(const FWHAttributeName& Other)
 	return *this;
 }
 
-const FName& FWHAttributeName::GetName() const
+FWHAttributeName::FWHAttributeName(FName AttributeName)
 {
-	return UWHAttributeSubsystem::GetNameForID(UniqueID);
+
 }
 
-bool FWHAttributeName::IsValid() const
+const FName &FWHAttributeName::GetName() const
 {
-	return GetName() != NAME_None;
+	return UWHAttributeSubsystem::Get()->GetAttributeFName(*this);
 }
 
 FString FWHAttributeName::ExportIDString() const

@@ -1,31 +1,24 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "WHAttributeFunctionLibrary.h"
-#include "WHAttributeSettings.h"
+#include "WHAttributeSubsystem.h"
 
 
-FText UWHAttributeFunctionLibrary::GetAttributeDescription()
+bool UWHAttributeFunctionLibrary::SetAttribute_impl(FProperty* Property, void* StructPtr, FWHAttribute& Attribute)
 {
-	return FText();
-}
+	if (!Property)
+		return false;
 
-void UWHAttributeFunctionLibrary::BreakAttributeContainer(const FWHAttributeContainer& AttributeContainer,  TArray<FWHAttribute>& Attributes )
-{
-	Attributes = AttributeContainer.GetAllAttributes();
-}
+	UWHAttributeSubsystem* AttributeSubSystem = UWHAttributeSubsystem::Get();
+	const auto &Type = AttributeSubSystem->GetAttributeType(Attribute.Name);
 
-void UWHAttributeFunctionLibrary::MakeAttributeContainer(const TArray<FWHAttribute>& Attributes,  FWHAttributeContainer& AttributeContainer)
-{
-	AttributeContainer.InitAttributes(Attributes);
-}
+	//if (Property->GetCPPType() != Type.C)
+	return false;
 
-void UWHAttributeFunctionLibrary::BreakAttribute(const FWHAttribute& Attribute, FWHAttributeName &AttributeName, FWHAttributeValue &AttributeValue)
-{
-	AttributeName  = Attribute.Name;
-	AttributeValue = Attribute.Value;
-}
+	TArray<uint8> Arr;
+	Arr.SetNum(Property->GetSize());
+	FMemory::Memcpy( Arr.GetData(), StructPtr, Property->GetSize());
+	Attribute.Value = Arr;
+	return true;
 
-void UWHAttributeFunctionLibrary::MakeAttribute(FWHAttributeName AttributeName, FWHAttributeValue AttributeValue, FWHAttribute& Attribute)
-{
-	Attribute = FWHAttribute(AttributeName, AttributeValue);
 }

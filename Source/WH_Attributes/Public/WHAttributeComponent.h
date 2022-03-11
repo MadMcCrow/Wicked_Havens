@@ -9,8 +9,8 @@
 
 
 /**
- *	@class UWHAttributeSettings
- *	@brief Store and helps generate all the attribute names and GUIDs
+ *	@class UWHAttributeComponent
+ *	@brief Stores and replicates attributes
  */
 UCLASS(BlueprintType, MinimalAPI, ClassGroup=(WH), Category="Attributes", Meta = (BlueprintSpawnableComponent, DisplayName="Attributes Component"))
 class UWHAttributeComponent : public UActorComponent
@@ -21,13 +21,6 @@ public:
 	// CTR !
 	UWHAttributeComponent();
 
-	/** Getter for a certain attribute */
-	UFUNCTION(BlueprintPure, Category = "Wicked Havens|Attributes")
-	WH_ATTRIBUTES_API FWHAttributeValue GetAttributeValue(const FWHAttributeName& Name) const;
-
-	/** Setter for a certain attribute */
-	UFUNCTION(BlueprintPure, Category = "Wicked Havens|Attributes")
-	WH_ATTRIBUTES_API void SetAttributeValue(const FWHAttributeName& Name, const FWHAttributeValue& NewValue) const;
 
 protected:
 

@@ -1,16 +1,11 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "WHAttributeSubsystem.h"
-#include "Engine/DataTable.h"
-#include "WHAttributeDefinition.h"
 #include "WHAttributeSettings.h"
+#include "WHAttributeType.h"
 
-#if WITH_EDITOR
-#include "UObject/ObjectSaveContext.h"
-#endif // WITH_EDITOR
-
-// Defined as Invalid Name :
-const FName InvalidAttributeName = NAME_None;
+const FName ErrorName = FName();
+const FWHAttributeType ErrorType = FWHAttributeType();
 
 UWHAttributeSubsystem::UWHAttributeSubsystem() : Super()
 {
@@ -19,24 +14,22 @@ UWHAttributeSubsystem::UWHAttributeSubsystem() : Super()
 void UWHAttributeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-#if WITH_EDITOR
-	OnObjectPreSaveDelegate = FCoreUObjectDelegates::OnObjectPreSave.AddUObject(this, &UWHAttributeSubsystem::OnObjectPreSave);
-	OnObjectPropertyChangedDelegate = FCoreUObjectDelegates::OnObjectPropertyChanged.AddUObject(this, &UWHAttributeSubsystem::OnObjectPropertyChanged);
-	OnEnginePreExitDelegate = FCoreDelegates::OnEnginePreExit.AddUObject(this, &UWHAttributeSubsystem::OnEnginePreExit);
-#endif //WITH_EDITOR
-	// Make sure we'll be matching settings
-	FCoreDelegates::OnFEngineLoopInitComplete.AddUObject(this, &UWHAttributeSubsystem::ImportSettings);
+	// make sure arrays are empty
+	FieldClassDefaultObjects.Empty();
+	GameAttributeNames.Empty();
+	GameAttributeTypes.Empty();
+	// init types from Engine
+	InitializeAllTypes();
+	// import settings
 	ImportSettings();
 }
 
 void UWHAttributeSubsystem::Deinitialize()
 {
-	ExportSettings();
-#if WITH_EDITOR
-	FCoreUObjectDelegates::OnObjectPreSave.Remove(OnObjectPreSaveDelegate);
-	FCoreUObjectDelegates::OnObjectPropertyChanged.Remove(OnObjectPropertyChangedDelegate);
-	FCoreDelegates::OnEnginePreExit.Remove(OnEnginePreExitDelegate);
-#endif //WITH_EDITOR
+	// Empty our arrays
+	GameAttributeNames.Empty();
+	GameAttributeTypes.Empty();
+	FieldClassDefaultObjects.Empty();
 	Super::Deinitialize();
 }
 
@@ -45,110 +38,110 @@ bool UWHAttributeSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 	return Super::ShouldCreateSubsystem(Outer);
 }
 
+const FWHAttributeType& UWHAttributeSubsystem::GetAttributeType(const FWHAttributeName& InName)
+{
+	return ErrorType;
+}
+
+const FName& UWHAttributeSubsystem::GetAttributeFName(const FWHAttributeName& InName)
+{
+	if (const auto NamePtr = GameAttributeNames.Find(InName.GetID()))
+	{
+		return *NamePtr;
+	}
+	return ErrorName;
+}
+
+FWHAttributeName UWHAttributeSubsystem::FindAttributeName(const FName& InFName)
+{
+	if (const FGuid* GuidPtr = GameAttributeNames.FindKey(InFName))
+	{
+		return FWHAttributeName(*GuidPtr);
+	}
+	return FWHAttributeName();
+}
+
 void UWHAttributeSubsystem::ImportSettings()
 {
-	if (auto Settings = GetDefault<UWHAttributeSettings>())
+	// delete previously stored data
+	GameAttributeTypes.Reset();
+	GameAttributeNames.Reset();
+	if (const UWHAttributeSettings* const Settings = GetDefault<UWHAttributeSettings>())
 	{
-		// Update from saved settings
-		GameAttributes = Settings->SavedGameAttributes;
-
-		//Read our maps
-		if (const auto DTB = Cast<UDataTable>(Settings->AttributesDataTable.TryLoad()))
+		const auto& Definitions = Settings->GetAttributeDefinitions();
+		const auto SlackSize =Definitions.Num();
+		GameAttributeTypes.Reserve(SlackSize);
+		GameAttributeNames.Reserve(SlackSize);
+		for (const auto& Definition : Definitions)
 		{
-			DTB->ForeachRow<FWHAttributeDefinition>(TEXT("UWHAttributeSettings"),
-				[this](const FName& RowName, const FWHAttributeDefinition& AttributeDefinition)
-				{
-					// Continue if Attribute ID already exist
-					if (GameAttributes.FindKey(RowName))
-					{
-						return;
-					}
-					// TODO : Detect Renames:
-					const auto GUID = FGuid::NewGuid();
-					GameAttributes.Add(GUID, RowName);
-				});
+			//GameAttributeTypes.Add(Definition.GetAttributeTypeDefinition());
+			GameAttributeNames.Add(Definition.GetAttributeNameDefinition());
 		}
 	}
 
-}
-
-void UWHAttributeSubsystem::ExportSettings()
-{
-	if (const auto Settings = GetMutableDefault<UWHAttributeSettings>())
-	{
-		Settings->SavedGameAttributes = GameAttributes;
-	}
-}
-
-FGuid UWHAttributeSubsystem::GetIDForName(const FName& Name)
-{
-	if (const auto UWHASS = Get())
-	{
-		if (const auto GUIDPtr = UWHASS->GameAttributes.FindKey(Name))
-		{
-			return *GUIDPtr;
-		}
-	}
-	return FGuid();
-}
-
-const FName &UWHAttributeSubsystem::GetNameForID(const FGuid& GUID)
-{
-	if (const auto UWHASS = Get())
-	{
-		if (const auto NamePtr = UWHASS->GameAttributes.Find(GUID))
-		{
-			return *NamePtr;
-		}
-	}
-	return InvalidAttributeName;
+	// Make sure to have some slack;
+	GameAttributeTypes.Shrink();
+	GameAttributeNames.Shrink();
 }
 
 #if WITH_EDITOR
 void UWHAttributeSubsystem::GetAllNames(TArray<FName>& OutNames)
 {
-	if (const auto UWHASS = Get())
-	{
-		UWHASS->GameAttributes.GenerateValueArray(OutNames);
-	}
-}
-
-void UWHAttributeSubsystem::OnObjectPreSave(UObject* ModifiedObject, FObjectPreSaveContext Context)
-{
-	// avoid doing this when unnecessary:
-	if (Context.IsCooking() || Context.IsProceduralSave())
-	{
-		return;
-	}
-	// make sure our datatable is the one being edited :
-	if (ModifiedObject)
-	{
-		if (   ModifiedObject->IsA<UWHAttributeSettings>()
-			|| ModifiedObject->IsA<UDataTable>())
-		{
-			ImportSettings();
-			ExportSettings();
-		}
-	}
-}
-
-void UWHAttributeSubsystem::OnObjectPropertyChanged(UObject* Object, FPropertyChangedEvent& PropertyChangedEvent)
-{
-	// make sure our datatable is the one being edited :
-	if (Object)
-	{
-		if (   Object->IsA<UWHAttributeSettings>()
-			|| Object->IsA<UDataTable>())
-		{
-			ImportSettings();
-			ExportSettings();
-		}
-	}
-
-}
-
-void UWHAttributeSubsystem::OnEnginePreExit()
-{
-	ExportSettings();
+	if (const auto WHASS = Get())
+		WHASS->GameAttributeNames.GenerateValueArray(OutNames);
 }
 #endif //WITH_EDITOR
+
+
+void UWHAttributeSubsystem::InitializeAllTypes()
+{
+	FieldClassDefaultObjects.Empty();
+	const auto& Fields= FFieldClass::GetAllFieldClasses();
+	FieldClassDefaultObjects.Reserve(Fields.Num());
+	for (const auto &FieldClass : Fields)
+	{
+		if (FField* FieldCDO = FieldClass->Construct(this, *FString::Printf(TEXT("WHAttributeType_%s"), *FieldClass->GetName()), RF_Transient | RF_ClassDefaultObject))
+		{
+			FString CppType = TEXT("Undefined");
+			TObjectPtr<UStruct> DataType;
+			if (CastField<FBoolProperty>(FieldCDO))
+			{
+				CppType = TEXT("bool");
+			}
+			else if (CastField<FFloatProperty>(FieldCDO))
+			{
+				CppType = TEXT("float");
+			}
+			else if (CastField<FDoubleProperty>(FieldCDO))
+			{
+				CppType = TEXT("double");
+			}
+			else if (CastField<FIntProperty>(FieldCDO))
+			{
+				CppType = TEXT("int32");
+			}
+			else if (CastField<FNameProperty>(FieldCDO))
+			{
+				CppType = TEXT("FName");
+			}
+			else if (CastField<FStrProperty>(FieldCDO))
+			{
+				CppType = TEXT("FString");
+			}
+			else if (FStructProperty* StructProperty = CastField<FStructProperty>(FieldCDO))
+			{
+				CppType = TEXT("Struct");
+				if (StructProperty->Struct)
+				{
+					DataType = StructProperty->Struct;
+				}
+			}
+			else
+			{
+				CppType = FieldCDO->GetName();
+			}
+			FieldClassDefaultObjects.Add(CppType, FieldCDO);
+		}
+	}
+	FieldClassDefaultObjects.Shrink();
+}

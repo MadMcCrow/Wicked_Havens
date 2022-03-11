@@ -17,7 +17,6 @@ struct WH_ATTRIBUTES_API FWHAttributeName
 	GENERATED_BODY()
 
 private:
-
 	/**
 	 *	Attribute Name for Chad machines
 	 *	(it's meant for comparison and unicity)
@@ -27,14 +26,11 @@ private:
 
 public:
 
-	// Various CTRs
-	FWHAttributeName(); // BAD !
-	FWHAttributeName(const FName& AttributeName); // GOOD
-	FWHAttributeName(const FGuid& AttributeID) : UniqueID(AttributeID) {} // GOOD
-	explicit FWHAttributeName(const FString& AttributeIDString) : UniqueID(AttributeIDString) {} // ALSO GOOD
+	// CTR
+	FWHAttributeName(FGuid AttributeID = FGuid()) : UniqueID(AttributeID){} // from Guid
 	FWHAttributeName(const FWHAttributeName& InAttribute); // COPY
 	FWHAttributeName& operator=(const FWHAttributeName& Other); // ALSO COPY
-
+	explicit FWHAttributeName(FName AttributeName);
 	// ONLY CHECK UID
 	FORCEINLINE bool operator==(const FWHAttributeName& Other) const {return UniqueID == Other.UniqueID;}
 
@@ -43,23 +39,11 @@ public:
 	friend FArchive& operator<<(FArchive& Ar, FWHAttributeName& AttrName) { AttrName.UniqueID.Serialize(Ar); return Ar;}
 
 
-	/**
-	 *	retrun the name associated in the settings,
-	 *	or NAME_None if not found
-	 */
+	//	return the name associated in the settings
 	const FName& GetName() const;
-
-	// operator for above function
-	FORCEINLINE explicit operator FName() const {return GetName();}
-
-
-	/**
-	 *	Verifies there's a valid name registered in the settings
-	 */
-	bool IsValid() const;
-
-	/** Getter for GUID */
+	FORCEINLINE operator FName() const {return GetName();} 	// operator for above function
 	FORCEINLINE const FGuid& GetID() const {return UniqueID;}
+	FORCEINLINE bool IsValid() const {return GetID()!= FGuid() && GetName() != NAME_None;}
 
 	/** Gets GUID as string, correctly formatted for use in and out of editor */
 	FString ExportIDString() const;
@@ -69,5 +53,4 @@ public:
 	static FString Export(const FWHAttributeName& Name);
 	static FWHAttributeName Import(const FString& String);
 #endif //WITH_EDITOR
-
 };
