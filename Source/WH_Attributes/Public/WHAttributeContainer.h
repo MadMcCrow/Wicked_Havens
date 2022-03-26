@@ -3,62 +3,147 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WHAttribute.h"
 #include "Engine/NetSerialization.h"
-#include "WHAttributeName.h"
-#include "WHAttributeValue.h"
 #include "WHAttributeContainer.generated.h"
 
-
-// Multicast for FWHAttributeContainer
-DECLARE_MULTICAST_DELEGATE_TwoParams(FWHAttributeChangeDelegate, FWHAttributeName, FWHAttributeValue)
+// Forward declaration
+struct FWHAttributeContainer;
+struct FWHAttributeValue;
+class UWHAttributeBase;
 
 /**
- *	An Element for @see FWHAttributeContainer
- *	Specifically adapted to fast replication
+ *	@struct FWHSerializedByte
+ *	Allow to have a FFastArraySerializer that serialize bytes
  */
-USTRUCT(BlueprintType, Category = "Attributes")
-struct FWHAttribute : public FFastArraySerializerItem
+USTRUCT()
+struct FWHSerializedByte : public FFastArraySerializerItem
 {
 	GENERATED_BODY()
-	friend struct FWHAttributeContainer;
 
-	// CTRs :
-	FWHAttribute() : FFastArraySerializerItem() {}
-
-	/** the name, acts like a key in a map */
+	/** */
 	UPROPERTY()
-	FWHAttributeName Name;
+	uint8 Byte;
 
-	/** the value, acts like a value in a map */
-	UPROPERTY()
-	FWHAttributeValue Value;
+	FWHSerializedByte(const uint8 &InByte = 0) {Byte = InByte;}
+	
+	FORCEINLINE operator const uint8&() const{ return Byte;}
+	FORCEINLINE operator uint8&(){ return Byte;}
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHSerializedByte& AttributeValue ){return Ar << AttributeValue.Byte;}
 
-	/** Called by NetSerialize of FWHAttributeContainer */
-	friend FArchive& operator<<(FArchive& Ar, FWHAttribute Attribute )
+	FORCEINLINE static void FromBytes(const TArray<uint8>& InBytes, TArray<FWHSerializedByte>& OutSerialized)
 	{
-		Ar << Attribute.Name;
-		Ar << Attribute.Value;
+		OutSerialized.Empty(InBytes.Num());
+		for (int i = 0; i< InBytes.Num(); i++)
+		{
+			OutSerialized.Add(InBytes[i]);
+		}
+	}
+
+	FORCEINLINE static void ToBytes(const TArray<FWHSerializedByte>& InSerialized, TArray<uint8>& OutBytes)
+	{
+		OutBytes.Empty(InSerialized.Num());
+		for (int i = 0; i< InSerialized.Num(); i++)
+		{
+			OutBytes.Add(InSerialized[i]);
+		}
+	}
+	
+	// Replication Functions
+	void PostReplicatedAdd(	   const FWHAttributeValue& InArraySerializer) const;
+	void PostReplicatedChange( const FWHAttributeValue& InArraySerializer) const;
+	void PreReplicatedRemove(  const FWHAttributeValue& InArraySerializer) const;
+};
+
+
+DECLARE_MULTICAST_DELEGATE(FWHAttributeValueDelegate)
+
+/**
+ *	@struct FWHAttributeValue
+ *	Acts as a container for attribute values. we get and extract the values
+ *	by applying it to a Attribute object (via serialization to Bin archive)
+ */
+USTRUCT(BlueprintType, Category= "Attribute")
+struct FWHAttributeValue : public FFastArraySerializerItem, public FFastArraySerializer
+{
+	GENERATED_BODY()
+
+	/** CTR to only set the type (and act as default CTR) */
+	FWHAttributeValue(FWHAttributeRef AttributeReference = FWHAttributeRef()) :Ref(AttributeReference){}
+
+	// Begin Serialization -----
+	bool Serialize(FArchive& Ar);
+	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
+	bool NetDeltaSerialize(FNetDeltaSerializeInfo & DeltaParms);
+	// End Serialization -----
+
+	/**
+	 *	Set
+	 *	Set the Value with the attribute. return true on success
+	 */
+	bool Set(UWHAttributeBase* AttributeBase);
+
+	/**
+	 *	Return an Attribute that has that value
+	 */
+	UWHAttributeBase* Get() const;
+	
+	/** Holds the info about this value. */
+	UPROPERTY()
+	FWHAttributeRef Ref;
+
+	/** Value changed (by at least a byte) */
+	FWHAttributeValueDelegate OnValueChange;
+	
+private:
+	
+	/** Holds the serialized Attribute as binary */
+	UPROPERTY()
+	TArray<FWHSerializedByte> StoredValue;
+
+public:
+	
+	/** Called by NetSerialize of FWHAttributeContainer */
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHAttributeValue& AttributeValue )
+	{
+		Ar << AttributeValue.Ref;
+		Ar << AttributeValue.StoredValue;
 		return Ar;
 	}
 
-
 	// Replication Functions
-	void PostReplicatedAdd(		const struct FWHAttributeContainer& InArraySerializer) const;
-	void PostReplicatedChange(	const struct FWHAttributeContainer& InArraySerializer) const;
-	void PreReplicatedRemove(	const struct FWHAttributeContainer& InArraySerializer) const;
+	void PostReplicatedAdd(	   const FWHAttributeContainer& InArraySerializer) const;
+	void PostReplicatedChange( const FWHAttributeContainer& InArraySerializer) const;
+	void PreReplicatedRemove(  const FWHAttributeContainer& InArraySerializer) const;
 
-	// comparison operator for Array operations
-	bool operator==(const FWHAttribute& Other) const {return Name == Other.Name && Value == Other.Value;}
-
+	// Hash and comparison for map like operation
+	FORCEINLINE bool operator==(const FWHAttributeValue& Other) const{return Ref == Other.Ref;}
+	FORCEINLINE friend int32 GetTypeHash(const FWHAttributeValue& Value){return GetTypeHash(Value.Ref);}
 };
 
+
+/** Specify custom functions to look for in FWHInventory */
+template<>
+struct TStructOpsTypeTraits<FWHAttributeValue> : public TStructOpsTypeTraitsBase2<FWHAttributeValue>
+{
+	enum
+	{
+		WithSerializer                 = true,                         // struct has a Serialize function for serializing its state to an FArchive.
+		WithNetSerializer              = true,                         // struct has a NetSerialize function for serializing its state to an FArchive used for network replication.
+		WithNetDeltaSerializer         = true,                         // struct has a NetDeltaSerialize function for serializing differences in state from a previous NetSerialize operation.
+	};
+};
+
+
+
+/** Multicast for FWHAttributeContainer */
+DECLARE_MULTICAST_DELEGATE_OneParam(FWHAttributeChangeDelegate, TSharedPtr<FWHAttributeValue>)
+
+
 /**
- *	A struct to contain a list of attributes
- *	@todo Break and Make functions
+ *	A struct to contain a list of attributes Values
  */
-USTRUCT(BlueprintType, Category = "Attributes",
-	 meta = (	HasNativeBreak = "WH_Attributes.WHAttributeFunctionLibrary.BreakAttributeContainer",
-	 			HasNativeMake  = "WH_Attributes.WHAttributeFunctionLibrary.MakeAttributeContainer"))
+USTRUCT(BlueprintType, Category = "Attributes")
 struct WH_ATTRIBUTES_API FWHAttributeContainer : public FFastArraySerializer
 {
 	GENERATED_BODY()
@@ -70,50 +155,22 @@ public:
 	bool NetDeltaSerialize(FNetDeltaSerializeInfo & DeltaParms);
 	// End Serialization -----
 
-
-	/**
-	 *	Set all attributes at once, (empties the stored attributes)
-	 */
-	void InitAttributes(const TArray<FWHAttribute> InAttributes);
-
-	/**
-	 *	Adds an attribute to the already stored ones
-	 *	(if one with the same name already present, updates it)
-	 */
-	void AddOrChangeAttribute(const FWHAttribute& Attribute);
-
-	/**
-	 *	Remove the attribute associated with this name
-	 *	@return true if removed something
-	 */
-	bool RemoveAttribute(const FWHAttributeName& AttributeName);
-
-	/**
-	 *	Get the attribute with the associated name
-	 *	@return pointer to the attribute, or nullptr if not present
-	 */
-	const FWHAttribute* GetAttributeByName(const FWHAttributeName& AttributeName) const;
-
-	/**
-	 *	Get the attribute with the associated name
-	 *	mutable version
-	 *	@return pointer to the attribute, or nullptr if not present
-	 */
-	 FWHAttribute* GetAttributeByName(const FWHAttributeName& AttributeName);
-
-	/**
-	 * return all the attributes, does not let you change them
-	 */
-	FORCEINLINE const TArray<FWHAttribute>& GetAllAttributes() const {return Attributes;}
-
-
-
+	
 private:
-    /**
-     * The list of Attributes
-     */
+    /** The list/Map of Attributes */
     UPROPERTY(EditAnywhere)
-    TArray<FWHAttribute> Attributes;
+    TArray<FWHAttributeValue> Attributes;
+
+	/** Retrieve attribute value that correspond to a certain attribute */
+	FORCEINLINE FWHAttributeValue* FindAttributeValue(const FWHAttributeRef& Ref)
+	{
+		return Attributes.FindByKey(FWHAttributeValue(Ref));
+	}
+	/** Retrieve attribute value that correspond to a certain attribute, const version */
+	FORCEINLINE const FWHAttributeValue* FindAttributeValue(const FWHAttributeRef& Ref) const
+	{
+		return Attributes.FindByKey(FWHAttributeValue(Ref));
+	}
 
 public:
 
@@ -126,6 +183,20 @@ public:
 	/** Delegate called when an attribute is added to the list */
 	FWHAttributeChangeDelegate OnAttributeAddedDelegate;
 
+
+	template<typename T>
+	void SetAttribute(const FWHAttributeValue& NewValue)
+	{
+		if (FWHAttributeValue* const Attr = FindAttributeValue(NewValue.Ref))
+		{
+			*Attr = NewValue;
+			MarkItemDirty(*Attr);
+			return;
+		}
+		auto& NewAttribute = Attributes.Add_GetRef(NewValue);
+		MarkItemDirty(NewAttribute);
+		MarkArrayDirty();
+	}
 };
 
 

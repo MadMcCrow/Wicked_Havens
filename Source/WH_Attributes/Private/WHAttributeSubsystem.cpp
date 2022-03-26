@@ -1,147 +1,76 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "WHAttributeSubsystem.h"
-#include "WHAttributeSettings.h"
-#include "WHAttributeType.h"
-
-const FName ErrorName = FName();
-const FWHAttributeType ErrorType = FWHAttributeType();
-
-UWHAttributeSubsystem::UWHAttributeSubsystem() : Super()
-{
-}
+#include "WHAttribute.h"
+#if WITH_EDITOR
+#include "UObject/ObjectSaveContext.h"
+#endif // WITH_EDITOR
 
 void UWHAttributeSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	// make sure arrays are empty
-	FieldClassDefaultObjects.Empty();
-	GameAttributeNames.Empty();
-	GameAttributeTypes.Empty();
-	// init types from Engine
-	InitializeAllTypes();
-	// import settings
-	ImportSettings();
+#if WITH_EDITOR
+	OnPreSaveDelegate = FCoreUObjectDelegates::OnObjectPreSave.AddUObject(this,&UWHAttributeSubsystem::OnObjectPreSave);
+#endif // WITH_EDITOR
+	RefreshAttributes();
 }
 
 void UWHAttributeSubsystem::Deinitialize()
 {
-	// Empty our arrays
-	GameAttributeNames.Empty();
-	GameAttributeTypes.Empty();
-	FieldClassDefaultObjects.Empty();
+	AttributeObjects.Empty();
+#if WITH_EDITOR
+	FCoreUObjectDelegates::OnObjectPreSave.Remove(OnPreSaveDelegate);
+#endif // WITH_EDITOR
 	Super::Deinitialize();
 }
 
-bool UWHAttributeSubsystem::ShouldCreateSubsystem(UObject* Outer) const
+UWHAttributeBase* UWHAttributeSubsystem::GetAttributeObject(const FWHAttributeRef& Ref)
 {
-	return Super::ShouldCreateSubsystem(Outer);
+	const auto AttributeSubsystem = GEngine->GetEngineSubsystem<UWHAttributeSubsystem>();
+	if(UNLIKELY(ensureMsgf(!AttributeSubsystem, TEXT("Attribute Subsystem not found"))))
+		return nullptr;
+		
+	if (const auto FoundObject = AttributeSubsystem->AttributeObjects.Find(Ref))
+		return DuplicateObject<UWHAttributeBase>(*FoundObject, AttributeSubsystem); 	// TODO: use pool instead
+
+#if WITH_EDITOR
+	if (Ref.Path.IsValid())
+		ensureAlwaysMsgf(false, TEXT("Attribute with non-registered attribute class detected"));
+#endif // WITH_EDITOR
+	return nullptr;
 }
 
-const FWHAttributeType& UWHAttributeSubsystem::GetAttributeType(const FWHAttributeName& InName)
-{
-	return ErrorType;
-}
 
-const FName& UWHAttributeSubsystem::GetAttributeFName(const FWHAttributeName& InName)
+void UWHAttributeSubsystem::RefreshAttributes()
 {
-	if (const auto NamePtr = GameAttributeNames.Find(InName.GetID()))
+	AttributeObjects.Reserve(300);
+	for (TObjectIterator<UClass> It; It; ++It)
 	{
-		return *NamePtr;
-	}
-	return ErrorName;
-}
-
-FWHAttributeName UWHAttributeSubsystem::FindAttributeName(const FName& InFName)
-{
-	if (const FGuid* GuidPtr = GameAttributeNames.FindKey(InFName))
-	{
-		return FWHAttributeName(*GuidPtr);
-	}
-	return FWHAttributeName();
-}
-
-void UWHAttributeSubsystem::ImportSettings()
-{
-	// delete previously stored data
-	GameAttributeTypes.Reset();
-	GameAttributeNames.Reset();
-	if (const UWHAttributeSettings* const Settings = GetDefault<UWHAttributeSettings>())
-	{
-		const auto& Definitions = Settings->GetAttributeDefinitions();
-		const auto SlackSize =Definitions.Num();
-		GameAttributeTypes.Reserve(SlackSize);
-		GameAttributeNames.Reserve(SlackSize);
-		for (const auto& Definition : Definitions)
+		const UClass* AttributeClass = *It;
+		ensureAlways(AttributeClass != nullptr);
+		if (AttributeClass->IsChildOf(UWHAttributeBase::StaticClass()) && AttributeClass->HasAnyClassFlags(CLASS_Abstract) == false)
 		{
-			//GameAttributeTypes.Add(Definition.GetAttributeTypeDefinition());
-			GameAttributeNames.Add(Definition.GetAttributeNameDefinition());
+			FWHAttributeRef NewRef;
+			NewRef.Path = FSoftClassPath(AttributeClass);
+			if (!AttributeObjects.Contains(NewRef))
+			{
+				constexpr auto Flags = RF_Public | RF_Transient;
+				const FName NewAttributeName = MakeUniqueObjectName(this, AttributeClass, NAME_None);
+				if (auto NewAttributeObject = NewObject<UWHAttributeBase>(this, AttributeClass, NewAttributeName, Flags))
+					AttributeObjects.Add(NewRef,NewAttributeObject);
+			}
 		}
 	}
-
-	// Make sure to have some slack;
-	GameAttributeTypes.Shrink();
-	GameAttributeNames.Shrink();
+	AttributeObjects.Shrink();
 }
 
 #if WITH_EDITOR
-void UWHAttributeSubsystem::GetAllNames(TArray<FName>& OutNames)
+void UWHAttributeSubsystem::OnObjectPreSave(UObject* SavedObject, FObjectPreSaveContext Context)
 {
-	if (const auto WHASS = Get())
-		WHASS->GameAttributeNames.GenerateValueArray(OutNames);
-}
-#endif //WITH_EDITOR
-
-
-void UWHAttributeSubsystem::InitializeAllTypes()
-{
-	FieldClassDefaultObjects.Empty();
-	const auto& Fields= FFieldClass::GetAllFieldClasses();
-	FieldClassDefaultObjects.Reserve(Fields.Num());
-	for (const auto &FieldClass : Fields)
+	if (const auto Blueprint = Cast<UBlueprint>(SavedObject))
 	{
-		if (FField* FieldCDO = FieldClass->Construct(this, *FString::Printf(TEXT("WHAttributeType_%s"), *FieldClass->GetName()), RF_Transient | RF_ClassDefaultObject))
-		{
-			FString CppType = TEXT("Undefined");
-			TObjectPtr<UStruct> DataType;
-			if (CastField<FBoolProperty>(FieldCDO))
-			{
-				CppType = TEXT("bool");
-			}
-			else if (CastField<FFloatProperty>(FieldCDO))
-			{
-				CppType = TEXT("float");
-			}
-			else if (CastField<FDoubleProperty>(FieldCDO))
-			{
-				CppType = TEXT("double");
-			}
-			else if (CastField<FIntProperty>(FieldCDO))
-			{
-				CppType = TEXT("int32");
-			}
-			else if (CastField<FNameProperty>(FieldCDO))
-			{
-				CppType = TEXT("FName");
-			}
-			else if (CastField<FStrProperty>(FieldCDO))
-			{
-				CppType = TEXT("FString");
-			}
-			else if (FStructProperty* StructProperty = CastField<FStructProperty>(FieldCDO))
-			{
-				CppType = TEXT("Struct");
-				if (StructProperty->Struct)
-				{
-					DataType = StructProperty->Struct;
-				}
-			}
-			else
-			{
-				CppType = FieldCDO->GetName();
-			}
-			FieldClassDefaultObjects.Add(CppType, FieldCDO);
-		}
+		if (Blueprint->ParentClass &&Blueprint->ParentClass->IsChildOf<UWHAttributeBase>())
+			RefreshAttributes();
 	}
-	FieldClassDefaultObjects.Shrink();
 }
+#endif // WITH_EDITOR

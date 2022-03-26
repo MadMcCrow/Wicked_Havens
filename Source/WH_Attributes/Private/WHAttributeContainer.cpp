@@ -1,28 +1,98 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "WHAttributeContainer.h"
-#include "WHAttributeSettings.h"
+#include "WHAttributeSubsystem.h"
+#include "Serialization/BufferArchive.h"
 
-void FWHAttribute::PostReplicatedAdd(const FWHAttributeContainer& InArraySerializer) const
+// some serialization tricks inspired by
+// https://ikrima.dev/ue4guide/engine-programming/uobject-serialization/uobject-ustruct-serialization/
+
+
+void FWHSerializedByte::PostReplicatedAdd(	   const FWHAttributeValue& InArraySerializer) const
 {
-	InArraySerializer.OnAttributeAddedDelegate.Broadcast(Name, Value);
+	InArraySerializer.OnValueChange.Broadcast();
 }
 
-void FWHAttribute::PostReplicatedChange(const FWHAttributeContainer& InArraySerializer) const
+void FWHSerializedByte::PostReplicatedChange( const FWHAttributeValue& InArraySerializer) const
 {
-	InArraySerializer.OnAttributeChangedDelegate.Broadcast(Name, Value);
+	InArraySerializer.OnValueChange.Broadcast();
 }
 
-void FWHAttribute::PreReplicatedRemove(const FWHAttributeContainer& InArraySerializer) const
+void FWHSerializedByte::PreReplicatedRemove(  const FWHAttributeValue& InArraySerializer) const
 {
-	InArraySerializer.OnAttributeRemovedDelegate.Broadcast(Name, Value);
+	InArraySerializer.OnValueChange.Broadcast();
 }
 
+bool FWHAttributeValue::Serialize(FArchive& Ar)
+{
+	Ar << *this;
+	return true;
+}
+
+bool FWHAttributeValue::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
+{
+	return Serialize(Ar);
+}
+
+bool FWHAttributeValue::NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
+{
+	return FastArrayDeltaSerialize<FWHSerializedByte, FWHAttributeValue>( StoredValue, DeltaParms, *this );
+}
+
+bool FWHAttributeValue::Set(UWHAttributeBase* AttributeBase)
+{
+	auto Attribute = UWHAttributeSubsystem::GetAttributeObject(Ref);
+	if (UNLIKELY(!Attribute))
+		return false;
+
+	// incorrect ref, do not set
+	if (FWHAttributeRef(AttributeBase) != Ref)
+		return false;
+
+	TArray<uint8> ByteArray;
+	FMemoryWriter MemoryWriter(ByteArray, true);
+	MemoryWriter << AttributeBase;
+	FWHSerializedByte::FromBytes(ByteArray, StoredValue);
+	return true;
+}
+
+UWHAttributeBase* FWHAttributeValue::Get() const
+{
+	auto Attribute = UWHAttributeSubsystem::GetAttributeObject(Ref);
+	if (UNLIKELY(!Attribute))
+		return nullptr;
+
+	TArray<uint8> ByteArray;
+	FWHSerializedByte::ToBytes(StoredValue, ByteArray);
+	FMemoryReader FromBinary = FMemoryReader(ByteArray, true);
+	FromBinary.Seek(0);
+	FromBinary << Attribute; // hope it's the same class as before
+	FromBinary.FlushCache();
+	FromBinary.Close();
+	return Attribute;
+}
+
+void FWHAttributeValue::PostReplicatedAdd(const FWHAttributeContainer& InArraySerializer) const
+{
+	FWHAttributeValue* mutable_this = const_cast<FWHAttributeValue*>(this);
+	InArraySerializer.OnAttributeAddedDelegate.Broadcast(MakeShareable(mutable_this));
+}
+
+void FWHAttributeValue::PostReplicatedChange(const FWHAttributeContainer& InArraySerializer) const
+{
+	FWHAttributeValue* mutable_this = const_cast<FWHAttributeValue*>(this);
+	InArraySerializer.OnAttributeChangedDelegate.Broadcast(MakeShareable(mutable_this));
+}
+
+void FWHAttributeValue::PreReplicatedRemove(const FWHAttributeContainer& InArraySerializer) const
+{
+	FWHAttributeValue* mutable_this = const_cast<FWHAttributeValue*>(this);
+	InArraySerializer.OnAttributeRemovedDelegate.Broadcast(MakeShareable(mutable_this));
+}
 
 bool FWHAttributeContainer::Serialize(FArchive& Ar)
 {
 	Ar << Attributes;
-	// Should preform a few checks maybe...
 	return true;
 }
 
@@ -33,65 +103,5 @@ bool FWHAttributeContainer::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& b
 
 bool FWHAttributeContainer::NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
 {
-	return FastArrayDeltaSerialize<FWHAttribute>( Attributes, DeltaParms, *this );
-}
-
-void FWHAttributeContainer::InitAttributes(const TArray<FWHAttribute> InAttributes)
-{
-	Attributes = InAttributes;
-	MarkArrayDirty();
-}
-
-void FWHAttributeContainer::AddOrChangeAttribute(const FWHAttribute& Attribute)
-{
-	// if there is already an element, just edit that element
-	if (auto AttrPtr = Attributes.FindByPredicate([&Attribute](const FWHAttribute& AttrItr)
-	{
-		return AttrItr.Name == Attribute.Name;
-	}))
-	{
-		AttrPtr->Value = Attribute.Value;
-		MarkItemDirty(*AttrPtr);
-		return;
-	}
-
-	// else just add :
-	auto& NewAttribute = Attributes.Add_GetRef(Attribute);
-	MarkItemDirty(NewAttribute);
-	MarkArrayDirty();
-}
-
-bool FWHAttributeContainer::RemoveAttribute(const FWHAttributeName& AttributeName)
-{
-	if (Attributes.RemoveAll([&AttributeName](const FWHAttribute& AttrItr){return AttrItr.Name == AttributeName;}) > 0)
-	{
-		MarkArrayDirty();
-		return true;
-	}
-	// do nothing, nothing was removed
-	return false;
-}
-
-const FWHAttribute* FWHAttributeContainer::GetAttributeByName(const FWHAttributeName& AttributeName) const
-{
-	if (const FWHAttribute* AttrPtr = Attributes.FindByPredicate([&AttributeName](const FWHAttribute& AttrItr)
-		{
-			return AttrItr.Name == AttributeName;
-		}))
-	{
-		return AttrPtr;
-	}
-	return nullptr;
-}
-
-FWHAttribute* FWHAttributeContainer::GetAttributeByName(const FWHAttributeName& AttributeName)
-{
-	if (FWHAttribute* AttrPtr = Attributes.FindByPredicate([&AttributeName](const FWHAttribute& AttrItr)
-		{
-			return AttrItr.Name == AttributeName;
-		}))
-	{
-		return AttrPtr;
-	}
-	return nullptr;
+	return FastArrayDeltaSerialize<FWHAttributeValue, FWHAttributeContainer>( Attributes, DeltaParms, *this );
 }

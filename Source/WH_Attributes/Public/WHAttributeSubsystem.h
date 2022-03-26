@@ -4,78 +4,49 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/EngineSubsystem.h"
+#include "WHAttribute.h"
 #include "WHAttributeSubsystem.generated.h"
 
-
+/** Forward declaration */
+class UWHAttributeBase;
 
 /**
- *	@class UWHAttributeSettings
- *	@brief Store and helps generate all the attribute names and GUIDs
+ *	@class UWHAttributeSubsystem
+ *	@brief Store and helps generate all the attributes
  */
 UCLASS(MinimalAPI, ClassGroup=(WH), Category="Attributes", Meta = (DisplayName="Attributes Subsystem"))
 class UWHAttributeSubsystem : public UEngineSubsystem
 {
     GENERATED_BODY()
+	friend FWHAttributeRef;
 
 public:
-	// CTR !
-	UWHAttributeSubsystem();
 
-	// <UEngineSubsystem-API>
-	virtual void Initialize(FSubsystemCollectionBase & Collection) override;
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
-	// <\UEngineSubsystem-API>
-
-
-	// Helper Getter
-	FORCEINLINE static UWHAttributeSubsystem* Get() {return GEngine->GetEngineSubsystem<UWHAttributeSubsystem>();}
-
-	const struct FWHAttributeType& GetAttributeType(const struct FWHAttributeName& InName);
-	const FName& GetAttributeFName(const struct FWHAttributeName& InName);
-
-	struct FWHAttributeName FindAttributeName(const FName& InFName);
-
 
 	/**
-	 *	Fill our data with what's in settings
+	 *	Get an attribute object ready for operation on attributes.
+	 *	@todo : Pool those object to gain performance
 	 */
-	UFUNCTION()
-	void ImportSettings();
+	static UWHAttributeBase* GetAttributeObject(const FWHAttributeRef& Ref);
 
+	
+protected:
 
-#if WITH_EDITOR
-	/**
-	 *	Helper function meant for the Editor
-	 *	Will Get all names for editor Picker tools
-	 */
-	WH_ATTRIBUTES_API static void GetAllNames(TArray<FName>&OutNames);
-#endif WITH_EDITOR
+	/** Get all attribute in the game and store them */
+	void RefreshAttributes();
 
+	
 private:
 
-	/**
-	 *	Attributes from @see UWHAttributeSettings::AttributesDataTable
-	 *	GUIDs are generated (hopefully) only once.
-	 */
-	TMap<FGuid, FName> GameAttributeNames;
+	/** Store all Attributes Object used in your game */
+	UPROPERTY(Transient)
+	TMap<FWHAttributeRef, UWHAttributeBase*> AttributeObjects;
 
-	/**
-	 *	Attributes from @see UWHAttributeSettings::AttributesDataTable
-	 *	GUIDs are generated (hopefully) only once.
-	 */
-	TMap<FGuid, FWHAttributeType*> GameAttributeTypes;
-
-
-	/** List of all CDO of FFieldClass in the Engine */
-	TMap<FString,FField*> FieldClassDefaultObjects;
-
-	void InitializeAllTypes();
-
-
-
-
-
-
-
+#if WITH_EDITOR
+	void OnObjectPreSave(UObject* SavedObject, FObjectPreSaveContext Context);
+	FDelegateHandle OnPreSaveDelegate;
+#endif // WITH_EDITOR
+	
 };

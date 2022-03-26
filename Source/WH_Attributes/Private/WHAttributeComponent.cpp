@@ -5,9 +5,8 @@
 
 UWHAttributeComponent::UWHAttributeComponent() : Super()
 {
-	// TODO : Component should replicate
+	SetIsReplicatedByDefault(true);
 }
-
 
 void UWHAttributeComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
