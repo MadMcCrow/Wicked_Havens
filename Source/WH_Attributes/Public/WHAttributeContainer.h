@@ -12,70 +12,21 @@ struct FWHAttributeContainer;
 struct FWHAttributeValue;
 class UWHAttributeBase;
 
-/**
- *	@struct FWHSerializedByte
- *	Allow to have a FFastArraySerializer that serialize bytes
- */
-USTRUCT()
-struct FWHSerializedByte : public FFastArraySerializerItem
-{
-	GENERATED_BODY()
-
-	/** */
-	UPROPERTY()
-	uint8 Byte;
-
-	FWHSerializedByte(const uint8 &InByte = 0) {Byte = InByte;}
-	
-	FORCEINLINE operator const uint8&() const{ return Byte;}
-	FORCEINLINE operator uint8&(){ return Byte;}
-	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHSerializedByte& AttributeValue ){return Ar << AttributeValue.Byte;}
-
-	FORCEINLINE static void FromBytes(const TArray<uint8>& InBytes, TArray<FWHSerializedByte>& OutSerialized)
-	{
-		OutSerialized.Empty(InBytes.Num());
-		for (int i = 0; i< InBytes.Num(); i++)
-		{
-			OutSerialized.Add(InBytes[i]);
-		}
-	}
-
-	FORCEINLINE static void ToBytes(const TArray<FWHSerializedByte>& InSerialized, TArray<uint8>& OutBytes)
-	{
-		OutBytes.Empty(InSerialized.Num());
-		for (int i = 0; i< InSerialized.Num(); i++)
-		{
-			OutBytes.Add(InSerialized[i]);
-		}
-	}
-	
-	// Replication Functions
-	void PostReplicatedAdd(	   const FWHAttributeValue& InArraySerializer) const;
-	void PostReplicatedChange( const FWHAttributeValue& InArraySerializer) const;
-	void PreReplicatedRemove(  const FWHAttributeValue& InArraySerializer) const;
-};
-
-
 DECLARE_MULTICAST_DELEGATE(FWHAttributeValueDelegate)
 
 /**
  *	@struct FWHAttributeValue
  *	Acts as a container for attribute values. we get and extract the values
  *	by applying it to a Attribute object (via serialization to Bin archive)
+ *	@todo : use a BinArray serializer (should be done in WHCore)
  */
 USTRUCT(BlueprintType, Category= "Attribute")
-struct FWHAttributeValue : public FFastArraySerializerItem, public FFastArraySerializer
+struct FWHAttributeValue : public FFastArraySerializerItem
 {
 	GENERATED_BODY()
 
 	/** CTR to only set the type (and act as default CTR) */
 	FWHAttributeValue(FWHAttributeRef AttributeReference = FWHAttributeRef()) :Ref(AttributeReference){}
-
-	// Begin Serialization -----
-	bool Serialize(FArchive& Ar);
-	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
-	bool NetDeltaSerialize(FNetDeltaSerializeInfo & DeltaParms);
-	// End Serialization -----
 
 	/**
 	 *	Set
@@ -99,9 +50,14 @@ private:
 	
 	/** Holds the serialized Attribute as binary */
 	UPROPERTY()
-	TArray<FWHSerializedByte> StoredValue;
+	TArray<uint8> StoredValue;
 
 public:
+
+	// Begin Serialization -----
+	FORCEINLINE bool Serialize(FArchive& Ar) {Ar << *this; return true;}
+	FORCEINLINE bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess) {return Serialize(Ar);}
+	// End Serialization -----
 	
 	/** Called by NetSerialize of FWHAttributeContainer */
 	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHAttributeValue& AttributeValue )
@@ -130,7 +86,6 @@ struct TStructOpsTypeTraits<FWHAttributeValue> : public TStructOpsTypeTraitsBase
 	{
 		WithSerializer                 = true,                         // struct has a Serialize function for serializing its state to an FArchive.
 		WithNetSerializer              = true,                         // struct has a NetSerialize function for serializing its state to an FArchive used for network replication.
-		WithNetDeltaSerializer         = true,                         // struct has a NetDeltaSerialize function for serializing differences in state from a previous NetSerialize operation.
 	};
 };
 
@@ -200,7 +155,7 @@ public:
 };
 
 
-/** Specify custom functions to look for in FWHInventory */
+/** Specify custom functions to look for in FWHAttributeContainer */
 template<>
 struct TStructOpsTypeTraits<FWHAttributeContainer> : public TStructOpsTypeTraitsBase2<FWHAttributeContainer>
 {
