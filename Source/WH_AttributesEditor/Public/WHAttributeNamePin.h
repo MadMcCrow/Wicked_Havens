@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "EdGraphUtilities.h"
-#include "WHAttributeName.h"
+#include "WHAttribute.h"
 #include "KismetPins/SGraphPinObject.h"
 
 class SWHAttributeNameWidget;

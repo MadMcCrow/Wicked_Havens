@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WHAttributeName.h"
+#include "WHAttribute.h"
 #include "Widgets/SBoxPanel.h"
 
 /**
