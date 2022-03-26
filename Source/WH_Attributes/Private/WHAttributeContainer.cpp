@@ -8,36 +8,6 @@
 // https://ikrima.dev/ue4guide/engine-programming/uobject-serialization/uobject-ustruct-serialization/
 
 
-void FWHSerializedByte::PostReplicatedAdd(	   const FWHAttributeValue& InArraySerializer) const
-{
-	InArraySerializer.OnValueChange.Broadcast();
-}
-
-void FWHSerializedByte::PostReplicatedChange( const FWHAttributeValue& InArraySerializer) const
-{
-	InArraySerializer.OnValueChange.Broadcast();
-}
-
-void FWHSerializedByte::PreReplicatedRemove(  const FWHAttributeValue& InArraySerializer) const
-{
-	InArraySerializer.OnValueChange.Broadcast();
-}
-
-bool FWHAttributeValue::Serialize(FArchive& Ar)
-{
-	Ar << *this;
-	return true;
-}
-
-bool FWHAttributeValue::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
-{
-	return Serialize(Ar);
-}
-
-bool FWHAttributeValue::NetDeltaSerialize(FNetDeltaSerializeInfo& DeltaParms)
-{
-	return FastArrayDeltaSerialize<FWHSerializedByte, FWHAttributeValue>( StoredValue, DeltaParms, *this );
-}
 
 bool FWHAttributeValue::Set(UWHAttributeBase* AttributeBase)
 {
@@ -48,11 +18,9 @@ bool FWHAttributeValue::Set(UWHAttributeBase* AttributeBase)
 	// incorrect ref, do not set
 	if (FWHAttributeRef(AttributeBase) != Ref)
 		return false;
-
-	TArray<uint8> ByteArray;
-	FMemoryWriter MemoryWriter(ByteArray, true);
+	
+	FMemoryWriter MemoryWriter(StoredValue, true);
 	MemoryWriter << AttributeBase;
-	FWHSerializedByte::FromBytes(ByteArray, StoredValue);
 	return true;
 }
 
@@ -62,9 +30,8 @@ UWHAttributeBase* FWHAttributeValue::Get() const
 	if (UNLIKELY(!Attribute))
 		return nullptr;
 
-	TArray<uint8> ByteArray;
-	FWHSerializedByte::ToBytes(StoredValue, ByteArray);
-	FMemoryReader FromBinary = FMemoryReader(ByteArray, true);
+
+	FMemoryReader FromBinary = FMemoryReader(StoredValue, true);
 	FromBinary.Seek(0);
 	FromBinary << Attribute; // hope it's the same class as before
 	FromBinary.FlushCache();
