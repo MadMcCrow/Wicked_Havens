@@ -16,6 +16,6 @@ public:
 	virtual void ShutdownModule() override;
 
 private:
-	TSharedPtr<class FWHAttributeNamePinFactory, ESPMode::ThreadSafe> WHAttributeNamePinFactory;
+	TSharedPtr<class FWHAttributeRefPinFactory, ESPMode::ThreadSafe> WHAttributeRefPinFactory;
 
 };

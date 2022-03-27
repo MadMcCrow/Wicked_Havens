@@ -7,40 +7,40 @@
 #include "WHAttribute.h"
 #include "KismetPins/SGraphPinObject.h"
 
-class SWHAttributeNameWidget;
+class SWHAttributeRefWidget;
 
 /**
- *	@class FWHAttributeNameCustomization
+ *	@class SWHAttributeRefPin
  *	Editor Property customisation for attribute name
- *	@see @struct FWHAttributeName
- *	@see @class SWHAttributeNameWidget
+ *	@see @struct FWHAttributeRef
+ *	@see @class SWHAttributeRefWidget
  */
-class SWHAttributeNamePin : public SGraphPin
+class SWHAttributeRefPin : public SGraphPin
 {
 public:
-	SLATE_BEGIN_ARGS(SWHAttributeNamePin) {}
+	SLATE_BEGIN_ARGS(SWHAttributeRefPin) {}
 	SLATE_END_ARGS()
 
 public:
 
 	void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj);
 	virtual TSharedRef<SWidget>	GetDefaultValueWidget() override;
-	virtual FSlateColor GetPinColor() const override {return FSlateColor(FColor::Silver);}
+	virtual FSlateColor GetPinColor() const override;
 
 private:
 	/** Called on Attribute name changed  for default value */
-	void OnAttributeChanged(TSharedPtr<FWHAttributeName> NewAttributeName);
+	void OnAttributeRefChanged(TSharedPtr<FWHAttributeRef> NewAttributeRef);
 
 	/** Attribute Name  for pin */
-	FWHAttributeName GetDefaultAttributeName() const;
+	FWHAttributeRef GetDefaultAttributeRef() const;
 
 	/** Turn DefaultAttributeName into a string */
-	FString GetAttributeNameAsString() const;
+	FString GetAttributeRefAsString() const;
 
 };
 
 
-class FWHAttributeNamePinFactory : public FGraphPanelPinFactory
+class FWHAttributeRefPinFactory : public FGraphPanelPinFactory
 {
 	virtual TSharedPtr<class SGraphPin,ESPMode::ThreadSafe> CreatePin(class UEdGraphPin* InPin) const override;
 
