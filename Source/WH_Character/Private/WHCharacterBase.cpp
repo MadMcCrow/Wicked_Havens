@@ -1,19 +1,18 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
-#include "WHCharacter.h"
+#include "WHCharacterBase.h"
 
-#include "WHCharacterMovementComponent.h"
-#include "Camera/CameraComponent.h"
+#include "Animation/WHCharacterMovementComponent.h"
+#include "Action/WHCharacterAction.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
-// enhanced input
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
-AWHCharacter::AWHCharacter(const FObjectInitializer& ObjectInitializer)
+
+AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer.SetDefaultSubobjectClass<UWHCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
 	// Set size for player capsule
@@ -29,27 +28,15 @@ AWHCharacter::AWHCharacter(const FObjectInitializer& ObjectInitializer)
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 640.f, 0.f);
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
-
-	// Create a camera boom...
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->SetUsingAbsoluteRotation(true); // Don't want arm to rotate when character does
-	CameraBoom->TargetArmLength = 800.f;
-	CameraBoom->SetRelativeRotation(FRotator(-60.f, 0.f, 0.f));
-	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
-
-	// Create a camera...
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
-	CameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	CameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
-
+	
 	// Activate ticking in order to update the cursor every frame.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 }
 
-void AWHCharacter::PawnClientRestart()
+void AWHCharacterBase::PawnClientRestart()
 {
+	// Idea : move to clear up the component
 	Super::PawnClientRestart();
 	if (auto PC = Cast<APlayerController>(GetController()))
 	{
@@ -63,25 +50,27 @@ void AWHCharacter::PawnClientRestart()
 	}
 }
 
-void AWHCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AWHCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// bind all actions
 	if (const auto  PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		if (DefaultMoveAction)
+		for (const auto& Action  : CharacterActions)
 		{
-			PlayerEnhancedInputComponent->BindAction(DefaultMoveAction, ETriggerEvent::Triggered, this, &AWHCharacter::OnMoveAction);
+			if (Action)
+				Action->BindInputAction(PlayerEnhancedInputComponent);
 		}
 	}
 }
 
-void AWHCharacter::Tick(float DeltaSeconds)
+void AWHCharacterBase::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 }
 
-void AWHCharacter::LookAt(const FVector &Target)
+void AWHCharacterBase::LookAt(const FVector &Target)
 {
 	if (const auto Movement = GetCharacterMovementComponent())
 	{
@@ -89,31 +78,12 @@ void AWHCharacter::LookAt(const FVector &Target)
 	}
 }
 
-void AWHCharacter::OnMoveAction(const FInputActionInstance& ActionInstance)
-{
-	switch(ActionInstance.GetValue().GetValueType())
-	{
-	case EInputActionValueType::Boolean:
-		AddMovementInput(FVector::ForwardVector);
-		break;
-	case EInputActionValueType::Axis1D:
-		AddMovementInput(FVector(ActionInstance.GetValue().Get<float>(), 0.f, 0.f));
-		break;
-	case EInputActionValueType::Axis2D:
-		AddMovementInput(FVector(ActionInstance.GetValue().Get<FVector2D>(), 0.f));
-		break;
-	case EInputActionValueType::Axis3D:
-		AddMovementInput(ActionInstance.GetValue().Get<FVector>());
-		break;
-	}
-}
-
-UWHCharacterMovementComponent* AWHCharacter::GetCharacterMovementComponent() const
+UWHCharacterMovementComponent* AWHCharacterBase::GetCharacterMovementComponent() const
 {
 	return Cast<UWHCharacterMovementComponent>(GetMovementComponent());
 }
 
-bool AWHCharacter::GetOrientToMovement() const
+bool AWHCharacterBase::GetOrientToMovement() const
 {
 	if (const auto Movement = GetCharacterMovementComponent())
 	{

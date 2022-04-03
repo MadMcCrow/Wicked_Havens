@@ -40,7 +40,7 @@ struct FWHAttributeValue : public FFastArraySerializerItem
 	UWHAttributeBase* Get() const;
 	
 	/** Holds the info about this value. */
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, Category = "Wicked Havens")
 	FWHAttributeRef Ref;
 
 	/** Value changed (by at least a byte) */
@@ -99,7 +99,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FWHAttributeChangeDelegate, TSharedPtr<FWHAt
  *	A struct to contain a list of attributes Values
  */
 USTRUCT(BlueprintType, Category = "Attributes")
-struct WH_ATTRIBUTES_API FWHAttributeContainer : public FFastArraySerializer
+struct FWHAttributeContainer : public FFastArraySerializer
 {
 	GENERATED_BODY()
 public:
@@ -113,7 +113,7 @@ public:
 	
 private:
     /** The list/Map of Attributes */
-    UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly, Category = "Wicked Havens", meta=(TitleProperty = "Ref", AllowPrivateAccess))
     TArray<FWHAttributeValue> Attributes;
 
 	/** Retrieve attribute value that correspond to a certain attribute */
@@ -130,17 +130,17 @@ private:
 public:
 
 	/** Delegate called on each changes of every attribute */
-	FWHAttributeChangeDelegate OnAttributeChangedDelegate;
+	WH_ATTRIBUTES_API FWHAttributeChangeDelegate OnAttributeChangedDelegate;
 
 	/** Delegate called when an attribute is removed from the list */
-	FWHAttributeChangeDelegate OnAttributeRemovedDelegate;
+	WH_ATTRIBUTES_API FWHAttributeChangeDelegate OnAttributeRemovedDelegate;
 
 	/** Delegate called when an attribute is added to the list */
-	FWHAttributeChangeDelegate OnAttributeAddedDelegate;
+	WH_ATTRIBUTES_API FWHAttributeChangeDelegate OnAttributeAddedDelegate;
 
 
 	template<typename T>
-	void SetAttribute(const FWHAttributeValue& NewValue)
+	WH_ATTRIBUTES_API void SetAttribute(const FWHAttributeValue& NewValue)
 	{
 		if (FWHAttributeValue* const Attr = FindAttributeValue(NewValue.Ref))
 		{

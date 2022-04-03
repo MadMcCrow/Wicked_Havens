@@ -18,7 +18,6 @@ UCLASS(MinimalAPI, ClassGroup=(WH), Category="Attributes", Meta = (DisplayName="
 class UWHAttributeSubsystem : public UEngineSubsystem
 {
     GENERATED_BODY()
-	friend FWHAttributeRef;
 
 public:
 
@@ -36,7 +35,6 @@ protected:
 
 	/** Get all attribute in the game and store them */
 	void RefreshAttributes();
-
 	
 private:
 

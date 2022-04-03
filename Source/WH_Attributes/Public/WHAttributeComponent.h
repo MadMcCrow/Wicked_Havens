@@ -28,4 +28,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Wicked Havens", Replicated)
 	FWHAttributeContainer Attributes;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Instanced, Category = "Wicked Havens", Replicated)
+	UObject* TestInstanced;
 };

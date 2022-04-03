@@ -2,7 +2,7 @@
 <Configuration xmlns="https://www.unrealengine.com/BuildConfiguration">
 <ProjectFileGenerator>
     <!-- for now, until Rider is fully useable on linux, use VisualStudioCode as accessor -->
-    <Format>VisualStudioCode</Format>
+    <Format>Rider</Format>
 </ProjectFileGenerator>
 <LocalExecutor>
     <!-- Set hard limit on thread count -->

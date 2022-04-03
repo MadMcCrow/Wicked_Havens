@@ -14,7 +14,6 @@ public class Wicked_HavensEditorTarget : TargetRules
 			"Wicked_Havens",
 			"WH_Core",
 			"WH_Attributes",
-			"WH_AttributesEditor",
 			"WH_Items",
 			"WH_Character",
 			"WH_Camera",

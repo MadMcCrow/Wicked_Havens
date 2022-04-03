@@ -12,7 +12,7 @@
  *	An Object representing an Item
  *	This is a base for having runtime informations about your items, like durability etc...
  */
-UCLASS(Blueprintable, BlueprintType,  ClassGroup=(WH), Category="Items")
+UCLASS(Blueprintable, ClassGroup=(WH), Category="Wicked Havens|Items", Meta = (DisplayName="Item"))
 class WH_ITEMS_API UWHItem : public UObject
 {
 	GENERATED_BODY()

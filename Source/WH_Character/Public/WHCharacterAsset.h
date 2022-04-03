@@ -6,8 +6,6 @@
 #include "Engine/DataAsset.h"
 #include "WHCharacterAsset.generated.h"
 
-class AWHCharacter;
-
 /**
  *	An asset to setup a character from it.
  */

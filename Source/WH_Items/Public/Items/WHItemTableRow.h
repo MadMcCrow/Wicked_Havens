@@ -9,7 +9,7 @@
 /**
  *	A table row to define an Item
  */
-USTRUCT(BlueprintType, Category="Items")
+USTRUCT(BlueprintType, Category="Wicked Havens|Items")
 struct WH_ITEMS_API FWHItemTableRow : public FTableRowBase
 {
 	GENERATED_BODY()

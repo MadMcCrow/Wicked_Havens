@@ -8,42 +8,10 @@ public class WH_Character : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicIncludePaths.AddRange(
-			new string[] {
-			}
-		);
-
-
-		PrivateIncludePaths.AddRange(
-			new string[] {
-			}
-		);
-
-
-		PublicDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"Core",
-			}
-		);
-
-
-		PrivateDependencyModuleNames.AddRange(
-			new string[]
-			{
-				"CoreUObject",
-				"Engine",
-				"UMG",
-				"EnhancedInput",
-				"Networking"
-			}
-		);
-
-
-		DynamicallyLoadedModuleNames.AddRange(
-			new string[]
-			{
-			}
-		);
+		PublicIncludePaths.AddRange(new string[] { });
+		PrivateIncludePaths.AddRange(new string[] { });
+		PublicDependencyModuleNames.AddRange(new string[]{"Core", "EnhancedInput",});
+		PrivateDependencyModuleNames.AddRange(new string[] {"CoreUObject", "Engine", "UMG", "Networking"});
+		DynamicallyLoadedModuleNames.AddRange(new string[] { });
 	}
 }

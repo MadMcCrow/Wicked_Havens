@@ -13,7 +13,7 @@ class UWHItem;
  *	UWHGameEventSubsystem
  *	@brief A replicated subsystem that will manage GameEvents
  */
-UCLASS(ClassGroup=(WH), Category="Inventory")
+UCLASS(ClassGroup=(WH), Category="Wicked Havens|Items")
 class WH_ITEMS_API UWHInventoryFunctionLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()

@@ -34,7 +34,7 @@ UWHAttributeBase* UWHAttributeSubsystem::GetAttributeObject(const FWHAttributeRe
 		return DuplicateObject<UWHAttributeBase>(*FoundObject, AttributeSubsystem); 	// TODO: use pool instead
 
 #if WITH_EDITOR
-	if (Ref.Path.IsValid())
+	if (Ref.IsValid())
 		ensureAlwaysMsgf(false, TEXT("Attribute with non-registered attribute class detected"));
 #endif // WITH_EDITOR
 	return nullptr;
@@ -50,8 +50,7 @@ void UWHAttributeSubsystem::RefreshAttributes()
 		ensureAlways(AttributeClass != nullptr);
 		if (AttributeClass->IsChildOf(UWHAttributeBase::StaticClass()) && AttributeClass->HasAnyClassFlags(CLASS_Abstract) == false)
 		{
-			FWHAttributeRef NewRef;
-			NewRef.Path = FSoftClassPath(AttributeClass);
+			FWHAttributeRef NewRef(AttributeClass);
 			if (!AttributeObjects.Contains(NewRef))
 			{
 				constexpr auto Flags = RF_Public | RF_Transient;
@@ -67,10 +66,14 @@ void UWHAttributeSubsystem::RefreshAttributes()
 #if WITH_EDITOR
 void UWHAttributeSubsystem::OnObjectPreSave(UObject* SavedObject, FObjectPreSaveContext Context)
 {
-	if (const auto Blueprint = Cast<UBlueprint>(SavedObject))
-	{
-		if (Blueprint->ParentClass &&Blueprint->ParentClass->IsChildOf<UWHAttributeBase>())
-			RefreshAttributes();
-	}
+	//RefreshAttributes();
+	if (Context.IsCooking())
+		return;
+
+	if (Context.IsProceduralSave())
+		return;
+
+	if (SavedObject)
+		UE_LOG(LogTemp, Error, TEXT("Save Object class is : %s"), *SavedObject->GetClass()->GetName());
 }
 #endif // WITH_EDITOR
