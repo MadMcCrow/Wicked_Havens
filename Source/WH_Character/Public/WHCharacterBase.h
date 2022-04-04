@@ -14,7 +14,7 @@ class UWHCharacterAction;
  *	Character base class, handle animation and actions
  */
 UCLASS(Abstract, Blueprintable, ClassGroup=(WH), Category = "Wicked Havens|Character")
-class AWHCharacterBase : public ACharacter
+class WH_CHARACTER_API AWHCharacterBase : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -33,14 +33,13 @@ protected:
 	 *	Default mapping context , will have a priority of 0
 	 * 
 	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Actions")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wicked Havens|Actions")
 	TObjectPtr<UInputMappingContext> DefaultMappingContext;
 
-	/** base move action */
-	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Actions")
-	TArray<UWHCharacterAction*> CharacterActions;
-
-
+	/** Character binded Actions action */
+	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Wicked Havens|Actions", meta=(ExpandByDefault))
+	TArray<TObjectPtr<UWHCharacterAction>> CharacterActions;
+	
 public:
 
 	/** fast getter that cast CharacterMovement to our WH type */
@@ -54,6 +53,6 @@ public:
 	*	@param Target	what should we aim toward
 	*	this is only meant for the animation.
 	*/
-	UFUNCTION(BlueprintCallable, Category = "Movements")
+	UFUNCTION(BlueprintCallable, Category = "Wicked Havens|Movement")
 	virtual void LookAt(const FVector& Target);
 };

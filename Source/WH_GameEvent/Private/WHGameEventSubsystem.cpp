@@ -1,6 +1,6 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
-#include "GameEvents/WHGameEventSubsystem.h"
+#include "WHGameEventSubsystem.h"
 #include "Net/UnrealNetwork.h"
 
 void UWHGameEventSubsystem::Tick(float DeltaTime)

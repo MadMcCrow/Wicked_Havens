@@ -10,10 +10,9 @@
 /**
  *	UWHGameEvent
  *	A game event is a scripting object that will execute a script on both server and client in an optimised way
- *	@note
  */
-UCLASS(ClassGroup=(WH), Category="GameEvents")
-class WH_CORE_API UWHGameEvent : public UObject
+UCLASS(ClassGroup=(WH), Category="Wicked Havens|GameEvent")
+class WH_GAMEEVENT_API UWHGameEvent : public UObject
 {
 	GENERATED_BODY()
 

@@ -12,9 +12,9 @@ public class Wicked_Havens : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
 
 		// multiplayer, enhanced inputs
-		PrivateDependencyModuleNames.AddRange(new string[] { "Networking" , "EnhancedInput"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "Networking" , "EnhancedInput", "DeveloperSettings"});
 
 		// Wicked_Havens
-		PrivateDependencyModuleNames.AddRange(new string[] { "WH_Attributes", "WH_Character", "WH_Items"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "WH_Core", "WH_Attributes", "WH_Character", "WH_Items"});
 	}
 }

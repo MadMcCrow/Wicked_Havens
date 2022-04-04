@@ -36,8 +36,6 @@ AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
 
 void AWHCharacterBase::PawnClientRestart()
 {
-	// Idea : move to clear up the component
-	Super::PawnClientRestart();
 	if (auto PC = Cast<APlayerController>(GetController()))
 	{
 		if (const auto Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
@@ -48,6 +46,7 @@ void AWHCharacterBase::PawnClientRestart()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
+	Super::PawnClientRestart();
 }
 
 void AWHCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

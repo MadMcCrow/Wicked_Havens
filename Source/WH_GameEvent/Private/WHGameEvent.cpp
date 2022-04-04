@@ -1,6 +1,6 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
-#include "GameEvents/WHGameEvent.h"
+#include "WHGameEvent.h"
 #include "Net/UnrealNetwork.h"
 
 // CTR

@@ -13,8 +13,8 @@ class UWHGameEvent;
  *	UWHGameEventSubsystem
  *	@brief A replicated subsystem that will manage GameEvents
  */
-UCLASS(ClassGroup=(WH), Category="GameEvents")
-class WH_CORE_API UWHGameEventSubsystem : public UWHReplicatedSubsystem
+UCLASS(ClassGroup=(WH), Category="Wicked Havens|GameEvent")
+class WH_GAMEEVENT_API UWHGameEventSubsystem : public UWHReplicatedSubsystem
 {
 	GENERATED_BODY()
 

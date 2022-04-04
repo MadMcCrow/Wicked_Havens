@@ -1,9 +1,8 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
-#include "GameEvents/WHGameEventFunctionLibrary.h"
-
-#include "GameEvents/WHGameEvent.h"
-#include "GameEvents/WHGameEventSubsystem.h"
+#include "WHGameEventFunctionLibrary.h"
+#include "WHGameEvent.h"
+#include "WHGameEventSubsystem.h"
 
 void UWHGameEventFunctionLibrary::LaunchGameEvent(const UObject* WorldContextObject, FSoftClassPath EventClass, AActor * Source, AActor* Target)
 {
