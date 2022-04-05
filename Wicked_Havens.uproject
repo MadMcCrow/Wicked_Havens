@@ -1,0 +1,80 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{BF8166DA-59E2-421B-A4C4-A5EDA86727CF}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "Wicked_Havens",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
+			"Name": "WH_Core",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
+			"Name": "WH_Character",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine",
+				"EnhancedInput"
+			]
+		},
+		{
+			"Name": "WH_Items",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
+			"Name": "WH_Attributes",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
+			"Name": "WH_AttributesEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
+			"Name": "WH_Camera",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine",
+				"EnhancedInput"
+			]
+		},
+		{
+			"Name": "WH_AI",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
+		}
+	]
+}

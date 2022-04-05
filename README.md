@@ -6,12 +6,10 @@ Wicked havens is by no mean the definitive name, but is used heavily in producti
 
 Please note we do not own any right on _Evil Islands_ and Nival Interactive retains all their Trademark, Content and copyrights. 
 
-### Built With
+### Built with Unreal Engine
 
-Unreal Engine 4.26
-
+Build Unreal Engine 5. this game is being developped on a linux machine. 
 ## Getting Started
-
 ### Prerequisites
 
 To use the sources of this project you should know how to compile an Unreal Project from source
@@ -37,6 +35,26 @@ Any contributions you make are **greatly appreciated**.
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+## git emoji table used : 
+
+we try to use emojis to make changes more meaningful and easily identify them
+
+| emoji             | commit contains               	|
+| ------------------|:-------------------------------:|
+| :zap:             | improvement                   	|
+| :sparkles:        | new feature                   	|
+| :construction:    | WIP                           	|
+| :art:             | graphical asset               	|
+| :wrench:          | editor related            	   |
+| :no_entry_sign:   | does not compile / launch     	|
+| :page_facing_up:  | update of doc, licence, etc.  	|
+| :bug:             | bug fix                       	|
+| :heavy_plus_sign: | Added Plugin/ dependancy        |
+| :leaves:          | scene update                  	|
+| :up:              | upgrade UE4 upgrade          	|
+| :vs:              | visual-studio specific changes  |
+
 
 ## License
 
