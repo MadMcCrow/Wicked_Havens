@@ -21,9 +21,17 @@
 			]
 		},
 		{
-			"Name": "WH_Character",
+			"Name": "WH_GameEvent",
 			"Type": "Runtime",
 			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
+			"Name": "WH_Character",
+			"Type": "Runtime",
+			"LoadingPhase": "PostEngineInit",
 			"AdditionalDependencies": [
 				"Engine",
 				"EnhancedInput"
@@ -32,7 +40,7 @@
 		{
 			"Name": "WH_Items",
 			"Type": "Runtime",
-			"LoadingPhase": "PostDefault",
+			"LoadingPhase": "PostEngineInit",
 			"AdditionalDependencies": [
 				"Engine"
 			]
@@ -40,7 +48,7 @@
 		{
 			"Name": "WH_Attributes",
 			"Type": "Runtime",
-			"LoadingPhase": "PostDefault",
+			"LoadingPhase": "PostEngineInit",
 			"AdditionalDependencies": [
 				"Engine"
 			]

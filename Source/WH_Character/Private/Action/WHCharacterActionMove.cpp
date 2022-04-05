@@ -7,17 +7,29 @@ void UWHCharacterActionMove::OnInputAction_Implementation(const FInputActionInst
 {
 	switch(ActionInstance.GetValue().GetValueType())
 	{
+	default:
 	case EInputActionValueType::Boolean:
-		AddMovementInput(FVector::ForwardVector);
 		break;
 	case EInputActionValueType::Axis1D:
-		AddMovementInput(FVector(ActionInstance.GetValue().Get<float>(), 0.f, 0.f));
+		{
+			const float InputValue = ActionInstance.GetValue().Get<float>();
+			if (InputValue >= KINDA_SMALL_NUMBER)
+				AddMovementInput(FVector(InputValue, 0.f,0.f));
+		}
 		break;
 	case EInputActionValueType::Axis2D:
-		AddMovementInput(FVector(ActionInstance.GetValue().Get<FVector2D>(), 0.f));
+		{
+			const FVector2D InputValue = ActionInstance.GetValue().Get<FVector2D>();
+			if (!InputValue.IsNearlyZero())
+				AddMovementInput(FVector(InputValue, 0.f));
+		}
 		break;
 	case EInputActionValueType::Axis3D:
-		AddMovementInput(ActionInstance.GetValue().Get<FVector>());
+		{
+			const FVector InputValue = ActionInstance.GetValue().Get<FVector>();
+			if (!InputValue.IsNearlyZero())
+				AddMovementInput(InputValue);	
+		}
 		break;
 	}
 }
