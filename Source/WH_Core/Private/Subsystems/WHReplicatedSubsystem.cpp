@@ -5,6 +5,13 @@
 #include "GameFramework/GameStateBase.h"
 #include "Subsystems/WHReplicatedSubsystemComponent.h"
 
+bool UWHReplicatedSubsystem::ShouldCreateSubsystem(UObject* Outer) const
+{
+	if(GetClass()->HasAnyClassFlags(CLASS_Abstract)) // do not spawn if abstract :)
+		return false;
+	return Super::ShouldCreateSubsystem(Outer);
+}
+
 void UWHReplicatedSubsystem::Tick(float DeltaTime)
 {
 	if (ReplicationComponent == nullptr || ReplicationComponent->IsBeingDestroyed())

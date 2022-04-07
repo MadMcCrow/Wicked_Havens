@@ -18,6 +18,8 @@ class WH_CORE_API UWHReplicatedSubsystem : public UWorldSubsystem,	public FTicka
 
 public:
 
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+
 	/** called every frame */
 	virtual void Tick(float DeltaTime) override;
 

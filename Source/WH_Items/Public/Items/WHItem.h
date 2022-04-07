@@ -12,7 +12,7 @@
  *	An Object representing an Item
  *	This is a base for having runtime informations about your items, like durability etc...
  */
-UCLASS(Blueprintable, BlueprintType,  ClassGroup=(WH), Category="Items")
+UCLASS(Blueprintable, ClassGroup=(WH), Category="Wicked Havens|Items", Meta = (DisplayName="Item"))
 class WH_ITEMS_API UWHItem : public UObject
 {
 	GENERATED_BODY()
@@ -22,26 +22,5 @@ public:
 
 	/** Used by inventory, it checks for class and properties */
 	virtual bool IsSame(const TObjectPtr<UWHItem> &OtherItem) const;
-
-	/**
-	 *	GetRowHandle
-	 *	Get @see ItemHandle in a const fashion (only UWHItemSubsystem should edit it)
-	 */
-	UFUNCTION(BlueprintPure, Category = "Item")
-	const FDataTableRowHandle& GetRowHandle() const {return ItemHandle;}
-
-protected:
-
-	/** shortcut for custom functions */
-	TOptional<struct FWHItemTableRow> GetItemRow() const;
-
-private:
-
-	/** called by UWHItemSubsystem @see ItemHandle */
-	void SetItemHandle(UDataTable* Table, FName Row);
-
-    /** This handle is set by UWHItemSubsystem on generation @see SetItemHandle */
-    UPROPERTY(Transient)
-    FDataTableRowHandle ItemHandle;
 
 };

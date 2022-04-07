@@ -5,14 +5,14 @@
 FWHAttributeRef::FWHAttributeRef(const UWHAttributeBase* AttributeObject)
 {
 	if (AttributeObject)
-		Path= AttributeObject->GetClass();
+		Ref= AttributeObject->GetClass();
 }
 
 FWHAttributeRef::FWHAttributeRef(const TSubclassOf<UWHAttributeBase> AttributeClass)
 {
 	if (AttributeClass != nullptr)
 	{
-		Path = static_cast<UClass*>(AttributeClass);
+		Ref = static_cast<UClass*>(AttributeClass);
 	}
 }
 
@@ -20,7 +20,7 @@ FWHAttributeRef::FWHAttributeRef(const UClass* AttributeClass)
 {
 	if (AttributeClass != nullptr && AttributeClass->IsChildOf<UWHAttributeBase>())
 	{
-		Path = (AttributeClass);
+		Ref = (AttributeClass);
 	}
 }
 
@@ -28,4 +28,13 @@ void UWHAttributeBase::Serialize(FArchive& Ar)
 {
 	Super::Serialize(Ar);
 	// if you have custom values to serialize, do it there.
+}
+
+FString UWHAttributeBase::ToString_Implementation() const
+{
+	if (const auto Class = GetClass())
+	{
+		return Class->GetName();
+	}
+	return FString();
 }

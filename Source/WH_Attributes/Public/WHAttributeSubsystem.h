@@ -36,7 +36,6 @@ protected:
 
 	/** Get all attribute in the game and store them */
 	void RefreshAttributes();
-
 	
 private:
 

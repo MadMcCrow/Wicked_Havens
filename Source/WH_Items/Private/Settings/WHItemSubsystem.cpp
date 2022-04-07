@@ -30,36 +30,26 @@ void UWHItemSubsystem::Deinitialize()
 
 void UWHItemSubsystem::GenerateItemList()
 {
+	auto* const TagManager = UGameplayTagsManager::GetIfAllocated();
 	if (const auto Settings = GetDefault<UWHItemSettings>())
 	{
 		if (const auto DTB = Settings->GetDatatable())
 		{
-			DTB->ForeachRow<FWHItemTableRow>(TEXT("UWHItemSubsystem::GenerateItemList"),[this,&Settings,DTB]
+			DTB->ForeachRow<FWHItemTableRow>(TEXT("UWHItemSubsystem::GenerateItemList"),[this,&TagManager]
 			(const FName& Key, const FWHItemTableRow& Item)
 			{
 				if (const auto Class = Item.ItemClass.TryLoadClass<UWHItem>())
 				{
-					UWHItem* ItemPtr = NewObject<UWHItem>(this,Class, Key);
-					if (ItemPtr)
+					if (UWHItem* ItemPtr = NewObject<UWHItem>(this,Class, Key))
 					{
-						ItemPtr->ItemHandle.DataTable = DTB;
-						ItemPtr->ItemHandle.RowName   = Key;
 						ItemDefaults.Add(ItemPtr);
+						if (TagManager)
+						{
+							TagManager->AddNativeGameplayTag(Item.ItemTag.GetTagName(), FString("Item added tag"));
+						}
 					}
 				}
 			});
-		}
-	}
-	for (const auto& Item : ItemDefaults)
-	{
-		if( auto* const TagManager = UGameplayTagsManager::GetIfAllocated())
-		{
-			auto OptRow = Item->GetItemRow();
-			if (OptRow)
-			{
-				// no comments for now
-				TagManager->AddNativeGameplayTag(OptRow.GetValue().ItemTag.GetTagName(), FString());
-			}
 		}
 	}
 }

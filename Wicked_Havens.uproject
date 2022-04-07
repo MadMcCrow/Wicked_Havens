@@ -13,6 +13,14 @@
 			]
 		},
 		{
+			"Name": "WH_Debug",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
 			"Name": "WH_Core",
 			"Type": "Runtime",
 			"LoadingPhase": "PreDefault",
@@ -21,18 +29,35 @@
 			]
 		},
 		{
-			"Name": "WH_Character",
+			"Name": "WH_Action",
 			"Type": "Runtime",
-			"LoadingPhase": "PostDefault",
+			"LoadingPhase": "PreDefault",
 			"AdditionalDependencies": [
 				"Engine",
 				"EnhancedInput"
 			]
 		},
 		{
-			"Name": "WH_Items",
+			"Name": "WH_GameEvent",
 			"Type": "Runtime",
 			"LoadingPhase": "PostDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
+			"Name": "WH_Character",
+			"Type": "Runtime",
+			"LoadingPhase": "PostEngineInit",
+			"AdditionalDependencies": [
+				"Engine",
+
+			]
+		},
+		{
+			"Name": "WH_Items",
+			"Type": "Runtime",
+			"LoadingPhase": "PostEngineInit",
 			"AdditionalDependencies": [
 				"Engine"
 			]
@@ -40,15 +65,7 @@
 		{
 			"Name": "WH_Attributes",
 			"Type": "Runtime",
-			"LoadingPhase": "PostDefault",
-			"AdditionalDependencies": [
-				"Engine"
-			]
-		},
-		{
-			"Name": "WH_AttributesEditor",
-			"Type": "Editor",
-			"LoadingPhase": "PostDefault",
+			"LoadingPhase": "PostEngineInit",
 			"AdditionalDependencies": [
 				"Engine"
 			]

@@ -12,7 +12,7 @@
  *			- This acts as both an attribute Name And Type
  *			- For editor, we need a customisation to edit these
  */
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Category = "Wicked Havens|Attributes")
 struct WH_ATTRIBUTES_API FWHAttributeRef
 {
 	GENERATED_BODY()
@@ -26,23 +26,29 @@ struct WH_ATTRIBUTES_API FWHAttributeRef
 	// CTR with class
 	explicit FWHAttributeRef(const TSubclassOf<UWHAttributeBase> AttributeClass);
 	explicit FWHAttributeRef(const UClass* AttributeClass);
-	
-	/** Reference Class directly in it (maybe a better way to do this) */
+
+private:
+	/**
+	 *	Ref
+	 *	Unique way of referencing attributes.
+	 *	for now we use a soft class path, but we could prefer a FGuid or anything else that ensure uniqueness
+	 */
 	UPROPERTY()
-	FSoftClassPath Path;
+	FSoftClassPath Ref;
 
-
-	FORCEINLINE FString ToString() const{return Path.ToString();}
+public:
+	
+	FORCEINLINE FString ToString() const{return Ref.ToString();}
 	FORCEINLINE operator FString() const{return ToString();}
-	FORCEINLINE TSubclassOf<UWHAttributeBase> GetAttributeClass() const {return Path.TryLoadClass<UWHAttributeBase>();}\
+	FORCEINLINE TSubclassOf<UWHAttributeBase> GetAttributeClass() const {return Ref.TryLoadClass<UWHAttributeBase>();}
 	
-	FORCEINLINE bool IsValid() const {return Path.IsValid();}
+	FORCEINLINE bool IsValid() const {return Ref.IsValid();}
 	
-	FORCEINLINE bool operator==(const FWHAttributeRef& lhs) const {return Path == lhs.Path;}
+	FORCEINLINE bool operator==(const FWHAttributeRef& lhs) const {return Ref == lhs.Ref;}
 	FORCEINLINE bool operator!=(const FWHAttributeRef& lhs) const {return !operator==(lhs);}
 	
-	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHAttributeRef& Ref) { return Ar << Ref.Path;}
-	FORCEINLINE friend int32 GetTypeHash(const FWHAttributeRef& InRef) {return GetTypeHash(InRef.Path);}
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FWHAttributeRef& InRef) { return Ar << InRef.Ref;}
+	FORCEINLINE friend int32 GetTypeHash(const FWHAttributeRef& InRef) {return GetTypeHash(InRef.Ref);}
 
 };
 
@@ -50,7 +56,7 @@ struct WH_ATTRIBUTES_API FWHAttributeRef
  *	UWHAttributeBase is a class used to defined an attribute
  *	derive it and define your Guid to create your custom attributes
  */
-UCLASS(Abstract, Blueprintable, Category= "Attribute")
+UCLASS(Abstract, Blueprintable, Category = "Wicked Havens|Attributes")
 class WH_ATTRIBUTES_API UWHAttributeBase : public UObject
 {
 	GENERATED_BODY()
@@ -61,4 +67,12 @@ public:
 	 * If you have native variables (non-UProperty), you'll need to override Serialize 
 	 */
 	virtual void Serialize(FArchive& Ar) override;
+
+	/**
+	 *	Event to get a representation of the attribute, for debug and editor purposes
+	 */
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintCosmetic, Category= "Attribute")
+	FString ToString() const;
+	virtual FString ToString_Implementation() const;
+	
 };
