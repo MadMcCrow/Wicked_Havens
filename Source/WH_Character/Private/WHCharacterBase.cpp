@@ -10,6 +10,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Kismet/WHActionFunctionLibrary.h"
 
 
 AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
@@ -36,30 +37,15 @@ AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
 
 void AWHCharacterBase::PawnClientRestart()
 {
-	if (auto PC = Cast<APlayerController>(GetController()))
-	{
-		if (const auto Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
-		{
-			// PawnClientRestart can run more than once in an Actor's lifetime, so start by clearing out any leftover mappings.
-			Subsystem->ClearAllMappings();
-			// Add each mapping context, along with their priority values. Higher values out-prioritize lower values.
-			Subsystem->AddMappingContext(DefaultMappingContext, 0);
-		}
-	}
 	Super::PawnClientRestart();
-}
 
-void AWHCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	// bind all actions
-	if (const auto  PlayerEnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	if (const auto PlayerController = Cast<APlayerController>(GetController()))
 	{
-		for (const auto& Action  : CharacterActions)
+		// this function may be called multiple times, so we remove first, before adding
+		for (const auto Action : CharacterActions)
 		{
-			if (Action)
-				Action->BindInputAction(PlayerEnhancedInputComponent);
+			UWHActionFunctionLibrary::RemoveAction(PlayerController, Action);
+			UWHActionFunctionLibrary::AddAction(PlayerController, Action);
 		}
 	}
 }

@@ -20,10 +20,4 @@ public:
 	virtual void OnInputAction_Implementation(const FInputActionInstance& ActionInstance) override;
 	// <\UWHCharacterAction-API>
 
-protected:
-
-	/** will call add movement input on owning character */
-	UFUNCTION()
-	virtual void AddMovementInput(const FVector& Vector);
-	
 };

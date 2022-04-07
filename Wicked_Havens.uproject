@@ -13,11 +13,28 @@
 			]
 		},
 		{
+			"Name": "WH_Debug",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"Engine"
+			]
+		},
+		{
 			"Name": "WH_Core",
 			"Type": "Runtime",
 			"LoadingPhase": "PreDefault",
 			"AdditionalDependencies": [
 				"Engine"
+			]
+		},
+		{
+			"Name": "WH_Action",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"Engine",
+				"EnhancedInput"
 			]
 		},
 		{
@@ -34,7 +51,7 @@
 			"LoadingPhase": "PostEngineInit",
 			"AdditionalDependencies": [
 				"Engine",
-				"EnhancedInput"
+
 			]
 		},
 		{

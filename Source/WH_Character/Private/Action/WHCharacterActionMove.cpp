@@ -33,11 +33,3 @@ void UWHCharacterActionMove::OnInputAction_Implementation(const FInputActionInst
 		break;
 	}
 }
-
-void UWHCharacterActionMove::AddMovementInput(const FVector& Vector)
-{
-	if (const auto Char = GetActingCharacter())
-	{
-		Char->AddMovementInput(Vector);
-	}
-}

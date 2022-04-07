@@ -23,18 +23,10 @@ public:
 
 	// <ACharacter overrides>
 	virtual void PawnClientRestart() override;
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaSeconds) override;
 	// <\ACharacter overrides>
 
 protected:
-
-	/**
-	 *	Default mapping context , will have a priority of 0
-	 * 
-	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Wicked Havens|Actions")
-	TObjectPtr<UInputMappingContext> DefaultMappingContext;
 
 	/** Character binded Actions action */
 	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Wicked Havens|Actions", meta=(ExpandByDefault))
