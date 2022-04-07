@@ -38,4 +38,3 @@ FString UWHAttributeBase::ToString_Implementation() const
 	}
 	return FString();
 }
-

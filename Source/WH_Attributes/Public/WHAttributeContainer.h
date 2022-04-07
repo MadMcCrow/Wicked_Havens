@@ -20,7 +20,7 @@ DECLARE_MULTICAST_DELEGATE(FWHAttributeValueDelegate)
  *	by applying it to a Attribute object (via serialization to Bin archive)
  *	@todo : use a BinArray serializer (should be done in WHCore)
  */
-USTRUCT(BlueprintType, Category= "Attribute")
+USTRUCT(BlueprintType,  Category = "Wicked Havens|Attributes")
 struct FWHAttributeValue : public FFastArraySerializerItem
 {
 	GENERATED_BODY()
@@ -98,7 +98,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FWHAttributeChangeDelegate, TSharedPtr<FWHAt
 /**
  *	A struct to contain a list of attributes Values
  */
-USTRUCT(BlueprintType, Category = "Attributes")
+USTRUCT(BlueprintType,  Category = "Wicked Havens|Attributes")
 struct FWHAttributeContainer : public FFastArraySerializer
 {
 	GENERATED_BODY()

@@ -12,7 +12,7 @@
  *			- This acts as both an attribute Name And Type
  *			- For editor, we need a customisation to edit these
  */
-USTRUCT(BlueprintType, Category= "Wicked Havens")
+USTRUCT(BlueprintType, Category = "Wicked Havens|Attributes")
 struct WH_ATTRIBUTES_API FWHAttributeRef
 {
 	GENERATED_BODY()
@@ -56,7 +56,7 @@ public:
  *	UWHAttributeBase is a class used to defined an attribute
  *	derive it and define your Guid to create your custom attributes
  */
-UCLASS(Abstract, Blueprintable, Category= "Wicked Havens")
+UCLASS(Abstract, Blueprintable, Category = "Wicked Havens|Attributes")
 class WH_ATTRIBUTES_API UWHAttributeBase : public UObject
 {
 	GENERATED_BODY()
