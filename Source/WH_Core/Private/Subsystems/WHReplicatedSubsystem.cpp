@@ -5,6 +5,7 @@
 #include "GameFramework/GameStateBase.h"
 #include "Subsystems/WHReplicatedSubsystemComponent.h"
 
+
 bool UWHReplicatedSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
 	if(GetClass()->HasAnyClassFlags(CLASS_Abstract)) // do not spawn if abstract :)
@@ -14,12 +15,15 @@ bool UWHReplicatedSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 
 void UWHReplicatedSubsystem::Tick(float DeltaTime)
 {
+	// Calling subsystem Tick;
+	Super::Tick(DeltaTime);
+
+	// Creating Replication component if not already present
 	if (ReplicationComponent == nullptr || ReplicationComponent->IsBeingDestroyed())
 	{
-		/** World may stranglely, not exist */
-		if (auto World = GetWorld())
+		if (const auto World = GetWorld()) // World may stranglely, not exist
 		{
-			if(const auto GameState = World->GetGameState())
+			if(const auto GameState = World->GetGameState()) // let's have our component in the game state
 			{
 				const auto Comp = GameState->AddComponentByClass(UWHReplicatedSubsystemComponent::StaticClass(), false, FTransform(), false);
 				ReplicationComponent = Cast<UWHReplicatedSubsystemComponent>(Comp);
@@ -35,5 +39,4 @@ TStatId UWHReplicatedSubsystem::GetStatId() const
 
 void UWHReplicatedSubsystem::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
-
 }

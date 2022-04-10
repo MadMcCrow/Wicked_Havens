@@ -45,18 +45,17 @@ protected:
 	
 	/**
 	 *	@func GetActionController
-	 *	get the controller that originated that action
-	 *	@todo When TObjectPtr will be supported by BP, move to it
+	 *	get the controller associated with this action
 	 */
-	UFUNCTION(BlueprintPure, Category="Action")
-	APlayerController* GetActionController() const;
+	UFUNCTION(BlueprintPure, Category="Action", meta=(WorldContext = "WorldContextObject"))
+	APlayerController* GetActionController(const UObject* WorldContextObject = nullptr) const;
 
 	/**
 	 *	@func GetControlledPawn
 	 *	get the pawn controlled by controller returned by @see GetActionController
 	 */
-	UFUNCTION(BlueprintPure, Category="Action")
-	APawn* GetControlledPawn() const;
+	UFUNCTION(BlueprintPure, Category="Action", meta=(WorldContext = "WorldContextObject"))
+	APawn* GetControlledPawn(const UObject* WorldContextObject = nullptr) const;
 
 private:
 
@@ -65,7 +64,7 @@ private:
 	 *	Maybe we should use some kind of weak pointer
 	 */
 	UPROPERTY(Transient, DuplicateTransient)
-	TObjectPtr<APlayerController> ActionPlayerController;
+	TObjectPtr<ULocalPlayer> ActionPlayer;
 	
 	FORCEINLINE bool IsValidAction() const {return !InputAction.IsNull(); }
 

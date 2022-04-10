@@ -11,7 +11,7 @@
  *	@class UWHActionSettings
  *	@brief Set all the parameters to have working Actions in Wicked Havens
  */
-UCLASS(ClassGroup=(WH), config=Game, meta=(DisplayName=ItemSettings), Category="Wicked Havens|Actions", MinimalAPI)
+UCLASS(ClassGroup=(WH), config=Game, meta=(DisplayName=Actions), Category="Wicked Havens|Actions", MinimalAPI)
 class UWHActionSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -27,19 +27,19 @@ public:
 protected:
 	
 	/** The mapping context to use for Actions */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(AllowedClasses="EnhancedInputComponent"))
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(AllowedClasses="InputMappingContext"))
 	FSoftObjectPath DefaultMappingContext;
 	
 	/** The input class for Actions */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(MetaClass="EnhancedInputComponent"))
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(MetaClass="EnhancedInputComponent"))
 	FSoftClassPath InputComponentClass;
 
 	/** The input class for Actions */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(DisplayName="Priority"))
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(DisplayName="Priority"))
 	int32 InputPriority;
 
 	/** The input class for Actions */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(DisplayName="Blocking"))
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(DisplayName="Blocking"))
 	bool InputBlocking;
 
 	

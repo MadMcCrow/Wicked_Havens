@@ -11,11 +11,12 @@
  *	@class UWHFactionSettings
  *	@brief Set the various factions of the game there
  */
-UCLASS(ClassGroup=(WH), config=Game, meta=(DisplayName=ItemSettings), Category="Wicked Havens|Factions", MinimalAPI)
+UCLASS(ClassGroup=(WH), config=Game, meta=(DisplayName= Factions), Category="Wicked Havens|Factions", MinimalAPI)
 class UWHFactionSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
-	
+public:
+		virtual FName GetCategoryName() const override {return FName("Wicked Havens");}
 protected:
 	/**
      *	A datatable containing all the Factions

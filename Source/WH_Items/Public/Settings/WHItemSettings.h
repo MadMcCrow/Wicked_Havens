@@ -10,7 +10,7 @@
  *	@class UWHItemSettings
  *	@brief A simple way to set @see UWHItemSubsystem Items.
  */
-UCLASS(ClassGroup=(WH), config=Game, meta=(DisplayName=ItemSettings), Category="Wicked Havens|Items", MinimalAPI)
+UCLASS(ClassGroup=(WH), config=Game, meta=(DisplayName=Items), Category="Wicked Havens|Items", MinimalAPI)
 class UWHItemSettings : public UDeveloperSettings
 {
     GENERATED_BODY()

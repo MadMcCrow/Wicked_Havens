@@ -5,6 +5,7 @@
 
 void UWHCharacterActionMove::OnInputAction_Implementation(const FInputActionInstance& ActionInstance)
 {
+	Super::OnInputAction_Implementation(ActionInstance);
 	switch(ActionInstance.GetValue().GetValueType())
 	{
 	default:

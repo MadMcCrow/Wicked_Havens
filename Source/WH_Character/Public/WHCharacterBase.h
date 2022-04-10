@@ -22,7 +22,7 @@ public:
 	AWHCharacterBase(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// <ACharacter overrides>
-	virtual void PawnClientRestart() override;
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 	// <\ACharacter overrides>
 

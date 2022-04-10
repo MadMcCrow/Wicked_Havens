@@ -4,6 +4,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "InputMappingContext.h"
+#include "../../../../../UnrealEngine/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Public/AbilitySystemStats.h"
+#include "Kismet/GameplayStatics.h"
 #include "System/WHActionSettings.h"
 #include "WH_Action/WH_Action.h"
 
@@ -12,63 +14,26 @@ void UWHActionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	Super::Initialize(Collection);
 	// make sure that Enhanced Input is already initialized
 	Collection.InitializeDependency<UEnhancedInputLocalPlayerSubsystem>();
-
-	// Get our infos
 	const auto Settings = GetDefault<UWHActionSettings>();
-	const auto PlayerController = GetPlayerController();
-
-	// if one of them is not found, we cannot proceed
-	if (!Settings || PlayerController.IsNull())
-	{
-		UE_LOG(LogWHAction, Error, TEXT("Could not initialized Action Subsystem"))
-		return;
-	}
-
-	// Setup default input mapping
-	if (const auto Subsystem = GetLocalPlayer()->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
-	{
-		// TODO: make Mapping loading async
-		const auto Mapping = Cast<UInputMappingContext>(Settings->DefaultMappingContext.TryLoad());
-		// Remove possibly previously added context
-		Subsystem->RemoveMappingContext(Mapping);
-		// Add each mapping context, along with their priority values. Higher values out-prioritize lower values.
-		Subsystem->AddMappingContext(Mapping, 0);
-	}
-	
-	// If it doesn't exist create it and bind delegates
-	if (InputComponent.IsNull())
-	{
-		InputComponent = NewObject<UEnhancedInputComponent>(this, Settings->InputComponentClass.TryLoadClass<UEnhancedInputComponent>());
-		InputComponent->RegisterComponent();
-		InputComponent->bBlockInput = Settings->InputBlocking; 
-		InputComponent->Priority	= Settings->InputPriority;
-	}
-	else
-	{
-		// Make sure we only have one instance of the InputComponent on the stack
-		PlayerController->PopInputComponent(InputComponent);
-	}
-	PlayerController->PushInputComponent(InputComponent);
+	const auto Mapping = Settings ? TSoftObjectPtr<UInputMappingContext>(Settings->DefaultMappingContext) : nullptr;
+	SetupInputMapping(Mapping);
 }
 
 void UWHActionSubsystem::Deinitialize()
 {
-	const auto PlayerController = GetPlayerController();
-	if (PlayerController.IsNull())
-	{
-		UE_LOG(LogWHAction, Error, TEXT("Could not deinitialize Action Subsystem"))
-		return;
-	}
-
 	// remove all actions : 
 	while(ActionBindings.IsValidIndex(0))
 	{
 		RemoveAction(ActionBindings[0].Action);
 	}
-
+	
 	// remove input component
-	PlayerController->PopInputComponent(InputComponent);
-
+	if (const auto PlayerController = GetLocalPlayer()->GetPlayerController(GetWorld()))
+	{
+		PlayerController->PopInputComponent(InputComponent);
+	}
+	InputComponent = nullptr;
+	InputController = nullptr;
 	// finish deinit
 	Super::Deinitialize();
 }
@@ -76,8 +41,13 @@ void UWHActionSubsystem::Deinitialize()
 
 void UWHActionSubsystem::AddAction(const TObjectPtr<UWHActionBase>& InAction)
 {
-	if (InAction.IsNull() || InputComponent.IsNull())
+	if (UNLIKELY(!InputComponent))
+	{
+#if !UE_BUILD_SHIPPING
+		UE_LOG(LogWHAction, Error, TEXT("Cannot add Action %s, no Input Component found"), *InAction->GetName());
+#endif // !UE_Build_SHIPPING
 		return;
+	}
 
 	// remove any pre-existing action binding
 	RemoveAction(InAction);
@@ -85,15 +55,22 @@ void UWHActionSubsystem::AddAction(const TObjectPtr<UWHActionBase>& InAction)
 	{
 		FWHActionBinding& BindingRef = ActionBindings.Add_GetRef(InAction);
 		BindingRef.Binding.Reset(&InputComponent->BindAction(InAction->InputAction, InAction->TriggerEvent, InAction, GET_FUNCTION_NAME_CHECKED(UWHActionBase,OnInputAction)));
-		InAction->ActionPlayerController = GetPlayerController();
+		InAction->ActionPlayer = GetLocalPlayer();
 	}
+	
+
 }
 
 void UWHActionSubsystem::RemoveAction(const TObjectPtr<UWHActionBase>& InAction)
 {
-	if (InputComponent.IsNull())
+	if (UNLIKELY(!InputComponent))
+	{
+#if !UE_BUILD_SHIPPING
+		UE_LOG(LogWHAction, Error, TEXT("Cannot remove Action %s, no Input Component found"), *InAction->GetName());
+#endif // !UE_Build_SHIPPING
 		return;
-	
+	}
+
 	if (FWHActionBinding* FoundBinding = ActionBindings.FindByPredicate([InAction](const FWHActionBinding& PredItr)
 	{
 		return PredItr.Action == InAction;
@@ -107,9 +84,56 @@ void UWHActionSubsystem::RemoveAction(const TObjectPtr<UWHActionBase>& InAction)
 	}
 }
 
-TObjectPtr<APlayerController> UWHActionSubsystem::GetPlayerController() const
+bool UWHActionSubsystem::SetupInputComponent(const TObjectPtr<APlayerController>& Controller)
 {
-	const auto Player = GetLocalPlayer<ULocalPlayer>();
-	const auto World = GetWorld();
-	return Player->GetPlayerController(World);
+	if (!GetWorld())
+	{
+#if !UE_BUILD_SHIPPING
+		UE_LOG(LogWHAction, Error, TEXT("Could not find a valid world to create InputComponent"));
+#endif // !UE_Build_SHIPPING
+		return false;
+	}
+	
+	if (!InputComponent)
+	{
+		const auto Settings = GetDefault<UWHActionSettings>();
+		InputComponent = NewObject<UEnhancedInputComponent>(this, Settings->InputComponentClass.TryLoadClass<UEnhancedInputComponent>());
+		InputComponent->RegisterComponentWithWorld(GetWorld());
+		InputComponent->bBlockInput = Settings->InputBlocking; 
+		InputComponent->Priority	= Settings->InputPriority;
+	}
+	
+	if (!Controller || Controller != InputController)
+	{
+		if (InputController)
+		{
+			InputController->PopInputComponent(InputComponent);
+			InputController = nullptr;
+		}
+		if (Controller)
+		{
+			Controller->PushInputComponent(InputComponent);
+			InputController = Controller;
+			return true;
+		}
+	}
+	return false;
 }
+
+bool UWHActionSubsystem::SetupInputMapping(const TSoftObjectPtr<UInputMappingContext>& MappingContext)
+{
+	// we need settings to proceed;
+	if (const auto Subsystem = GetLocalPlayer()->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
+	{
+		if (auto Mapping = MappingContext.LoadSynchronous())
+		{
+			// Remove possibly previously added context
+			Subsystem->RemoveMappingContext(Mapping);
+			// Add each mapping context, along with their priority values. Higher values out-prioritize lower values.
+			Subsystem->AddMappingContext(Mapping, 0);
+			return true;
+		}
+	}
+	return false;
+}
+

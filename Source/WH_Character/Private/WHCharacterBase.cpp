@@ -35,9 +35,9 @@ AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.bStartWithTickEnabled = true;
 }
 
-void AWHCharacterBase::PawnClientRestart()
+void AWHCharacterBase::BeginPlay()
 {
-	Super::PawnClientRestart();
+	Super::BeginPlay();
 
 	if (const auto PlayerController = Cast<APlayerController>(GetController()))
 	{

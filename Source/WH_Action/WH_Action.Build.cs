@@ -10,5 +10,7 @@ public class WH_Action : ModuleRules
 		// Unreal Dependency
 		PublicDependencyModuleNames.AddRange(new string[]{"Core", "EnhancedInput",});
 		PrivateDependencyModuleNames.AddRange(new string[] {"CoreUObject", "Engine", "DeveloperSettings"});
+		// Wicked Haven Dependency
+		//PrivateDependencyModuleNames.AddRange(new string[] {"WH_Core"});
 	}
 }

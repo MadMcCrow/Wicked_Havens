@@ -13,14 +13,6 @@
 			]
 		},
 		{
-			"Name": "WH_Debug",
-			"Type": "Runtime",
-			"LoadingPhase": "PreDefault",
-			"AdditionalDependencies": [
-				"Engine"
-			]
-		},
-		{
 			"Name": "WH_Core",
 			"Type": "Runtime",
 			"LoadingPhase": "PreDefault",
@@ -66,23 +58,6 @@
 			"Name": "WH_Attributes",
 			"Type": "Runtime",
 			"LoadingPhase": "PostEngineInit",
-			"AdditionalDependencies": [
-				"Engine"
-			]
-		},
-		{
-			"Name": "WH_Camera",
-			"Type": "Runtime",
-			"LoadingPhase": "PostDefault",
-			"AdditionalDependencies": [
-				"Engine",
-				"EnhancedInput"
-			]
-		},
-		{
-			"Name": "WH_AI",
-			"Type": "Runtime",
-			"LoadingPhase": "PostDefault",
 			"AdditionalDependencies": [
 				"Engine"
 			]

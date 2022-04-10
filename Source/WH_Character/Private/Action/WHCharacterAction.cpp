@@ -10,7 +10,7 @@ UWHCharacterAction::UWHCharacterAction(const FObjectInitializer& ObjectInitializ
 
 AWHCharacterBase* UWHCharacterAction::GetActingCharacter() const
 {
-	return Cast<AWHCharacterBase>(GetControlledPawn());
+	return Cast<AWHCharacterBase>(GetControlledPawn(this));
 }
 
 void UWHCharacterAction::AddMovementInput(const FVector& Vector)
