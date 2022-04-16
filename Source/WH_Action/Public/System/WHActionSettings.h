@@ -27,11 +27,14 @@ public:
 protected:
 	
 	/** The mapping context to use for Actions */
-	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(AllowedClasses="InputMappingContext"))
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(AllowedClasses="Input Mapping Context"))
 	FSoftObjectPath DefaultMappingContext;
+	/** The input class for Actions */
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(DisplayName="Input Mapping Priority"))
+	int32 MappingPriority;
 	
 	/** The input class for Actions */
-	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(MetaClass="EnhancedInputComponent"))
+	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(MetaClass="Enhanced Input Component Class"))
 	FSoftClassPath InputComponentClass;
 
 	/** The input class for Actions */

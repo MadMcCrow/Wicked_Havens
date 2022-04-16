@@ -9,6 +9,7 @@
 // Forward declaration
 class UInputAction;
 class APawn;
+class UEnhancedInputComponent;
 
 /**
  *	@class UWHActionBase
@@ -32,6 +33,7 @@ public:
 	/** Trigger event to bind to */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Action|Enhanced Input")
 	ETriggerEvent TriggerEvent;
+
 	
 protected:
 	
@@ -53,6 +55,7 @@ protected:
 	/**
 	 *	@func GetControlledPawn
 	 *	get the pawn controlled by controller returned by @see GetActionController
+	 *	TODO : Move to Character Actions
 	 */
 	UFUNCTION(BlueprintPure, Category="Action", meta=(WorldContext = "WorldContextObject"))
 	APawn* GetControlledPawn(const UObject* WorldContextObject = nullptr) const;
@@ -63,7 +66,6 @@ private:
 	 *	Cached player controller
 	 *	Maybe we should use some kind of weak pointer
 	 */
-	UPROPERTY(Transient, DuplicateTransient)
 	TObjectPtr<ULocalPlayer> ActionPlayer;
 	
 	FORCEINLINE bool IsValidAction() const {return !InputAction.IsNull(); }

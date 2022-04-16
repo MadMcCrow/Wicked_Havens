@@ -38,7 +38,6 @@ AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
 void AWHCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-
 	if (const auto PlayerController = Cast<APlayerController>(GetController()))
 	{
 		// this function may be called multiple times, so we remove first, before adding
@@ -54,6 +53,7 @@ void AWHCharacterBase::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
 }
+
 
 void AWHCharacterBase::LookAt(const FVector &Target)
 {

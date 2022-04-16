@@ -3,11 +3,6 @@
 #include "Action/WHCharacterAction.h"
 #include "WHCharacterBase.h"
 
-UWHCharacterAction::UWHCharacterAction(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-{
-	
-}
-
 AWHCharacterBase* UWHCharacterAction::GetActingCharacter() const
 {
 	return Cast<AWHCharacterBase>(GetControlledPawn(this));
@@ -16,9 +11,7 @@ AWHCharacterBase* UWHCharacterAction::GetActingCharacter() const
 void UWHCharacterAction::AddMovementInput(const FVector& Vector)
 {
 	if (const auto Char = GetActingCharacter())
-	{
 		Char->AddMovementInput(Vector);
-	}
 }
 
 

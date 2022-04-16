@@ -24,13 +24,6 @@ class WH_ACTION_API UWHActionFunctionLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-
-	/**
-	 *	Will change the input context for runtime
-	 *	normally you would just set the context in the settings
-	 */
-	UFUNCTION(BlueprintCallable, Category="Actions")
-	static void ChangeInputContext(APlayerController* PlayerController,const UInputMappingContext* MappingContext);
 	
 	/**
 	 *	Add an action for a player

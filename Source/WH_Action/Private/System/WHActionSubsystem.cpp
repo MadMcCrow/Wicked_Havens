@@ -4,95 +4,133 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "InputMappingContext.h"
-#include "../../../../../UnrealEngine/Engine/Plugins/Runtime/GameplayAbilities/Source/GameplayAbilities/Public/AbilitySystemStats.h"
-#include "Kismet/GameplayStatics.h"
+#include "Engine/AssetManager.h"
+#include "Engine/StreamableManager.h"
 #include "System/WHActionSettings.h"
 #include "WH_Action/WH_Action.h"
+
 
 void UWHActionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 	// make sure that Enhanced Input is already initialized
 	Collection.InitializeDependency<UEnhancedInputLocalPlayerSubsystem>();
+	
+	// Load Default Mapping
 	const auto Settings = GetDefault<UWHActionSettings>();
-	const auto Mapping = Settings ? TSoftObjectPtr<UInputMappingContext>(Settings->DefaultMappingContext) : nullptr;
-	SetupInputMapping(Mapping);
+	const auto DefaultMapping = Settings->DefaultMappingContext;
+	FStreamableManager& Streamable = UAssetManager::GetStreamableManager();
+	FStreamableDelegate OnMappingLoadingComplete;
+	OnMappingLoadingComplete.BindWeakLambda(this, [this, DefaultMapping](){MappingContext = Cast<UInputMappingContext>(DefaultMapping.TryLoad());});
+	Streamable.RequestAsyncLoad(DefaultMapping,  OnMappingLoadingComplete, FStreamableManager::AsyncLoadHighPriority);
+
+	// Make sure we are clean
+	ActionBindings.Empty();
+	PendingActions.Empty();
+	InputPlayerController = nullptr;
+	InputComponent = nullptr;
 }
 
 void UWHActionSubsystem::Deinitialize()
 {
 	// remove all actions : 
-	while(ActionBindings.IsValidIndex(0))
-	{
-		RemoveAction(ActionBindings[0].Action);
-	}
+	for (int idx = ActionBindings.Num(); idx-->0;)
+		RemoveAction(ActionBindings[idx].Action);
+		
+	ActionBindings.Empty();
+	PendingActions.Empty();
 	
 	// remove input component
-	if (const auto PlayerController = GetLocalPlayer()->GetPlayerController(GetWorld()))
+	if (InputPlayerController)
 	{
-		PlayerController->PopInputComponent(InputComponent);
+		InputPlayerController->PopInputComponent(InputComponent);
+	}
+	if (InputComponent)
+	{
+		InputComponent->UnregisterComponent();
+		InputComponent->ConditionalBeginDestroy();
 	}
 	InputComponent = nullptr;
-	InputController = nullptr;
-	// finish deinit
+	
+	// Call Super
 	Super::Deinitialize();
 }
 
+void UWHActionSubsystem::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GetCurrentPlayerController())
+	{
+
+		// proceed to setup
+		bool bSuccess = SetupInputMapping(MappingContext);
+		bSuccess     &= SetupInputComponent();
+		bSuccess     &= BindPendingActions();
+
+		// log 
+#if !UE_BUILD_SHIPPING
+		UE_CLOG(!bSuccess, LogWHAction, Error,   TEXT("Action Subsystem failed to Setup"));
+		UE_CLOG(bSuccess,  LogWHAction, Verbose, TEXT("Action Subsystem Sucessfully Setup for %s"), GetCurrentPlayerController()? *GetCurrentPlayerController()->GetName() : TEXT("None"));
+#endif // !UE_BUILD_SHIPPING
+	}
+}
+
+bool UWHActionSubsystem::IsAllowedToTick() const
+{
+	if (!InputPlayerController || GetCurrentPlayerController() != InputPlayerController)
+		return Super::IsAllowedToTick();
+	return false;
+}
+
+UWorld* UWHActionSubsystem::GetWorld() const
+{
+	if (const auto Player = GetLocalPlayer())
+	{
+		if (const auto PlayerWorld = Player->GetWorld())
+			return PlayerWorld;
+	}
+	return Super::GetWorld();
+}
 
 void UWHActionSubsystem::AddAction(const TObjectPtr<UWHActionBase>& InAction)
 {
-	if (UNLIKELY(!InputComponent))
+	if (InAction)
 	{
-#if !UE_BUILD_SHIPPING
-		UE_LOG(LogWHAction, Error, TEXT("Cannot add Action %s, no Input Component found"), *InAction->GetName());
-#endif // !UE_Build_SHIPPING
-		return;
-	}
-
-	// remove any pre-existing action binding
-	RemoveAction(InAction);
-	if (InAction->IsValidAction())
-	{
-		FWHActionBinding& BindingRef = ActionBindings.Add_GetRef(InAction);
-		BindingRef.Binding.Reset(&InputComponent->BindAction(InAction->InputAction, InAction->TriggerEvent, InAction, GET_FUNCTION_NAME_CHECKED(UWHActionBase,OnInputAction)));
+		if (!InputComponent)
+		{
+			PendingActions.Add(InAction);
+			return;
+		}
+		// remove from pending if we previously added it to pendings
+		PendingActions.Remove(InAction);
+		//  bind
+		ActionBindings.Add_GetRef(InAction).Binding.Reset(&InputComponent->BindAction(InAction->InputAction, InAction->TriggerEvent, InAction.Get(), &UWHActionBase::OnInputAction));
 		InAction->ActionPlayer = GetLocalPlayer();
 	}
-	
-
 }
 
 void UWHActionSubsystem::RemoveAction(const TObjectPtr<UWHActionBase>& InAction)
 {
-	if (UNLIKELY(!InputComponent))
+	// remove potential from pending
+	PendingActions.Remove(InAction);
+	// Remove from actual bindings
+	const auto BindingIndex = ActionBindings.FindLast(InAction);
+	if (BindingIndex != INDEX_NONE && ActionBindings[BindingIndex].Binding.IsValid())
 	{
-#if !UE_BUILD_SHIPPING
-		UE_LOG(LogWHAction, Error, TEXT("Cannot remove Action %s, no Input Component found"), *InAction->GetName());
-#endif // !UE_Build_SHIPPING
-		return;
-	}
-
-	if (FWHActionBinding* FoundBinding = ActionBindings.FindByPredicate([InAction](const FWHActionBinding& PredItr)
-	{
-		return PredItr.Action == InAction;
-	}))
-	{
-		if(FoundBinding->Binding.IsValid())
+		if (InputComponent)
 		{
-			InputComponent->RemoveBinding(*FoundBinding->Binding.Release());
+			InputComponent->RemoveBinding(*ActionBindings[BindingIndex].Binding.Release());
 		}
-		ActionBindings.Remove(*FoundBinding);
+		else
+		{
+			ActionBindings[BindingIndex].Binding.Release();
+		}
 	}
 }
 
-bool UWHActionSubsystem::SetupInputComponent(const TObjectPtr<APlayerController>& Controller)
+
+bool UWHActionSubsystem::SetupInputComponent()
 {
-	if (!GetWorld())
-	{
-#if !UE_BUILD_SHIPPING
-		UE_LOG(LogWHAction, Error, TEXT("Could not find a valid world to create InputComponent"));
-#endif // !UE_Build_SHIPPING
-		return false;
-	}
 	
 	if (!InputComponent)
 	{
@@ -101,39 +139,70 @@ bool UWHActionSubsystem::SetupInputComponent(const TObjectPtr<APlayerController>
 		InputComponent->RegisterComponentWithWorld(GetWorld());
 		InputComponent->bBlockInput = Settings->InputBlocking; 
 		InputComponent->Priority	= Settings->InputPriority;
+		return true;
 	}
-	
-	if (!Controller || Controller != InputController)
+
+	if (InputComponent)
 	{
-		if (InputController)
+		const auto Controller = GetCurrentPlayerController();
+		if (InputPlayerController && Controller != InputPlayerController)
 		{
-			InputController->PopInputComponent(InputComponent);
-			InputController = nullptr;
+			InputPlayerController->PopInputComponent(InputComponent);
 		}
-		if (Controller)
+		if (LIKELY(Controller))
 		{
 			Controller->PushInputComponent(InputComponent);
-			InputController = Controller;
-			return true;
 		}
+		InputPlayerController = Controller;
+		return true;
 	}
 	return false;
 }
 
-bool UWHActionSubsystem::SetupInputMapping(const TSoftObjectPtr<UInputMappingContext>& MappingContext)
+bool UWHActionSubsystem::SetupInputMapping(const TObjectPtr<UInputMappingContext>& InMappingContext, int32 Priority) const
 {
 	// we need settings to proceed;
 	if (const auto Subsystem = GetLocalPlayer()->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
 	{
-		if (auto Mapping = MappingContext.LoadSynchronous())
+		if (UEnhancedPlayerInput* PlayerInput = Subsystem->GetPlayerInput())
 		{
-			// Remove possibly previously added context
-			Subsystem->RemoveMappingContext(Mapping);
-			// Add each mapping context, along with their priority values. Higher values out-prioritize lower values.
-			Subsystem->AddMappingContext(Mapping, 0);
-			return true;
+			if (InMappingContext)
+			{
+				// Remove possibly previously added context
+				Subsystem->RemoveMappingContext(InMappingContext);
+				// Add each mapping context, along with their priority values. Higher values out-prioritize lower values.
+				Subsystem->AddMappingContext(InMappingContext, Priority);
+				return true;
+			}
 		}
 	}
+#if !UE_BUILD_SHIPPING
+	UE_LOG(LogWHAction, Error, TEXT("Tried to setup Input component with no Player Controller"));
+#endif // !UE_BUILD_SHIPPING
 	return false;
 }
 
+
+bool UWHActionSubsystem::BindPendingActions()
+{
+	ActionBindings.Reserve(ActionBindings.Num() + PendingActions.Num());
+	// fix any bindings we missed
+	while(PendingActions.IsValidIndex(0))
+	{
+		if (!PendingActions[0].IsNull())
+			AddAction(PendingActions[0]);
+	}
+	PendingActions.Empty();
+	ActionBindings.Shrink();
+	return PendingActions.IsEmpty();
+}
+
+
+TObjectPtr<APlayerController> UWHActionSubsystem::GetCurrentPlayerController() const
+{
+	if (const auto Player = GetLocalPlayer())
+	{
+		return Player->GetPlayerController(GetWorld());
+	}
+	return nullptr;
+}

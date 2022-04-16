@@ -4,40 +4,32 @@
 
 #include "Actions/WHActionBase.h"
 #include "EnhancedInputComponent.h"
-#include "Subsystems/LocalPlayerSubsystem.h"
+#include "Subsystems/WHPlayerTickSubsystem.h"
 #include "WHActionSubsystem.generated.h"
 
 // forward declaration
 class APlayerController;
 struct FEnhancedInputActionEventBinding;
 
-
-USTRUCT()
+/**
+ *	A struct used for storing the various action bindings done in Wicked Havens 
+ */
 struct FWHActionBinding
 {
-	GENERATED_BODY()
-
-	/** Could be turned into a Shared or Weak pointer to avoid errors */
-	UPROPERTY()
+	/** Action for */
 	TObjectPtr<UWHActionBase> Action;
-	
+
+	/**
+	 *	pointer to the input component binding result
+	 *	We use TUniquePtr as a safety, but replacing it by a raw ptr would allow for more looseness
+	 */
 	TUniquePtr<FEnhancedInputActionEventBinding> Binding;
 
 	//CTR
-	FWHActionBinding() : Action(nullptr)
-	{}
-
-	// parameter CTR
-	FWHActionBinding(const TObjectPtr<UWHActionBase>& InAction) : Action(InAction)
-	{}
-	
-	// Copy CTR and operator only copies the action (required because of TUniquePtr deletion)
-	FWHActionBinding(const FWHActionBinding& Other) : Action(Other.Action){}
-	FWHActionBinding& operator=(const FWHActionBinding& Other) {Action = Other.Action; return *this;}
-	
-	// equal operator is required for array operations : (no need to check binding, it cannot be the same because UniquePtr)
+	FWHActionBinding() : Action(), Binding(nullptr)	{}
+	FWHActionBinding(const TObjectPtr<UWHActionBase>& InAction) : Action(InAction), Binding(nullptr){}
+	// == operator for Array operations (Find/Remove)
 	bool operator==(const FWHActionBinding& Other) const {return Action == Other.Action;}
-	
 };
 
 /**
@@ -46,10 +38,16 @@ struct FWHActionBinding
  *	Acts as a SPoE for Action Module (via Function Library)
  *
  *	Tick is used to make sure we have pushed our input component in
- *	the correct Player controller at all times
+ *	the correct Player controller at all times. This may seems bad
+ *	performance-wise, but there are no events triggered at the
+ *	correct moment for us.
+ *	We could use something like OnMatchStart, or OnWorldBeginPlay
+ *	but those events are poorly documented, and may occur too late
+ *	or too soon, or not at all for local multiplayer.
+ *	
  */
-UCLASS(ClassGroup=(WH), Category = "Wicked Havens|Action", MinimalAPI)
-class UWHActionSubsystem : public ULocalPlayerSubsystem
+UCLASS(ClassGroup=(WH), Category = "Wicked Havens|Action")
+class WH_ACTION_API UWHActionSubsystem : public UWHPlayerTickSubsystem
 {
 	GENERATED_BODY()
 	
@@ -58,6 +56,9 @@ public:
 	// <ULocalPlayerSubsystem-API>
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
+	virtual void Tick(float DeltaTime) override final;
+	virtual bool IsAllowedToTick() const override final;
+	virtual UWorld* GetWorld() const override;
 	// <\ULocalPlayerSubsystem-API>
 	
 	/** Add an action to the stack : bind it to current context */
@@ -65,32 +66,53 @@ public:
 
 	/** remove an action from the stack, unbinds it */
 	void RemoveAction(const TObjectPtr<UWHActionBase>& InAction);
+
+
+	/**
+	 *	Apply input mapping to Enhanced Input Subsystem
+	 *	@param InMappingContext	The mapping context you want to use
+	 *	@param Priority			Higher values out-prioritize lower values.
+	 */
+	bool SetupInputMapping(const TObjectPtr<UInputMappingContext>& InMappingContext, int32 Priority = 0) const;
 	
-	/** Setup the input Component */
-	bool SetupInputComponent(const TObjectPtr<APlayerController>& Controller);
+protected:
 
-	/** Apply input mapping to Enhanced Input Subsystem */
-	bool SetupInputMapping(const TSoftObjectPtr<UInputMappingContext>& MappingContext);
+	/**
+	 *	@func SetupInputComponent
+	 *	Create (if necessary) and push input component to player controller
+	 */
+	bool SetupInputComponent();
+	
+	/** Re-Add Binding actions that were added before SetupInputComponent */
+	bool BindPendingActions();
 
-	/** Return the controller that handles input for this subsystem */
-	TObjectPtr<APlayerController> GetActionController() const {return InputController;}
 
 private:
 	
 	/**
 	 *	The actions active for the local player
 	 */
-	UPROPERTY(Transient)
 	TArray<FWHActionBinding> ActionBindings;
+	
+	/**
+	 *	Actions that have been added before we had setup our inputs
+	 */
+	TArray<TObjectPtr<UWHActionBase>> PendingActions;
 
 	/** The input component that will handle our inputs */
-	UPROPERTY(Transient)
 	TObjectPtr<UEnhancedInputComponent> InputComponent;
 
-	/** The player controller into which we pushed our input component */
-	UPROPERTY(Transient)
-	TObjectPtr<APlayerController> InputController;
+	/** The last player controller set */
+	TObjectPtr<APlayerController> InputPlayerController;
 
+	/** Simple shortcut to get player controller */
+	TObjectPtr<APlayerController> GetCurrentPlayerController() const;
+
+	/**
+	 * mapping context set from settings or manually
+	 * @todo : replace by array
+	 */
+	TObjectPtr<UInputMappingContext> MappingContext;
 };
 
 

@@ -21,8 +21,6 @@ class UWHCharacterAction : public UWHActionBase
 	friend class AWHCharacterBase;
 
 public:
-	// CTR
-	UWHCharacterAction(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
 	/** Get Associated Character */
 	UFUNCTION(BlueprintPure, Category="Action")
