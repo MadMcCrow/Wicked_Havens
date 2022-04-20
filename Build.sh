@@ -10,8 +10,8 @@ echo "Building project $Project"
 
 
 # Build the sources
-clean="$UEBatchFilePath/Linux/Clean.sh ${Project}Editor Linux Debug $ProjectFilePath  -waitmutex"
-build="$UEBatchFilePath/Linux/Build.sh ${Project}Editor Linux Debug $ProjectFilePath  -waitmutex"
+clean="$UEBatchFilePath/Linux/Clean.sh ${Project}Editor Linux DebugGame $ProjectFilePath  -waitmutex"
+build="$UEBatchFilePath/Linux/Build.sh ${Project}Editor Linux DebugGame $ProjectFilePath  -waitmutex"
 
 
 # eval $clean

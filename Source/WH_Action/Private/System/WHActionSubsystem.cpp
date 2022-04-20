@@ -24,6 +24,12 @@ void UWHActionSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	OnMappingLoadingComplete.BindWeakLambda(this, [this, DefaultMapping](){MappingContext = Cast<UInputMappingContext>(DefaultMapping.TryLoad());});
 	Streamable.RequestAsyncLoad(DefaultMapping,  OnMappingLoadingComplete, FStreamableManager::AsyncLoadHighPriority);
 
+	// Add default actions
+	for (const auto& Action : Settings->DefaultActions)
+	{
+		AddAction(Action);
+	}
+	
 	// Make sure we are clean
 	ActionBindings.Empty();
 	PendingActions.Empty();

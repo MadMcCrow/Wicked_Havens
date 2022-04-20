@@ -38,20 +38,11 @@ AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
 void AWHCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	if (const auto PlayerController = Cast<APlayerController>(GetController()))
-	{
-		// this function may be called multiple times, so we remove first, before adding
-		for (const auto Action : CharacterActions)
-		{
-			UWHActionFunctionLibrary::RemoveAction(PlayerController, Action);
-			UWHActionFunctionLibrary::AddAction(PlayerController, Action);
-		}
-	}
 }
 
 void AWHCharacterBase::Tick(float DeltaSeconds)
 {
-    Super::Tick(DeltaSeconds);
+	Super::Tick(DeltaSeconds);
 }
 
 

@@ -1,8 +1,8 @@
 {
 	"FileVersion": 3,
 	"EngineAssociation": "{BF8166DA-59E2-421B-A4C4-A5EDA86727CF}",
-	"Category": "",
-	"Description": "",
+	"Category": "Game",
+	"Description": "A Real time ARPG based on stealth, Magic and team combat",
 	"Modules": [
 		{
 			"Name": "Wicked_Havens",
@@ -43,6 +43,7 @@
 			"LoadingPhase": "PostEngineInit",
 			"AdditionalDependencies": [
 				"Engine"
+				"EnhancedInput"
 			]
 		},
 		{
@@ -64,15 +65,20 @@
 	],
 	"Plugins": [
 		{
+			"Name": "ControlRig",
+			"Enabled": true
+		},
+		{
 			"Name": "EnhancedInput",
 			"Enabled": true
 		},
 		{
+			"Name": "WaveFunctionCollapse",
+			"Enabled": true
+		},
+		{
 			"Name": "OnlineSubsystemGooglePlay",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"Android"
-			]
+			"Enabled": false
 		},
 		{
 			"Name": "AndroidPermission",
@@ -96,11 +102,7 @@
 		},
 		{
 			"Name": "OnlineSubsystemIOS",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"IOS",
-				"TVOS"
-			]
+			"Enabled": false
 		},
 		{
 			"Name": "GoogleCloudMessaging",
@@ -120,16 +122,7 @@
 		},
 		{
 			"Name": "Bridge",
-			"Enabled": false,
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Mac",
-				"Linux"
-			]
-		},
-		{
-			"Name": "WaveFunctionCollapse",
-			"Enabled": true
+			"Enabled": false
 		}
 	]
 }

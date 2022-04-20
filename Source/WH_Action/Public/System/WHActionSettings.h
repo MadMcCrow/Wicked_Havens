@@ -6,6 +6,9 @@
 #include "Engine/DeveloperSettings.h"
 #include "WHActionSettings.generated.h"
 
+// forward declaration:
+class UWHActionBase;
+
 
 /**
  *	@class UWHActionSettings
@@ -44,7 +47,10 @@ protected:
 	/** The input class for Actions */
 	UPROPERTY(Config, EditDefaultsOnly, BlueprintReadOnly, Category="Input", meta=(DisplayName="Blocking"))
 	bool InputBlocking;
-
+	
+	/** Actions to automatically add to controller */
+	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Actions", meta=(ExpandByDefault))
+	TArray<TObjectPtr<UWHActionBase>> DefaultActions;
 	
 
 };

@@ -26,12 +26,7 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	// <\ACharacter overrides>
 
-protected:
 
-	/** Character binded Actions action */
-	UPROPERTY(EditDefaultsOnly, Instanced, BlueprintReadOnly, Category = "Wicked Havens|Actions", meta=(ExpandByDefault))
-	TArray<TObjectPtr<UWHCharacterAction>> CharacterActions;
-	
 public:
 
 	/** fast getter that cast CharacterMovement to our WH type */
