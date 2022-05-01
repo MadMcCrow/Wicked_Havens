@@ -3,15 +3,9 @@
 #include "WHCharacterBase.h"
 
 #include "Animation/WHCharacterMovementComponent.h"
-#include "Action/WHCharacterAction.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-
-#include "EnhancedInputComponent.h"
-#include "EnhancedInputSubsystems.h"
-#include "Kismet/WHActionFunctionLibrary.h"
-
 
 AWHCharacterBase::AWHCharacterBase(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer.SetDefaultSubobjectClass<UWHCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))

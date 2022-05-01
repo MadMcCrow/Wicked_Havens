@@ -1,5 +1,6 @@
 #! /usr/bin/bash
 
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 UEBatchFilePath="../UnrealEngine/Engine/Build/BatchFiles"
 
 ProjectFilePath=$(find $(pwd) -iname "*.uproject")

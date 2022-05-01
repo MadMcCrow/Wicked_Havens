@@ -8,7 +8,7 @@
 
 /**
  *	@class UWHCharacterActionMove
- *	Action to move your character around
+ *	Action to move your pawn around
  */
 UCLASS(ClassGroup=(WH), Category = "Wicked Havens|Character")
 class UWHCharacterActionMove : public UWHCharacterAction

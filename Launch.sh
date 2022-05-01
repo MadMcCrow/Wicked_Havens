@@ -1,4 +1,5 @@
 #! /usr/bin/bash
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 UEPath="../UnrealEngine/Engine/"
 UEEdPath="$UEPath/Binaries/Linux/UnrealEditor"

@@ -15,6 +15,6 @@ public class Wicked_Havens : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new string[] { "Networking" , "EnhancedInput", "DeveloperSettings"});
 
 		// Wicked_Havens
-		PrivateDependencyModuleNames.AddRange(new string[] { "WH_Core", "WH_Attributes", "WH_Character", "WH_Items"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "WH_Core", "WH_Action", "WH_Attributes", "WH_Character", "WH_Items", });
 	}
 }

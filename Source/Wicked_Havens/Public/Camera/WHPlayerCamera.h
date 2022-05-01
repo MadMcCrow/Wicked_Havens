@@ -3,26 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Camera/CameraActor.h"
+#include "GameFramework/SpectatorPawn.h"
 #include "WHPlayerCamera.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+
 /**
- *	@class AWHCharacterBase
- *	Character base class, handle animation and actions
+ *	@class AWHPlayerCamera
+ *	Class for having cameras attached to a character
+ *	@todo : zoom function, rotate function, free movement function
  */
-UCLASS(Abstract, Blueprintable, ClassGroup=(WH), Category = "Wicked Havens|Character")
-class WH_CHARACTER_API AWHPlayerCamera : public ACameraActor
+UCLASS(Blueprintable, ClassGroup=(WH), Category = "Wicked Havens|Character")
+class WH_CHARACTER_API AWHPlayerCamera : public ASpectatorPawn
 {
 	GENERATED_BODY()
 
 public:
+
 	AWHPlayerCamera(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
 	// <ACameraActor overrides>
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 	// <\ACameraActor overrides>
-
+	
 protected:
 
 	/** Is the camera free (to move, rotate, zoom, ...) ? */
@@ -36,7 +41,14 @@ protected:
 private:	
 	/** Camera boom positioning the camera above the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Wicked Havens|Camera", meta = (AllowPrivateAccess))
-	class USpringArmComponent* CameraArmComponent;
+	USpringArmComponent* CameraArmComponent;
 
+	/** Camera boom positioning the camera above the character */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Wicked Havens|Camera", meta = (AllowPrivateAccess))
+	UCameraComponent* CameraComponent;
 
+public:
+
+	FORCEINLINE UCameraComponent* GetCameraComponent() const {return CameraComponent;}
+	FORCEINLINE USpringArmComponent* GetArmComponent() const {return CameraArmComponent;}
 };

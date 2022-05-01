@@ -6,19 +6,16 @@
 #include "Actions/WHActionBase.h"
 #include "WHCharacterAction.generated.h"
 
+class AWHCharacterBase;
 
 /**
  *	@class UWHCharacterAction
- *	What to do on an Action (input or other)
- *	@todo
- *		- maybe make this a ActorComponent
- *		- Set what animation state or whatever to play
+ *	Add functionnality to command a Character instead 
  */
 UCLASS(Abstract, Blueprintable, DefaultToInstanced, EditInlineNew, ClassGroup=(WH), Category = "Wicked Havens|Character")
 class UWHCharacterAction : public UWHActionBase
 {
 	GENERATED_BODY()
-	friend class AWHCharacterBase;
 
 public:
 	

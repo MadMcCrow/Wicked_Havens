@@ -1,6 +1,6 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
-#include "Action/WHCharacterActionMove.h"
+#include "Actions/WHCharacterActionMove.h"
 #include "WHCharacterBase.h"
 
 void UWHCharacterActionMove::OnInputAction_Implementation(const FInputActionInstance& ActionInstance)

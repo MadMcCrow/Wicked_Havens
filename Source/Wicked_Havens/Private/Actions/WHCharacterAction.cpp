@@ -1,11 +1,17 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
-#include "Action/WHCharacterAction.h"
+#include "Actions/WHCharacterAction.h"
 #include "WHCharacterBase.h"
+#include "GameFramework/WHPlayerController.h"
+
 
 AWHCharacterBase* UWHCharacterAction::GetActingCharacter() const
 {
-	return Cast<AWHCharacterBase>(GetControlledPawn(this));
+	if (auto WHPC = Cast<AWHPlayerController>(GetActionController()))
+	{
+		return WHPC->GetActiveActionCharacter();
+	}
+	return nullptr;
 }
 
 void UWHCharacterAction::AddMovementInput(const FVector& Vector)

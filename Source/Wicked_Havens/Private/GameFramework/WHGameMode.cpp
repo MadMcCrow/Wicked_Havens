@@ -1,19 +1,34 @@
 /* Copyright © Noé Perard-Gayot 2022. */
 
 #include "GameFramework/WHGameMode.h"
+
+#include "WHCharacterBase.h"
+#include "Camera/WHPlayerCamera.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/WHPlayerController.h"
 
 AWHGameMode::AWHGameMode(const FObjectInitializer& ObjectInitializer)
 {
-
+	PlayerControllerClass	= AWHPlayerController::StaticClass();
+	DefaultPawnClass		= AWHPlayerCamera::StaticClass();
+	SpectatorClass			= AWHPlayerCamera::StaticClass();
 }
 
 void AWHGameMode::FinishRestartPlayer(AController* NewPlayer, const FRotator& StartRotation)
 {
 	Super::FinishRestartPlayer(NewPlayer, StartRotation);
+
+	// for now we just spawn a character :
+	// In the long run, we'll show the player a menu to select a new character, or check if he has a save
+	if (const auto PlayerController = Cast<AWHPlayerController>(NewPlayer))
+	{
+		const auto Pawn = SpawnPlayerCharacter(PlayerController);
+		PlayerController->AddActionCharacter(Pawn);
+	}
+	
 }
 
-ACharacter* AWHGameMode::SpawnPlayerCharacter(APlayerController* Player)
+AWHCharacterBase* AWHGameMode::SpawnPlayerCharacter(APlayerController* Player)
 {
 	// Set spawn infos
 	AActor* StartSpot = FindPlayerStart(Player);
@@ -21,18 +36,12 @@ ACharacter* AWHGameMode::SpawnPlayerCharacter(APlayerController* Player)
 	StartRotation.Yaw = StartSpot->GetActorRotation().Yaw;
 	const FVector StartLocation = StartSpot->GetActorLocation();
 	const FTransform Transform = FTransform(StartRotation, StartLocation);
-
-	// otherwise spawn it
+	// Prepare spawn
 	FActorSpawnParameters SpawnInfo;
 	SpawnInfo.Instigator = GetInstigator();
 	SpawnInfo.ObjectFlags |= RF_Transient;
 	UClass* PawnClass = PlayerCharacterClass;
 	// Spawn character
-	ACharacter* ResultPawn = GetWorld()->SpawnActor<ACharacter>(PawnClass, Transform, SpawnInfo);
-#if !UE_BUILD_SHIPPING
-	if (!ResultPawn)
-		UE_LOG(LogGameMode, Warning, TEXT("SpawnPlayerCharacter: Couldn't spawn Pawn of type %s at %s"), *GetNameSafe(PawnClass), *Transform.ToHumanReadableString());
-#endif // !UE_BUILD_SHIPPING
-
+	AWHCharacterBase* ResultPawn = GetWorld()->SpawnActor<AWHCharacterBase>(PawnClass, Transform, SpawnInfo);
 	return ResultPawn;
 }

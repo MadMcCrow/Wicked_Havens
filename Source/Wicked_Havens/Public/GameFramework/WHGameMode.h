@@ -5,8 +5,10 @@
 #include "GameFramework/GameMode.h"
 #include "WHGameMode.generated.h"
 
+class AWHCharacterBase;
+
 /**
- *
+ *	Game Mode for Wicked Havens
  */
 UCLASS()
 class WICKED_HAVENS_API AWHGameMode : public AGameMode
@@ -23,16 +25,16 @@ protected:
 
 	/** The class of PlayerController to spawn for players logging in. */
 	UPROPERTY(EditAnywhere, NoClear, BlueprintReadOnly, Category = Classes)
-	TSubclassOf<ACharacter> PlayerCharacterClass;
+	TSubclassOf<AWHCharacterBase> PlayerCharacterClass;
 
 private:
 
 	/**
 	 *  Spawn and set player character either from save or use default
 	 *  @param Player			The player you want to add a character to
-	 *  @todo  Implement character save system.
 	 */
-	ACharacter* SpawnPlayerCharacter(class APlayerController* Player);
+	UFUNCTION()
+	AWHCharacterBase* SpawnPlayerCharacter(class APlayerController* Player);
 
 
 };

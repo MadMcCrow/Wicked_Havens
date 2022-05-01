@@ -11,7 +11,6 @@ public class WH_Character : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]{"Core"});
 		PrivateDependencyModuleNames.AddRange(new string[] {"CoreUObject", "Engine"});
 		// WH depedancy
-		PublicDependencyModuleNames.AddRange(new string[]{"WH_Action"});
 		PrivateDependencyModuleNames.AddRange(new string[] {"WH_Core"});
 	}
 }
